@@ -1,0 +1,70 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="cus-toolbar">
+    <ion-text slot="start" class="accuracy">
+      {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ accuracyUnit }}
+    </ion-text>
+    <ion-buttons class="cus-btns">
+      <ion-button (click)="resetTrip()">
+        <ion-icon
+          slot="icon-only"
+          [ios]="refreshIcon + '-outline'"
+          [md]="refreshIcon + '-sharp'"
+        ></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/settings" routerDirection="root">
+        <ion-icon
+          slot="icon-only"
+          [ios]="settingsIcon + '-outline'"
+          [md]="settingsIcon + '-sharp'"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" (click)="changeUnit()" *ngIf="speed != null">
+    <p id="speedo">{{ speedo }}</p>
+    <p id="unit">{{ speedUnit }}</p>
+    <p id="trip">{{ trip }} {{ tripUnit }}</p>
+  </div>
+  <div id="container" *ngIf="speed == null">
+    <ion-spinner></ion-spinner>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-text-center">
+  <ion-toolbar class="cus-toolbar">
+    <div class="details">
+      <ion-row class="speed-accuracy">
+        <ion-col class="max-speed-col">
+          <p>
+            <strong>{{ "COMMON.maxSpeed" | translate }}:</strong>
+          </p>
+          <p>{{ maxSpeed }} {{ speedUnit }}</p>
+        </ion-col>
+
+        <ion-col>
+          <p>
+            <strong>{{ "COMMON.altitude" | translate }}:</strong>
+          </p>
+          <p>{{ altitude }} {{ altitudeUnit }}</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="lon-lat">
+        <ion-col class="lat-col">
+          <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
+          <p>{{ lat }}</p>
+        </ion-col>
+
+        <ion-col>
+          <p>
+            <strong>{{ "COMMON.longtitude" | translate }}:</strong>
+          </p>
+          <p>{{ lon }}</p>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-toolbar>
+</ion-footer>

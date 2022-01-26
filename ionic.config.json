@@ -1,0 +1,7 @@
+{
+  "name": "GPS Speedometer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

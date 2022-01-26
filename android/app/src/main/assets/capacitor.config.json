@@ -1,0 +1,6 @@
+{
+	"appId": "com.vdt.gpsspeedometer",
+	"appName": "GPS Speedometer",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

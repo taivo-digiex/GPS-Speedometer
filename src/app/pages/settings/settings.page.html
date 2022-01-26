@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        (click)="back()"
+        defaultHref="/"
+        text=""
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title> {{ 'PAGETITLE.settings' | translate }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item lines="none">
+      <ion-icon
+        slot="start"
+        [ios]="langIcon + '-outline'"
+        [md]="langIcon + '-sharp'"
+      ></ion-icon>
+      <ion-label>{{ 'COMMON.languages' | translate }}</ion-label>
+      <ion-select
+        slot="end"
+        (ionChange)="selectLng($event)"
+        [value]="selected"
+        okText='{{ "SELECT.okText" | translate }}'
+        cancelText='{{ "SELECT.cancelText" | translate }}'
+      >
+        <ion-select-option
+          *ngFor="let lng of languages"
+          value="{{ lng.value }}"
+        >
+          {{ lng.text }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item button lines="none" (click)="clearMaxSpeed()">
+      <ion-icon
+        slot="start"
+        [ios]="trashIcon + '-outline'"
+        [md]="trashIcon + '-sharp'"
+      ></ion-icon>
+      <ion-label>{{ 'COMMON.clearMaxSpeed' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-text-center">
+  <ion-toolbar class="cus-toolbar">
+    <ion-row class="contact-div">
+      <ion-text class="ion-text-center">
+        <p>{{ 'COMMON.contactMe' | translate }}:</p>
+      </ion-text>
+      <ion-buttons class="contact-btns">
+        <ion-button href="https://www.facebook.com/vdt.2210">
+          <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+        </ion-button>
+
+        <ion-button href="mailto:vdt1999@outlook.com">
+          <ion-icon slot="icon-only" name="mail"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

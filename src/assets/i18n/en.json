@@ -1,0 +1,33 @@
+{
+  "PAGETITLE": {
+    "settings": "Settings"
+  },
+
+  "COMMON": {
+    "about": "About",
+    "languages": "Languages",
+    "appName": "App name",
+    "version": "Version",
+    "longtitude": "Longitude",
+    "latitude": "Latitude",
+    "maxSpeed": "Max speed",
+    "clearMaxSpeed": "Clear max speed",
+    "contactMe": "Contact me",
+    "accuracy": "Accuracy",
+    "altitude": "Altitude"
+  },
+
+  "TOAST": {
+    "clearMaxSpeedSuccess": "Clear max speed success.",
+    "unitChange": {
+      "metric": "Switch to metric.",
+      "imperial": "Switch to imperial."
+    },
+    "err": "Error: {{value}}."
+  },
+
+  "SELECT": {
+    "okText": "Select",
+    "cancelText": "Cancel"
+  }
+}

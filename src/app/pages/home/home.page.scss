@@ -1,0 +1,69 @@
+@font-face {
+  font-family: Digi;
+  src: url(../../../assets/fonts/DS-DIGII.TTF);
+}
+
+#container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "Digi";
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+  #speedo {
+    font-size: 150px;
+    display: inline;
+  }
+
+  #unit {
+    font-size: 25px;
+    display: inline;
+  }
+
+  #trip {
+    font-size: 25px;
+    margin: inherit;
+  }
+}
+
+.cus-btns {
+  justify-content: flex-end;
+}
+
+.cus-toolbar {
+  --background: #000000 !important;
+}
+
+.details {
+  p {
+    margin: auto;
+  }
+  @media screen and (orientation: portrait) {
+    .lat-col,
+    .max-speed-col {
+      border-right: 1px solid;
+    }
+    ion-col {
+      border-top: 1px solid;
+    }
+  }
+
+  @media screen and (orientation: landscape) {
+    display: flex;
+    .lon-lat {
+      width: 50%;
+    }
+    .speed-accuracy {
+      width: 50%;
+    }
+  }
+}
+
+.accuracy {
+  margin-left: 10px;
+}

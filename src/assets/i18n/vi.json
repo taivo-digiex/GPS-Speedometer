@@ -1,0 +1,33 @@
+{
+  "PAGETITLE": {
+    "settings": "Cài đặt"
+  },
+
+  "COMMON": {
+    "about": "Thông tin",
+    "languages": "Ngôn ngữ",
+    "appName": "Tên ứng dụng",
+    "version": "Phiên bản",
+    "longtitude": "Kinh độ",
+    "latitude": "Vĩ độ",
+    "maxSpeed": "Tốc độ tối đa",
+    "clearMaxSpeed": "Xóa tốc độ tối đa",
+    "contactMe": "Liên hệ tôi",
+    "accuracy": "Độ chính xác",
+    "altitude": "Độ cao"
+  },
+
+  "TOAST": {
+    "clearMaxSpeedSuccess": "Xóa tốc độ tối đa thành công.",
+    "unitChange": {
+      "metric": "Chuyển sang hệ mét.",
+      "imperial": "Chuyển sang hệ đo lường Anh."
+    },
+    "err": "Lỗi: {{value}}."
+  },
+
+  "SELECT": {
+    "okText": "Chọn",
+    "cancelText": "Hủy"
+  }
+}

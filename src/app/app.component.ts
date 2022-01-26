@@ -25,20 +25,17 @@ export class AppComponent {
     private maxSpeedService: MaxSpeedService
   ) {
     this.hardwareBackBtn();
-  }
-
-  ngOnInit() {
     this.createStorage();
   }
 
-  async createStorage() {
+  private async createStorage() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
     this.unitService.setDefaultUnit();
     this.maxSpeedService.getMaxSpeed();
   }
 
-  hardwareBackBtn() {
+  private hardwareBackBtn() {
     this.platform.backButton.subscribeWithPriority(10, () => {
       const url = this.router.url;
       if (!this.routerOutlet.canGoBack() && url === '/home') {

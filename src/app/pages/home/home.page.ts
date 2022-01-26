@@ -17,7 +17,7 @@ import { AlertController } from '@ionic/angular';
 export class HomePage implements OnInit, OnDestroy {
   public speed: number;
   public lat: number;
-  public lon: number;
+  public long: number;
   public speedo: number;
   public maxSpeed: number;
   public speedUnit: string;
@@ -74,7 +74,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       this.speed = res.coords.speed;
       this.lat = res.coords.latitude;
-      this.lon = res.coords.longitude;
+      this.long = res.coords.longitude;
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
       this.getMaxSpeed();

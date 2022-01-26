@@ -5,6 +5,13 @@ const config: CapacitorConfig = {
   appName: 'GPS Speedometer',
   webDir: 'www',
   bundledWebRuntime: false,
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 3000,
+      launchAutoHide: true,
+      backgroundColor: '#000000',
+    },
+  },
 };
 
 export default config;

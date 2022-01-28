@@ -56,11 +56,11 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
-  private async startTracking() {
+  private startTracking() {
     this.geolocation
       .watchPosition({ enableHighAccuracy: true })
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(async (res) => {
+      .subscribe((res) => {
         if ('coords' in res) {
           this.prepareTracking(res);
         } else if ('code' in res) {

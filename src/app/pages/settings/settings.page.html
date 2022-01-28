@@ -44,6 +44,19 @@
       ></ion-icon>
       <ion-label>{{ 'COMMON.clearMaxSpeed' | translate }}</ion-label>
     </ion-item>
+
+    <ion-item
+      button
+      lines="none"
+      href="https://github.com/vdt2210/GPS-Speedometer/releases/"
+    >
+      <ion-icon
+        slot="start"
+        [ios]="downloadIcon + '-outline'"
+        [md]="downloadIcon + '-sharp'"
+      ></ion-icon>
+      <ion-label>{{ 'COMMON.checkUpdate' | translate }}</ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>
 

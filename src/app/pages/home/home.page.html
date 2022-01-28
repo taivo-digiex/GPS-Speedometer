@@ -4,13 +4,6 @@
       {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ accuracyUnit }}
     </ion-text>
     <ion-buttons class="cus-btns">
-      <ion-button (click)="resetTrip()">
-        <ion-icon
-          slot="icon-only"
-          [ios]="refreshIcon + '-outline'"
-          [md]="refreshIcon + '-sharp'"
-        ></ion-icon>
-      </ion-button>
       <ion-button routerLink="/settings" routerDirection="root">
         <ion-icon
           slot="icon-only"

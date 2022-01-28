@@ -12,6 +12,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AlertComponent } from './common/components/alert/alert.component';
+import { ToastComponent } from './common/components/toast/toast.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -37,6 +39,8 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     Insomnia,
     Geolocation,
+    AlertComponent,
+    ToastComponent,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

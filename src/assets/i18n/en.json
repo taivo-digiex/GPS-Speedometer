@@ -14,7 +14,8 @@
     "clearMaxSpeed": "Clear max speed",
     "contactMe": "Contact me",
     "accuracy": "Accuracy",
-    "altitude": "Altitude"
+    "altitude": "Altitude",
+    "checkUpdate": "Check update"
   },
 
   "TOAST": {
@@ -27,7 +28,20 @@
   },
 
   "SELECT": {
-    "okText": "Select",
+    "okText": "Confirm",
     "cancelText": "Cancel"
+  },
+
+  "ALERT": {
+    "HEADER": {
+      "H1": "Are you sure?"
+    },
+    "MSG": {
+      "M1": "Be careful, this progress cannot be undone."
+    },
+    "BTN": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }

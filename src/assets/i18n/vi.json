@@ -14,7 +14,8 @@
     "clearMaxSpeed": "Xóa tốc độ tối đa",
     "contactMe": "Liên hệ tôi",
     "accuracy": "Độ chính xác",
-    "altitude": "Độ cao"
+    "altitude": "Độ cao",
+    "checkUpdate": "Kiểm tra cập nhật"
   },
 
   "TOAST": {
@@ -27,7 +28,20 @@
   },
 
   "SELECT": {
-    "okText": "Chọn",
+    "okText": "Xác nhận",
     "cancelText": "Hủy"
+  },
+
+  "ALERT": {
+    "HEADER": {
+      "H1": "Bạn có chắc chắn muốn xóa tốc độ tối đa không?"
+    },
+    "MSG": {
+      "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác."
+    },
+    "BTN": {
+      "confirm": "Xác nhận",
+      "cancel": "Hủy"
+    }
   }
 }

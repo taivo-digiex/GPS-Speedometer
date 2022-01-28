@@ -1,13 +1,12 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { Platform, ToastController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { UnitService } from '../../services/unit/unit.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MaxSpeedService } from 'src/app/services/max-speed/max-speed.service';
-import { TranslateService } from '@ngx-translate/core';
-import { AlertController } from '@ionic/angular';
+import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +32,6 @@ export class HomePage implements OnInit, OnDestroy {
   private rawAltitude: number;
 
   public settingsIcon: string = 'settings';
-  public refreshIcon: string = 'refresh';
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
@@ -41,12 +39,10 @@ export class HomePage implements OnInit, OnDestroy {
     private geolocation: Geolocation,
     private ngZone: NgZone,
     private insomnia: Insomnia,
-    private toastController: ToastController,
     private platform: Platform,
     private unitService: UnitService,
     private maxSpeedService: MaxSpeedService,
-    private translateService: TranslateService,
-    private alertController: AlertController
+    private toastComponent: ToastComponent
   ) {}
 
   public ngOnInit() {
@@ -65,7 +61,7 @@ export class HomePage implements OnInit, OnDestroy {
           this.prepareTracking(res);
         } else if ('code' in res) {
           const msg = res.message;
-          this.presentToast('TOAST.err', msg, 1000);
+          this.toastComponent.presentToast('TOAST.err', msg, 1000);
         }
       });
   }
@@ -113,7 +109,11 @@ export class HomePage implements OnInit, OnDestroy {
     } else if (this.unit == 'metric') {
       this.unit = 'imperial';
     }
-    this.presentToast('TOAST.unitChange.' + this.unit, null, 500);
+    this.toastComponent.presentToast(
+      'TOAST.unitChange.' + this.unit,
+      null,
+      500
+    );
     this.unitService.setUnit(this.unit);
     this.convertUnit();
   }
@@ -126,57 +126,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.maxSpeedService.saveMaxSpeed(currMaxSpeed);
   }
 
-  public resetTrip() {
-    this.presentAlertConfirm(
-      'Test feature',
-      'This feature is not available right now',
-      null,
-      null
-    );
-  }
-
-  private async presentToast(msg: any, value: any, time: number) {
-    const toast = await this.toastController.create({
-      message: this.translateService.instant(msg, { value: value }),
-      duration: time,
-    });
-    await toast.present();
-  }
-
   public ngOnDestroy() {
     this.onDestroy$.next();
     this.insomnia.allowSleepAgain();
-  }
-
-  private async presentAlertConfirm(
-    header: any,
-    msg: any,
-    cancelFunc: any,
-    okFunc: any
-  ) {
-    const alert = await this.alertController.create({
-      header: header,
-      message: msg,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          id: 'cancel-button',
-          handler: () => {
-            cancelFunc;
-          },
-        },
-        {
-          text: 'Confirm',
-          id: 'confirm-button',
-          handler: () => {
-            okFunc;
-          },
-        },
-      ],
-    });
-
-    await alert.present();
   }
 }

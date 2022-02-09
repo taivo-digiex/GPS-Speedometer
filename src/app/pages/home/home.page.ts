@@ -28,8 +28,6 @@ export class HomePage implements OnInit, OnDestroy {
   private rawAccuracy: number;
   private rawAltitude: number;
   private totalElapsedTime: number;
-  currTimestamp: any;
-  oldTimestamp: any;
 
   public settingsIcon: string = 'settings';
 
@@ -74,8 +72,6 @@ export class HomePage implements OnInit, OnDestroy {
       this.long = res.coords.longitude;
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
-      this.currTimestamp = res.timestamp / 1000;
-      console.log(this.currTimestamp);
 
       this.getMaxSpeed();
       this.convertUnit();
@@ -141,10 +137,6 @@ export class HomePage implements OnInit, OnDestroy {
       this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
 
       this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
-      const timeArr = [];
-      timeArr.push(this.currTimestamp);
-      this.oldTimestamp = timeArr;
-      console.log(this.oldTimestamp);
     }, 1000);
   }
 

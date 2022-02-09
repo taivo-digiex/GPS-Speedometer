@@ -24,11 +24,6 @@
     font-size: 25px;
     display: inline;
   }
-
-  #trip {
-    font-size: 25px;
-    margin: inherit;
-  }
 }
 
 .cus-btns {
@@ -58,12 +53,12 @@
     .lon-lat {
       width: 50%;
     }
-    .speed-accuracy {
+    .speed-time {
       width: 50%;
     }
   }
 }
 
-.accuracy {
+.accuracy-altitude {
   margin-left: 10px;
 }

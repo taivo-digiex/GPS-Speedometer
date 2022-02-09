@@ -1,6 +1,6 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="cus-toolbar">
-    <ion-text slot="start" class="accuracy">
+    <ion-text slot="start" class="accuracy-altitude">
       {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ lenghtUnit }}
       <br />
       {{ "COMMON.altitude" | translate }}: {{ altitude }} {{ lenghtUnit }}
@@ -30,7 +30,7 @@
 <ion-footer class="ion-no-border ion-text-center">
   <ion-toolbar class="cus-toolbar">
     <div class="details">
-      <ion-row class="speed-accuracy">
+      <ion-row class="speed-time">
         <ion-col class="max-speed-col">
           <p>
             <strong>{{ "COMMON.maxSpeed" | translate }}:</strong>

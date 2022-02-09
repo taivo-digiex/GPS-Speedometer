@@ -1,7 +1,9 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="cus-toolbar">
     <ion-text slot="start" class="accuracy">
-      {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ accuracyUnit }}
+      {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ lenghtUnit }}
+      <br />
+      {{ "COMMON.altitude" | translate }}: {{ altitude }} {{ lenghtUnit }}
     </ion-text>
     <ion-buttons class="cus-btns">
       <ion-button routerLink="/settings" routerDirection="root">
@@ -19,10 +21,9 @@
   <div id="container" (click)="changeUnit()" *ngIf="speed != null">
     <p id="speedo">{{ speedo }}</p>
     <p id="unit">{{ speedUnit }}</p>
-    <p id="trip">{{ trip }} {{ tripUnit }}</p>
   </div>
   <div id="container" *ngIf="speed == null">
-    <ion-spinner></ion-spinner>
+    <ion-spinner name="dots"></ion-spinner>
   </div>
 </ion-content>
 
@@ -38,10 +39,8 @@
         </ion-col>
 
         <ion-col>
-          <p>
-            <strong>{{ "COMMON.altitude" | translate }}:</strong>
-          </p>
-          <p>{{ altitude }} {{ altitudeUnit }}</p>
+          <p><strong>{{ "COMMON.time" | translate }}:</strong></p>
+          <p>{{ time }}</p>
         </ion-col>
       </ion-row>
 

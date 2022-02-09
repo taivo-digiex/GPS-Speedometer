@@ -32,7 +32,7 @@ export class AppComponent {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
     this.unitService.setDefaultUnit();
-    this.maxSpeedService.getMaxSpeed();
+    this.maxSpeedService.setDefaultMaxSpeed();
   }
 
   private hardwareBackBtn() {

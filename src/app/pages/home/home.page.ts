@@ -21,15 +21,15 @@ export class HomePage implements OnInit, OnDestroy {
   public maxSpeed: number;
   public speedUnit: string;
   public accuracy: number;
-  public accuracyUnit: string;
   public altitude: string;
-  public altitudeUnit: string;
-  public trip: string;
-  public tripUnit: string;
+  public lenghtUnit: string;
+  public time: string = '00:00:00';
 
-  private unit: string;
   private rawAccuracy: number;
   private rawAltitude: number;
+  private totalElapsedTime: number;
+  currTimestamp: any;
+  oldTimestamp: any;
 
   public settingsIcon: string = 'settings';
 
@@ -64,6 +64,7 @@ export class HomePage implements OnInit, OnDestroy {
           this.toastComponent.presentToast('TOAST.err', msg, 1000);
         }
       });
+    this.startTimer();
   }
 
   private prepareTracking(res: any) {
@@ -73,57 +74,78 @@ export class HomePage implements OnInit, OnDestroy {
       this.long = res.coords.longitude;
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
+      this.currTimestamp = res.timestamp / 1000;
+      console.log(this.currTimestamp);
+
       this.getMaxSpeed();
       this.convertUnit();
     });
   }
 
   private convertUnit() {
-    this.unit = this.unitService.unit;
-    if (this.unit == 'metric') {
-      this.speedo = Math.round(this.speed * 3.6);
-      this.maxSpeed = Math.round(this.maxSpeedService.maxSpeed * 3.6);
-      this.accuracy = Math.round(this.rawAccuracy);
-      this.altitude = this.rawAltitude.toFixed(1);
-      this.trip = '0.0';
+    this.unitService.convertUnit(
+      this.speed,
+      this.rawAccuracy,
+      this.rawAltitude
+    );
 
-      this.speedUnit = 'km/h';
-      this.accuracyUnit = this.altitudeUnit = 'm';
-      this.tripUnit = 'km';
-    } else if (this.unit == 'imperial') {
-      this.speedo = Math.round(this.speed * 2.23693629);
-      this.maxSpeed = Math.round(this.maxSpeedService.maxSpeed * 2.23693629);
-      this.accuracy = Math.round(this.rawAccuracy * 3.2808399);
-      this.altitude = (this.rawAltitude * 3.2808399).toFixed(1);
-      this.trip = '0.0';
+    this.speedo = this.unitService.speedo;
+    this.maxSpeed = this.unitService.maxSpeed;
+    this.accuracy = this.unitService.accuracy;
+    this.altitude = this.unitService.altitude;
 
-      this.speedUnit = 'mph';
-      this.accuracyUnit = this.altitudeUnit = 'ft';
-      this.tripUnit = 'mi';
-    }
+    this.lenghtUnit = this.unitService.lenghtUnit;
+    this.speedUnit = this.unitService.speedUnit;
   }
 
   public changeUnit() {
-    if (this.unit == 'imperial') {
-      this.unit = 'metric';
-    } else if (this.unit == 'metric') {
-      this.unit = 'imperial';
+    if (this.unitService.unit == 'imperial') {
+      this.unitService.saveUnit('metric');
+    } else if (this.unitService.unit == 'metric') {
+      this.unitService.saveUnit('imperial');
     }
     this.toastComponent.presentToast(
-      'TOAST.unitChange.' + this.unit,
+      'TOAST.unitChange.' + this.unitService.unit,
       null,
       500
     );
-    this.unitService.setUnit(this.unit);
     this.convertUnit();
   }
 
   private getMaxSpeed() {
+    this.maxSpeedService.saveMaxSpeed(this.speed);
     this.maxSpeed = this.maxSpeedService.maxSpeed;
-    const maxSpeedArr = [];
-    maxSpeedArr.push(this.speed);
-    const currMaxSpeed = Math.max(this.maxSpeed, ...maxSpeedArr);
-    this.maxSpeedService.saveMaxSpeed(currMaxSpeed);
+  }
+
+  private startTimer() {
+    let startTime: number;
+    let elapsedTime: number = 0;
+    startTime = Date.now() - elapsedTime;
+
+    setInterval(() => {
+      elapsedTime = Date.now() - startTime;
+
+      let diffInHrs = elapsedTime / 3600000;
+      let hh = Math.floor(diffInHrs);
+
+      let diffInMin = (diffInHrs - hh) * 60;
+      let mm = Math.floor(diffInMin);
+
+      let diffInSec = (diffInMin - mm) * 60;
+      let ss = Math.floor(diffInSec);
+
+      let formattedHH = hh.toString().padStart(2, '0');
+      let formattedMM = mm.toString().padStart(2, '0');
+      let formattedSS = ss.toString().padStart(2, '0');
+
+      this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
+
+      this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
+      const timeArr = [];
+      timeArr.push(this.currTimestamp);
+      this.oldTimestamp = timeArr;
+      console.log(this.oldTimestamp);
+    }, 1000);
   }
 
   public ngOnDestroy() {

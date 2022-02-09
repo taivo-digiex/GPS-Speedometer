@@ -11,7 +11,7 @@ export class MaxSpeedService {
 
   constructor(private storage: Storage) {}
 
-  public getMaxSpeed() {
+  public setDefaultMaxSpeed() {
     this.storage.get(MS_KEY).then((val) => {
       if (val) {
         this.saveMaxSpeed(val);
@@ -23,7 +23,10 @@ export class MaxSpeedService {
     });
   }
 
-  public saveMaxSpeed(maxSpeed: number) {
+  public saveMaxSpeed(speed: number) {
+    const maxSpeedArr = [];
+    maxSpeedArr.push(speed);
+    const maxSpeed = Math.max(this.maxSpeed, ...maxSpeedArr);
     this.maxSpeed = maxSpeed;
     this.storage.set(MS_KEY, maxSpeed);
   }

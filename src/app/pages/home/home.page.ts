@@ -24,10 +24,14 @@ export class HomePage implements OnInit, OnDestroy {
   public altitude: string;
   public lenghtUnit: string;
   public time: string = '00:00:00';
+  public avgspeed: string;
 
   private rawAccuracy: number;
   private rawAltitude: number;
   private totalElapsedTime: number;
+  private timestamp: number;
+  private oldTimestamp: number;
+  private oldspeed: number;
 
   public settingsIcon: string = 'settings';
 
@@ -62,16 +66,19 @@ export class HomePage implements OnInit, OnDestroy {
           this.toastComponent.presentToast('TOAST.err', msg, 1000);
         }
       });
+
     this.startTimer();
   }
 
   private prepareTracking(res: any) {
     this.ngZone.run(() => {
+      this.oldspeed = this.speed;
       this.speed = res.coords.speed;
       this.lat = res.coords.latitude;
       this.long = res.coords.longitude;
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
+      this.timestamp = this.totalElapsedTime;
 
       this.getMaxSpeed();
       this.convertUnit();
@@ -137,6 +144,13 @@ export class HomePage implements OnInit, OnDestroy {
       this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
 
       this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
+
+      //check this shit
+      this.avgspeed = (
+        ((this.oldspeed * this.timestamp + this.speed * this.totalElapsedTime) /
+          (this.totalElapsedTime + this.timestamp)) *
+        3.6
+      ).toFixed(1);
     }, 1000);
   }
 

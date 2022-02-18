@@ -10,16 +10,18 @@
     "version": "Phiên bản",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
-    "maxSpeed": "Tốc độ tối đa",
-    "clearMaxSpeed": "Xóa tốc độ tối đa",
+    "topSpeed": "Tốc độ cao nhất",
+    "clearTopSpeed": "Xóa tốc độ cao nhất",
     "contactMe": "Liên hệ tôi",
     "accuracy": "Độ chính xác",
     "altitude": "Độ cao",
-    "checkUpdate": "Kiểm tra cập nhật"
+    "checkUpdate": "Kiểm tra cập nhật",
+    "time": "Thời gian",
+    "avgSpeed": "Tốc độ t.bình"
   },
 
   "TOAST": {
-    "clearMaxSpeedSuccess": "Xóa tốc độ tối đa thành công.",
+    "clearTopSpeedSuccess": "Xóa tốc độ cao nhất thành công.",
     "unitChange": {
       "metric": "Chuyển sang hệ mét.",
       "imperial": "Chuyển sang hệ đo lường Anh."

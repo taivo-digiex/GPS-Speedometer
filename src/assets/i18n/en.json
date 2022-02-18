@@ -10,16 +10,18 @@
     "version": "Version",
     "longtitude": "Longitude",
     "latitude": "Latitude",
-    "maxSpeed": "Max speed",
-    "clearMaxSpeed": "Clear max speed",
+    "topSpeed": "Top speed",
+    "clearTopSpeed": "Clear top speed",
     "contactMe": "Contact me",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
-    "checkUpdate": "Check update"
+    "checkUpdate": "Check update",
+    "time": "Time",
+    "avgSpeed": "Avg. speed"
   },
 
   "TOAST": {
-    "clearMaxSpeedSuccess": "Clear max speed success.",
+    "clearTopSpeedSuccess": "Clear top speed success.",
     "unitChange": {
       "metric": "Switch to metric.",
       "imperial": "Switch to imperial."

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { LanguageService } from 'src/app/services/language/language.service';
-import { MaxSpeedService } from 'src/app/services/max-speed/max-speed.service';
+import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class SettingsPage implements OnInit {
   constructor(
     private location: Location,
     private languageService: LanguageService,
-    private maxSpeedService: MaxSpeedService,
+    private topSpeedService: TopSpeedService,
     private toast: ToastComponent
   ) {}
 
@@ -33,9 +33,9 @@ export class SettingsPage implements OnInit {
     this.selected = this.languageService.selected;
   }
 
-  public clearMaxSpeed() {
-    this.maxSpeedService.saveMaxSpeed(0);
-    this.toast.presentToast('TOAST.clearMaxSpeedSuccess', null, 1000);
+  public clearTopSpeed() {
+    this.topSpeedService.saveTopSpeed(0);
+    this.toast.presentToast('TOAST.clearTopSpeedSuccess', null, 1000);
   }
 
   public selectLng(ev: any) {

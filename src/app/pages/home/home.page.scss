@@ -17,10 +17,16 @@
 
   #speedo {
     font-size: 150px;
+    margin: auto;
   }
 
   #unit {
     font-size: 25px;
+  }
+
+  #trip {
+    font-size: 25px;
+    margin: inherit;
   }
 }
 
@@ -37,8 +43,7 @@
     margin: auto;
   }
   @media screen and (orientation: portrait) {
-    .lat-col,
-    .max-speed-col {
+    .col-border {
       border-right: 1px solid;
     }
     ion-col {

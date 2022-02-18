@@ -5,8 +5,9 @@ import { Platform } from '@ionic/angular';
 import { UnitService } from '../../services/unit/unit.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MaxSpeedService } from 'src/app/services/max-speed/max-speed.service';
+import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
+import { CalculateService } from 'src/app/services/calculate/calculate.service';
 
 @Component({
   selector: 'app-home',
@@ -18,20 +19,20 @@ export class HomePage implements OnInit, OnDestroy {
   public lat: number;
   public long: number;
   public speedo: number;
-  public maxSpeed: number;
+  public topSpeed: number;
   public speedUnit: string;
+  public lenghtUnit: string;
+  public distanceUnit: string;
   public accuracy: number;
   public altitude: string;
-  public lenghtUnit: string;
   public time: string = '00:00:00';
-  public avgspeed: string;
+  public avgSpeed: string;
+  public distance: string;
 
   private rawAccuracy: number;
   private rawAltitude: number;
   private totalElapsedTime: number;
-  private timestamp: number;
-  private oldTimestamp: number;
-  private oldspeed: number;
+  private timerInterval: any;
 
   public settingsIcon: string = 'settings';
 
@@ -43,14 +44,16 @@ export class HomePage implements OnInit, OnDestroy {
     private insomnia: Insomnia,
     private platform: Platform,
     private unitService: UnitService,
-    private maxSpeedService: MaxSpeedService,
-    private toastComponent: ToastComponent
+    private topSpeedService: TopSpeedService,
+    private toastComponent: ToastComponent,
+    private calculateService: CalculateService
   ) {}
 
   public ngOnInit() {
     this.platform.ready().then(() => {
       this.insomnia.keepAwake();
       this.startTracking();
+      this.timer();
     });
   }
 
@@ -66,39 +69,59 @@ export class HomePage implements OnInit, OnDestroy {
           this.toastComponent.presentToast('TOAST.err', msg, 1000);
         }
       });
-
-    this.startTimer();
+    this.calculateTime();
   }
 
   private prepareTracking(res: any) {
     this.ngZone.run(() => {
-      this.oldspeed = this.speed;
       this.speed = res.coords.speed;
       this.lat = res.coords.latitude;
       this.long = res.coords.longitude;
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
-      this.timestamp = this.totalElapsedTime;
 
-      this.getMaxSpeed();
+      if (this.speed != null) {
+        this.getValue();
+        clearInterval(this.timerInterval);
+        this.calculateTime();
+      }
+
+      this.getTopSpeed();
       this.convertUnit();
     });
   }
 
+  private getValue() {
+    this.calculateService.getValue(this.speed, this.totalElapsedTime);
+    this.calculateService.getDistance();
+    this.calculateService.getTime();
+    this.avgSpeed = this.calculateService.avgSpeed;
+    this.distance = this.calculateService.distance;
+  }
+
   private convertUnit() {
-    this.unitService.convertUnit(
+    this.unitService.convertUnit();
+    this.calculateService.convert(
       this.speed,
       this.rawAccuracy,
       this.rawAltitude
     );
 
-    this.speedo = this.unitService.speedo;
-    this.maxSpeed = this.unitService.maxSpeed;
-    this.accuracy = this.unitService.accuracy;
-    this.altitude = this.unitService.altitude;
+    this.speedo = this.calculateService.speedo;
+    this.topSpeed = this.calculateService.topSpeed;
+    this.accuracy = this.calculateService.accuracy;
+    this.altitude = this.calculateService.altitude;
+    if (this.speed != null) {
+      this.distance = this.calculateService.distance;
+      this.avgSpeed = this.calculateService.avgSpeed;
+    } else {
+      this.distance = '-';
+      this.avgSpeed = '-';
+    }
 
     this.lenghtUnit = this.unitService.lenghtUnit;
     this.speedUnit = this.unitService.speedUnit;
+    this.distanceUnit = this.unitService.distanceUnit;
   }
 
   public changeUnit() {
@@ -115,12 +138,33 @@ export class HomePage implements OnInit, OnDestroy {
     this.convertUnit();
   }
 
-  private getMaxSpeed() {
-    this.maxSpeedService.saveMaxSpeed(this.speed);
-    this.maxSpeed = this.maxSpeedService.maxSpeed;
+  private getTopSpeed() {
+    this.topSpeedService.saveTopSpeed(this.speed);
+    this.topSpeed = this.topSpeedService.topSpeed;
   }
 
-  private startTimer() {
+  private calculateTime() {
+    let startTime: number;
+    let elapsedTime: number = 0;
+    startTime = Date.now() - elapsedTime;
+
+    this.timerInterval = setInterval(() => {
+      elapsedTime = Date.now() - startTime;
+
+      let diffInHrs = elapsedTime / 3600000;
+      let hh = Math.floor(diffInHrs);
+
+      let diffInMin = (diffInHrs - hh) * 60;
+      let mm = Math.floor(diffInMin);
+
+      let diffInSec = (diffInMin - mm) * 60;
+      let ss = Math.floor(diffInSec);
+
+      this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
+    }, 1000);
+  }
+
+  public timer() {
     let startTime: number;
     let elapsedTime: number = 0;
     startTime = Date.now() - elapsedTime;
@@ -142,20 +186,14 @@ export class HomePage implements OnInit, OnDestroy {
       let formattedSS = ss.toString().padStart(2, '0');
 
       this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
-
-      this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
-
-      //check this shit
-      this.avgspeed = (
-        ((this.oldspeed * this.timestamp + this.speed * this.totalElapsedTime) /
-          (this.totalElapsedTime + this.timestamp)) *
-        3.6
-      ).toFixed(1);
     }, 1000);
   }
 
-  public ngOnDestroy() {
+  public stop() {
     this.onDestroy$.next();
+  }
+
+  public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
   }
 }

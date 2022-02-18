@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MaxSpeedService } from './max-speed.service';
+import { TopSpeedService } from './top-speed.service';
 
-describe('MaxSpeedService', () => {
-  let service: MaxSpeedService;
+describe('TopSpeedService', () => {
+  let service: TopSpeedService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MaxSpeedService);
+    service = TestBed.inject(TopSpeedService);
   });
 
   it('should be created', () => {

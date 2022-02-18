@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Storage } from '@ionic/storage-angular';
 import { LanguageService } from './services/language/language.service';
 import { UnitService } from './services/unit/unit.service';
-import { MaxSpeedService } from './services/max-speed/max-speed.service';
+import { TopSpeedService } from './services/top-speed/top-speed.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,7 @@ export class AppComponent {
     private storage: Storage,
     private languageService: LanguageService,
     private unitService: UnitService,
-    private maxSpeedService: MaxSpeedService
+    private topSpeedService: TopSpeedService
   ) {
     this.hardwareBackBtn();
     this.createStorage();
@@ -32,7 +32,7 @@ export class AppComponent {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
     this.unitService.setDefaultUnit();
-    this.maxSpeedService.setDefaultMaxSpeed();
+    this.topSpeedService.setDefaultTopSpeed();
   }
 
   private hardwareBackBtn() {

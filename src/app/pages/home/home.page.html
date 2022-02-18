@@ -19,8 +19,10 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" (click)="changeUnit()" *ngIf="speed != null">
-    <p id="speedo">{{ speedo }}</p>
-    <p id="unit">{{ speedUnit }}</p>
+    <p id="speedo">
+      {{ speedo }}<ion-text id="unit"> {{ speedUnit }}</ion-text>
+    </p>
+    <p id="trip" *ngIf="distance">{{ distance }} {{ distanceUnit }}</p>
   </div>
   <div id="container" *ngIf="speed == null">
     <ion-spinner name="dots"></ion-spinner>
@@ -31,11 +33,18 @@
   <ion-toolbar class="cus-toolbar">
     <div class="details">
       <ion-row class="speed-time">
-        <ion-col class="max-speed-col">
+        <ion-col class="col-border">
           <p>
-            <strong>{{ "COMMON.maxSpeed" | translate }}:</strong>
+            <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
           </p>
-          <p>{{ maxSpeed }} {{ speedUnit }}</p>
+          <p>{{ topSpeed }} {{ speedUnit }}</p>
+        </ion-col>
+
+        <ion-col class="col-border">
+          <p>
+            <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
+          </p>
+          <p>{{ avgSpeed }} {{ speedUnit }}</p>
         </ion-col>
 
         <ion-col>
@@ -45,7 +54,7 @@
       </ion-row>
 
       <ion-row class="lon-lat">
-        <ion-col class="lat-col">
+        <ion-col class="col-border">
           <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
           <p>{{ lat }}</p>
         </ion-col>

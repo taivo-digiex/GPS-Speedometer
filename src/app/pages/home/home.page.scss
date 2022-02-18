@@ -17,12 +17,11 @@
 
   #speedo {
     font-size: 150px;
-    display: inline;
+    margin: auto;
   }
 
   #unit {
     font-size: 25px;
-    display: inline;
   }
 
   #trip {
@@ -44,8 +43,7 @@
     margin: auto;
   }
   @media screen and (orientation: portrait) {
-    .lat-col,
-    .max-speed-col {
+    .col-border {
       border-right: 1px solid;
     }
     ion-col {
@@ -58,12 +56,12 @@
     .lon-lat {
       width: 50%;
     }
-    .speed-accuracy {
+    .speed-time {
       width: 50%;
     }
   }
 }
 
-.accuracy {
+.accuracy-altitude {
   margin-left: 10px;
 }

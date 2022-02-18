@@ -8,23 +8,38 @@ const UNIT_KEY = 'selected-unit';
 })
 export class UnitService {
   public unit: string;
+  public lenghtUnit: string;
+  public speedUnit: string;
+  public distanceUnit: string;
 
   constructor(private storage: Storage) {}
 
-  setDefaultUnit() {
+  public setDefaultUnit() {
     this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
-        this.setUnit(val);
+        this.saveUnit(val);
         this.unit = val;
       } else {
-        this.setUnit('metric');
+        this.saveUnit('metric');
         this.unit = this.unit;
       }
     });
   }
 
-  setUnit(unit: string) {
+  public saveUnit(unit: string) {
     this.unit = unit;
     this.storage.set(UNIT_KEY, unit);
+  }
+
+  public convertUnit() {
+    if (this.unit == 'metric') {
+      this.speedUnit = 'km/h';
+      this.distanceUnit = 'km';
+      this.lenghtUnit = 'm';
+    } else if (this.unit == 'imperial') {
+      this.speedUnit = 'mph';
+      this.distanceUnit = 'mi';
+      this.lenghtUnit = 'ft';
+    }
   }
 }

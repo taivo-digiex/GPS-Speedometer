@@ -1,7 +1,9 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="cus-toolbar">
-    <ion-text slot="start" class="accuracy">
-      {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ accuracyUnit }}
+    <ion-text slot="start" class="accuracy-altitude">
+      {{ "COMMON.accuracy" | translate }}: {{ accuracy }} {{ lenghtUnit }}
+      <br />
+      {{ "COMMON.altitude" | translate }}: {{ altitude }} {{ lenghtUnit }}
     </ion-text>
     <ion-buttons class="cus-btns">
       <ion-button routerLink="/settings" routerDirection="root">
@@ -17,36 +19,42 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" (click)="changeUnit()" *ngIf="speed != null">
-    <p id="speedo">{{ speedo }}</p>
-    <p id="unit">{{ speedUnit }}</p>
-    <p id="trip">{{ trip }} {{ tripUnit }}</p>
+    <p id="speedo">
+      {{ speedo }}<ion-text id="unit"> {{ speedUnit }}</ion-text>
+    </p>
+    <p id="trip" *ngIf="distance">{{ distance }} {{ distanceUnit }}</p>
   </div>
   <div id="container" *ngIf="speed == null">
-    <ion-spinner></ion-spinner>
+    <ion-spinner name="dots"></ion-spinner>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-text-center">
   <ion-toolbar class="cus-toolbar">
     <div class="details">
-      <ion-row class="speed-accuracy">
-        <ion-col class="max-speed-col">
+      <ion-row class="speed-time">
+        <ion-col class="col-border">
           <p>
-            <strong>{{ "COMMON.maxSpeed" | translate }}:</strong>
+            <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
           </p>
-          <p>{{ maxSpeed }} {{ speedUnit }}</p>
+          <p>{{ topSpeed }} {{ speedUnit }}</p>
+        </ion-col>
+
+        <ion-col class="col-border">
+          <p>
+            <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
+          </p>
+          <p>{{ avgSpeed }} {{ speedUnit }}</p>
         </ion-col>
 
         <ion-col>
-          <p>
-            <strong>{{ "COMMON.altitude" | translate }}:</strong>
-          </p>
-          <p>{{ altitude }} {{ altitudeUnit }}</p>
+          <p><strong>{{ "COMMON.time" | translate }}:</strong></p>
+          <p>{{ time }}</p>
         </ion-col>
       </ion-row>
 
       <ion-row class="lon-lat">
-        <ion-col class="lat-col">
+        <ion-col class="col-border">
           <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
           <p>{{ lat }}</p>
         </ion-col>

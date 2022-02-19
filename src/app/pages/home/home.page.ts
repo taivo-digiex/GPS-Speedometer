@@ -80,10 +80,8 @@ export class HomePage implements OnInit, OnDestroy {
       this.rawAccuracy = res.coords.accuracy;
       this.rawAltitude = res.coords.altitude;
 
-      if (this.speed != null) {
+      if (this.speed != null && this.totalElapsedTime != null) {
         this.getValue();
-        clearInterval(this.timerInterval);
-        this.calculateTime();
       }
 
       this.getTopSpeed();
@@ -93,10 +91,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   private getValue() {
     this.calculateService.getValue(this.speed, this.totalElapsedTime);
-    this.calculateService.getDistance();
-    this.calculateService.getTime();
-    this.avgSpeed = this.calculateService.avgSpeed;
-    this.distance = this.calculateService.distance;
+    clearInterval(this.timerInterval);
+    this.calculateTime();
   }
 
   private convertUnit() {
@@ -111,12 +107,13 @@ export class HomePage implements OnInit, OnDestroy {
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
-    if (this.speed != null) {
+
+    if (this.speed != null && this.totalElapsedTime != null) {
       this.distance = this.calculateService.distance;
       this.avgSpeed = this.calculateService.avgSpeed;
     } else {
-      this.distance = '-';
-      this.avgSpeed = '-';
+      this.distance = '-.-';
+      this.avgSpeed = '-.-';
     }
 
     this.lenghtUnit = this.unitService.lenghtUnit;
@@ -130,11 +127,13 @@ export class HomePage implements OnInit, OnDestroy {
     } else if (this.unitService.unit == 'metric') {
       this.unitService.saveUnit('imperial');
     }
+
     this.toastComponent.presentToast(
       'TOAST.unitChange.' + this.unitService.unit,
       null,
       500
     );
+
     this.convertUnit();
   }
 
@@ -191,6 +190,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public stop() {
     this.onDestroy$.next();
+    this.insomnia.allowSleepAgain();
   }
 
   public ngOnDestroy() {

@@ -52,16 +52,19 @@ export class CalculateService {
 
     this.timeArr = [...this.timeArr, time];
     this.distanceArr = [...this.distanceArr, distance];
+
+    this.getDistance();
+    this.getTime();
   }
 
-  public getTime() {
+  private getTime() {
     this.sumTime = this.timeArr.reduce(
       (partialSum, time) => partialSum + time,
       0
     );
   }
 
-  public getDistance() {
+  private getDistance() {
     this.sumDistance = this.distanceArr.reduce(
       (partialSum, a) => partialSum + a,
       0

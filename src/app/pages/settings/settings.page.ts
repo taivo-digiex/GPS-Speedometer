@@ -34,7 +34,7 @@ export class SettingsPage implements OnInit {
   }
 
   public clearTopSpeed() {
-    this.topSpeedService.saveTopSpeed(0);
+    this.topSpeedService.clearTopSpeed();
     this.toast.presentToast('TOAST.clearTopSpeedSuccess', null, 1000);
   }
 

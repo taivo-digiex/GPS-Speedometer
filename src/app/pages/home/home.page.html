@@ -18,54 +18,57 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div id="container" (click)="changeUnit()" *ngIf="speed != null">
-    <p id="speedo">
-      {{ speedo }}<ion-text id="unit"> {{ speedUnit }}</ion-text>
+  <div id="container" (click)="changeUnit()">
+    <p id="speedo" *ngIf="speed != null">
+      <ion-text>{{ speedo }}</ion-text>
+      <ion-text id="unit"> {{ speedUnit }}</ion-text>
     </p>
-    <p id="trip">{{ distance }} {{ distanceUnit }}</p>
-  </div>
-  <div id="container" *ngIf="speed == null">
-    <ion-spinner name="dots"></ion-spinner>
+    <ion-spinner name="dots" *ngIf="speed == null"></ion-spinner>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-text-center">
   <ion-toolbar class="cus-toolbar">
-    <div class="details">
-      <ion-row class="speed-time">
-        <ion-col class="col-border">
-          <p>
-            <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
-          </p>
-          <p>{{ topSpeed }} {{ speedUnit }}</p>
-        </ion-col>
+    <p id="trip">{{ distance }} {{ distanceUnit }}</p>
+    <ion-card>
+      <!-- <ion-card-content> -->
+      <div class="details">
+        <ion-row class="speed-time">
+          <ion-col class="col-border">
+            <p>
+              <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
+            </p>
+            <p>{{ topSpeed }} {{ speedUnit }}</p>
+          </ion-col>
 
-        <ion-col class="col-border">
-          <p>
-            <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
-          </p>
-          <p>{{ avgSpeed }} {{ speedUnit }}</p>
-        </ion-col>
+          <ion-col class="col-border">
+            <p>
+              <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
+            </p>
+            <p>{{ avgSpeed }} {{ speedUnit }}</p>
+          </ion-col>
 
-        <ion-col>
-          <p><strong>{{ "COMMON.time" | translate }}:</strong></p>
-          <p>{{ time }}</p>
-        </ion-col>
-      </ion-row>
+          <ion-col>
+            <p><strong>{{ "COMMON.time" | translate }}:</strong></p>
+            <p>{{ time }}</p>
+          </ion-col>
+        </ion-row>
 
-      <ion-row class="lon-lat">
-        <ion-col class="col-border">
-          <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
-          <p>{{ lat }}</p>
-        </ion-col>
+        <ion-row class="lon-lat">
+          <ion-col class="col-border">
+            <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
+            <p>{{ lat }}</p>
+          </ion-col>
 
-        <ion-col>
-          <p>
-            <strong>{{ "COMMON.longtitude" | translate }}:</strong>
-          </p>
-          <p>{{ long }}</p>
-        </ion-col>
-      </ion-row>
-    </div>
+          <ion-col>
+            <p>
+              <strong>{{ "COMMON.longtitude" | translate }}:</strong>
+            </p>
+            <p>{{ lon }}</p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <!-- </ion-card-content> -->
+    </ion-card>
   </ion-toolbar>
 </ion-footer>

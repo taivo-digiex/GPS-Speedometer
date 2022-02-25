@@ -30,6 +30,16 @@
   }
 }
 
+#trip {
+  font-size: 27px;
+  text-align: center;
+  font-family: "Digi";
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  height: 15px;
+}
+
 .cus-btns {
   justify-content: flex-end;
 }
@@ -39,15 +49,16 @@
 }
 
 .details {
+  color: white;
   p {
     margin: auto;
   }
   @media screen and (orientation: portrait) {
     .col-border {
-      border-right: 1px solid;
+      border-right: 1px solid grey;
     }
-    ion-col {
-      border-top: 1px solid;
+    .lon-lat {
+      border-top: 1px solid grey;
     }
   }
 
@@ -64,4 +75,8 @@
 
 .accuracy-altitude {
   margin-left: 10px;
+}
+
+ion-card {
+  border-radius: 10px;
 }

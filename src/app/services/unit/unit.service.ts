@@ -14,8 +14,8 @@ export class UnitService {
 
   constructor(private storage: Storage) {}
 
-  public setDefaultUnit() {
-    this.storage.get(UNIT_KEY).then((val) => {
+  public async setDefaultUnit() {
+    await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
         this.saveUnit(val);
         this.unit = val;
@@ -26,9 +26,9 @@ export class UnitService {
     });
   }
 
-  public saveUnit(unit: string) {
+  public async saveUnit(unit: string) {
     this.unit = unit;
-    this.storage.set(UNIT_KEY, unit);
+    await this.storage.set(UNIT_KEY, unit);
   }
 
   public convertUnit() {

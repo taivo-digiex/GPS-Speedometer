@@ -6,6 +6,8 @@ import { Storage } from '@ionic/storage-angular';
 import { LanguageService } from './services/language/language.service';
 import { UnitService } from './services/unit/unit.service';
 import { TopSpeedService } from './services/top-speed/top-speed.service';
+import { TimerService } from './services/timer/timer.service';
+import { GeolocationService } from './services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +24,13 @@ export class AppComponent {
     private storage: Storage,
     private languageService: LanguageService,
     private unitService: UnitService,
-    private topSpeedService: TopSpeedService
+    private topSpeedService: TopSpeedService,
+    private timerService: TimerService,
+    private geolocationService: GeolocationService
   ) {
     this.hardwareBackBtn();
     this.createStorage();
+    this.startTracking();
   }
 
   private async createStorage() {
@@ -44,5 +49,10 @@ export class AppComponent {
         this.location.back();
       }
     });
+  }
+
+  private startTracking() {
+    this.timerService.timer();
+    this.geolocationService.startGeolocation();
   }
 }

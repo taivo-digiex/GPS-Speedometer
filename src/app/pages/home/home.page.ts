@@ -62,7 +62,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private initial() {
-    // this.ngZone.run(() => {
     setInterval(() => {
       this.time = this.timerService.time;
       this.speed = this.geolocationService.speed;
@@ -70,61 +69,12 @@ export class HomePage implements OnInit, OnDestroy {
       this.lon = this.geolocationService.lon;
       this.rawAccuracy = this.geolocationService.rawAccuracy;
       this.rawAltitude = this.geolocationService.rawAltitude;
-      // if (
-      //   this.geolocationService.speed != null &&
-      //   this.timerService.totalElapsedTime != null
-      // ) {
-      //   this.getValue();
-      // }
-
-      // this.saveTopSpeed();
 
       this.topSpeed = this.topSpeedService.topSpeed;
       this.convertUnit();
-      // });
     }, 500);
   }
 
-  // private startTracking() {
-  //   this.geolocation
-  //     .watchPosition({ enableHighAccuracy: true })
-  //     .pipe(takeUntil(this.onDestroy$))
-  //     .subscribe((res) => {
-  //       if ('coords' in res) {
-  //         this.prepareTracking(res);
-  //       } else if ('code' in res) {
-  //         const msg = res.message;
-  //         this.toastComponent.presentToast('TOAST.err', msg, 1000);
-  //       }
-  //     });
-  //   this.timerService.calculateTime();
-  // }
-
-  // private prepareTracking(res: any) {
-  //   this.ngZone.run(() => {
-  //     this.speed = res.coords.speed;
-  //     this.lat = res.coords.latitude;
-  //     this.lon = res.coords.longitude;
-  //     this.rawAccuracy = res.coords.accuracy;
-  //     this.rawAltitude = res.coords.altitude;
-
-  //     if (this.speed != null && this.timerService.totalElapsedTime != null) {
-  //       this.getValue();
-  //     }
-
-  //     this.saveTopSpeed();
-  //     this.convertUnit();
-  //   });
-  // }
-
-  // private getValue() {
-  //   this.geolocationService.getSpeedAndTime();
-  //   console.log(this.timerService.totalElapsedTime);
-  //   clearInterval(this.timerService.timerInterval);
-  //   this.timerService.calculateTime();
-  // }
-
-  // DO NOT TOUCH THIS 2 FUNCTIONS
   public changeUnit() {
     if (this.unitService.unit == 'imperial') {
       this.unitService.saveUnit('metric');
@@ -169,33 +119,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.speedUnit = this.unitService.speedUnit;
     this.distanceUnit = this.unitService.distanceUnit;
   }
-  // ----------------------------------------------------------------
-
-  // private saveTopSpeed() {
-  //   this.topSpeedService.saveTopSpeed(this.geolocationService.speed);
-  //   this.topSpeed = this.topSpeedService.topSpeed;
-  // }
-
-  // private calculateTime() {
-  //   let startTime: number;
-  //   let elapsedTime: number = 0;
-  //   startTime = Date.now() - elapsedTime;
-
-  //   this.timerInterval = setInterval(() => {
-  //     elapsedTime = Date.now() - startTime;
-
-  //     let diffInHrs = elapsedTime / 3600000;
-  //     let hh = Math.floor(diffInHrs);
-
-  //     let diffInMin = (diffInHrs - hh) * 60;
-  //     let mm = Math.floor(diffInMin);
-
-  //     let diffInSec = (diffInMin - mm) * 60;
-  //     let ss = Math.floor(diffInSec);
-
-  //     this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
-  //   }, 1000);
-  // }
 
   public stop() {
     this.geolocationService.stop();

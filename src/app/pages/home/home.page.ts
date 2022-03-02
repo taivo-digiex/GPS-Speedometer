@@ -1,20 +1,21 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Platform } from '@ionic/angular';
 import { UnitService } from '../../services/unit/unit.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
+import SwiperCore, { Autoplay, Pagination } from 'swiper';
+
+SwiperCore.use([Autoplay, Pagination]);
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class HomePage implements OnInit, OnDestroy {
   public speed: number;
@@ -30,19 +31,18 @@ export class HomePage implements OnInit, OnDestroy {
   public time: string = '00:00:00';
   public avgSpeed: string;
   public distance: string;
+  public hiddenStartIcon: boolean = false;
+  public hiddenStopIcon: boolean = true;
 
   private rawAccuracy: number;
   private rawAltitude: number;
-  private totalElapsedTime: number;
-  private timerInterval: any;
 
   public settingsIcon: string = 'settings';
-
-  private onDestroy$: Subject<void> = new Subject<void>();
+  public timerIcon: string = 'timer';
+  public startIcon: string = 'play';
+  public stopIcon: string = 'stop';
 
   constructor(
-    private geolocation: Geolocation,
-    private ngZone: NgZone,
     private insomnia: Insomnia,
     private platform: Platform,
     private unitService: UnitService,
@@ -56,7 +56,6 @@ export class HomePage implements OnInit, OnDestroy {
   public ngOnInit() {
     this.platform.ready().then(() => {
       this.insomnia.keepAwake();
-      // this.startTracking();
       this.initial();
     });
   }
@@ -105,8 +104,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.altitude = this.calculateService.altitude;
 
     if (
-      this.geolocationService.speed != null &&
-      this.timerService.totalElapsedTime != null
+      !isNaN(this.calculateService.sumDistance) &&
+      !isNaN(this.calculateService.sumTime)
     ) {
       this.distance = this.calculateService.distance;
       this.avgSpeed = this.calculateService.avgSpeed;
@@ -120,9 +119,21 @@ export class HomePage implements OnInit, OnDestroy {
     this.distanceUnit = this.unitService.distanceUnit;
   }
 
-  public stop() {
+  public stopTracking() {
     this.geolocationService.stop();
     this.insomnia.allowSleepAgain();
+  }
+
+  public startTimer() {
+    this.timerService.timer();
+    this.hiddenStartIcon = true;
+    this.hiddenStopIcon = false;
+  }
+
+  public stopTimer() {
+    this.timerService.stopTimer();
+    this.hiddenStopIcon = true;
+    this.hiddenStartIcon = false;
   }
 
   public ngOnDestroy() {

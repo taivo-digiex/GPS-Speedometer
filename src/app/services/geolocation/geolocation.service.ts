@@ -61,7 +61,7 @@ export class GeolocationService {
       this.timerService.totalElapsedTime
     );
 
-    clearInterval(this.timerService.timerInterval);
+    this.timerService.stopTotalElapsedTime();
     this.timerService.calculateTime();
   }
 

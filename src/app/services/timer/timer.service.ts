@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class TimerService {
   public time: string = '00:00:00';
-  public timerInterval: any;
+  public totalElapsedTimeInterval: any;
   public totalElapsedTime: number;
+  public timerInterval: any;
 
   constructor() {}
 
@@ -15,7 +16,7 @@ export class TimerService {
     let elapsedTime: number = 0;
     startTime = Date.now() - elapsedTime;
 
-    this.timerInterval = setInterval(() => {
+    this.totalElapsedTimeInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime;
 
       let diffInHrs = elapsedTime / 3600000;
@@ -31,12 +32,16 @@ export class TimerService {
     }, 1000);
   }
 
+  public stopTotalElapsedTime() {
+    clearInterval(this.totalElapsedTimeInterval);
+  }
+
   public timer() {
     let startTime: number;
     let elapsedTime: number = 0;
     startTime = Date.now() - elapsedTime;
 
-    setInterval(() => {
+    this.timerInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime;
 
       let diffInHrs = elapsedTime / 3600000;
@@ -54,5 +59,10 @@ export class TimerService {
 
       this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
     }, 1000);
+  }
+
+  public stopTimer() {
+    clearInterval(this.timerInterval);
+    this.time = '00:00:00';
   }
 }

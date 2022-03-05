@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { LanguageService } from 'src/app/services/language/language.service';
 import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
+import { UpdateService } from 'src/app/services/update/update.service';
 
 @Component({
   selector: 'app-settings',
@@ -21,7 +22,8 @@ export class SettingsPage implements OnInit {
     private location: Location,
     private languageService: LanguageService,
     private topSpeedService: TopSpeedService,
-    private toast: ToastComponent
+    private toast: ToastComponent,
+    private updateService: UpdateService
   ) {}
 
   public ngOnInit() {
@@ -45,5 +47,9 @@ export class SettingsPage implements OnInit {
 
   public back() {
     this.location.back();
+  }
+
+  public checkForUpdate() {
+    this.updateService.checkForUpdate();
   }
 }

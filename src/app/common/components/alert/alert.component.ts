@@ -12,25 +12,59 @@ export class AlertComponent {
     private translateService: TranslateService
   ) {}
 
-  public async presentAlertConfirm(
-    header: any,
+  public async presentAlert(
+    header: string,
     headervalue: any,
-    msg: any,
-    msgvalue: any
+    subHeader: string,
+    subHeaderValue: any,
+    msg: string,
+    msgvalue: any,
+    btnCancelTxt: string,
+    btnTxt: string,
+    btnValue: any,
+    context: Object,
+    action: () => {}
   ) {
     const alert = await this.alertController.create({
       header: this.translateService.instant(header, { value: headervalue }),
+      subHeader: this.translateService.instant(subHeader, {
+        value: subHeaderValue,
+      }),
       message: this.translateService.instant(msg, { value: msgvalue }),
       buttons: [
         {
-          text: this.translateService.instant('ALERT.BTN.cancel'),
+          text: this.translateService.instant(btnCancelTxt),
           role: 'cancel',
-          id: 'cancel-button',
         },
         {
-          text: this.translateService.instant('ALERT.BTN.confirm'),
+          text: this.translateService.instant(btnTxt, { value: btnValue }),
+          handler: action.bind(context),
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  public async presentAlertOneBtn(
+    header: string,
+    headervalue: any,
+    subHeader: string,
+    subHeaderValue: any,
+    msg: string,
+    msgvalue: any,
+    btnTxt: string
+  ) {
+    const alert = await this.alertController.create({
+      header: this.translateService.instant(header, { value: headervalue }),
+      subHeader: this.translateService.instant(subHeader, {
+        value: subHeaderValue,
+      }),
+      message: this.translateService.instant(msg, { value: msgvalue }),
+      buttons: [
+        {
+          text: this.translateService.instant(btnTxt),
           role: 'confirm',
-          id: 'confirm-button',
         },
       ],
     });

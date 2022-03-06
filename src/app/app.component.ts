@@ -31,9 +31,9 @@ export class AppComponent {
     this.hardwareBackBtn();
     this.createStorage();
     this.startTracking();
-    // this.platform.ready().then(() => {
-    //   this.updateService.checkForUpdate();
-    // });
+    this.platform.ready().then(() => {
+      this.updateService.checkForUpdate(false);
+    });
   }
 
   private async createStorage() {

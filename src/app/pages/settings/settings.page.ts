@@ -50,6 +50,6 @@ export class SettingsPage implements OnInit {
   }
 
   public checkForUpdate() {
-    this.updateService.checkForUpdate();
+    this.updateService.checkForUpdate(true);
   }
 }

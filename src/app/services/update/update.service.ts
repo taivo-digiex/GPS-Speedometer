@@ -86,13 +86,6 @@ export class UpdateService {
     'https://api.github.com/repos/vdt2210/GPS-Speedometer/releases/latest';
 
   private downloadLatest: string;
-  // downloadLatest =
-  //   'https://api.github.com/repos/vdt2210/GPS-Speedometer/releases/latest/download/GPS-Spedometer.apk';
-
-  // updateExample =
-  //   'https://devdactic.fra1.digitaloceanspaces.com/tutorial/version.json';
-  // maintenanceExample =
-  //   'https://devdactic.fra1.digitaloceanspaces.com/tutorial/maintenance.json';
 
   constructor(
     private http: HttpClient,
@@ -100,7 +93,7 @@ export class UpdateService {
     private alertComponent: AlertComponent
   ) {}
 
-  public async checkForUpdate() {
+  public async checkForUpdate(isManual: boolean) {
     this.http.get(this.checkLatest).subscribe(async (info: AppUpdate) => {
       if (info) {
         const versionNumber = await this.appVersion.getVersionNumber();
@@ -112,6 +105,7 @@ export class UpdateService {
           serverVersion[1] > splittedVersion[1] ||
           serverVersion[2] > splittedVersion[2]
         ) {
+          this.downloadLatest = info.assets[0].browser_download_url;
           await this.alertComponent.presentAlert(
             'ALERT.HEADER.H2',
             null,
@@ -125,8 +119,7 @@ export class UpdateService {
             this,
             this.openAppStoreEntry
           );
-          this.downloadLatest = info.assets[0].browser_download_url;
-        } else {
+        } else if (isManual) {
           await this.alertComponent.presentAlertOneBtn(
             'ALERT.HEADER.H3',
             null,

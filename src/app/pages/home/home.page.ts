@@ -51,7 +51,7 @@ export class HomePage implements OnInit, OnDestroy {
     private calculateService: CalculateService,
     private timerService: TimerService,
     private geolocationService: GeolocationService
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.platform.ready().then(() => {
@@ -71,7 +71,9 @@ export class HomePage implements OnInit, OnDestroy {
 
       this.topSpeed = this.topSpeedService.topSpeed;
       this.convertUnit();
-    }, 500);
+      this.hiddenStartIcon = this.timerService.hiddenStartIcon;
+      this.hiddenStopIcon = this.timerService.hiddenStopIcon;
+    }, 250);
   }
 
   public changeUnit() {
@@ -126,14 +128,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   public startTimer() {
     this.timerService.timer();
-    this.hiddenStartIcon = true;
-    this.hiddenStopIcon = false;
   }
 
   public stopTimer() {
     this.timerService.stopTimer();
-    this.hiddenStopIcon = true;
-    this.hiddenStartIcon = false;
   }
 
   public ngOnDestroy() {

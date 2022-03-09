@@ -23,13 +23,12 @@ export class CalculateService {
   public altitude: string;
   public avgSpeed: string;
   public distance: string;
+  public sumDistance: number;
+  public sumTime: number;
 
   private distanceArr = [...DISTANCCE_DATA];
   private timeArr = [...TIME_DATA];
   private value = [...VALUE];
-
-  private sumDistance: number;
-  private sumTime: number;
 
   constructor(
     private unitService: UnitService,

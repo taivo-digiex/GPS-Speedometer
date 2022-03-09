@@ -7,7 +7,8 @@
     "about": "Thông tin",
     "languages": "Ngôn ngữ",
     "appName": "Tên ứng dụng",
-    "version": "Phiên bản",
+    "version": "Phiên bản: {{value}}",
+    "currVersion": "Phiên bản hiện tại: {{value}}",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
     "topSpeed": "Tốc độ cao nhất",
@@ -17,7 +18,10 @@
     "altitude": "Độ cao",
     "checkUpdate": "Kiểm tra cập nhật",
     "time": "Thời gian",
-    "avgSpeed": "Tốc độ t.bình"
+    "avgSpeed": "Tốc độ t.bình",
+    "download": "Tải xuống ({{value}} MB)",
+    "later": "Để sau",
+    "ok": "Ok"
   },
 
   "TOAST": {
@@ -36,10 +40,13 @@
 
   "ALERT": {
     "HEADER": {
-      "H1": "Bạn có chắc chắn muốn xóa tốc độ tối đa không?"
+      "H1": "Bạn có chắc không?",
+      "H2": "Có bản cập nhật mới",
+      "H3": "Bạn đang ở phiên bản mới nhất"
     },
     "MSG": {
-      "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác."
+      "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác.",
+      "M2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊."
     },
     "BTN": {
       "confirm": "Xác nhận",

@@ -12,20 +12,20 @@ export class LanguageService {
 
   constructor(private translate: TranslateService, private storage: Storage) {}
 
-  public setInitialAppLanguage() {
+  public async setInitialAppLanguage() {
     let language = this.translate.getBrowserLang();
     const checkLng = this.getLanguages().find(function (e) {
       return e.value == language;
     });
     if (checkLng === undefined) {
       this.translate.setDefaultLang('en');
-      this.storage.get(LNG_KEY).then((val) => {
+      await this.storage.get(LNG_KEY).then((val) => {
         this.setLanguage('en');
         this.selected = 'en';
       });
     } else {
       this.translate.setDefaultLang(language);
-      this.storage.get(LNG_KEY).then((val) => {
+      await this.storage.get(LNG_KEY).then((val) => {
         if (val) {
           this.setLanguage(val);
           this.selected = val;
@@ -44,9 +44,9 @@ export class LanguageService {
     ];
   }
 
-  public setLanguage(lng) {
+  public async setLanguage(lng) {
     this.translate.use(lng);
     this.selected = lng;
-    this.storage.set(LNG_KEY, lng);
+    await this.storage.set(LNG_KEY, lng);
   }
 }

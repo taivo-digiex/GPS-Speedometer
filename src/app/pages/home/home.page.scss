@@ -9,7 +9,7 @@
   left: 0;
   right: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-40%); //old val-50%
   font-family: "Digi";
   width: fit-content;
   margin-left: auto;
@@ -23,11 +23,16 @@
   #unit {
     font-size: 25px;
   }
+}
 
-  #trip {
-    font-size: 25px;
-    margin: inherit;
-  }
+#trip {
+  font-size: 27px;
+  text-align: center;
+  font-family: "Digi";
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
 }
 
 .cus-btns {
@@ -39,29 +44,35 @@
 }
 
 .details {
+  color: white;
   p {
     margin: auto;
   }
-  @media screen and (orientation: portrait) {
-    .col-border {
-      border-right: 1px solid;
-    }
-    ion-col {
-      border-top: 1px solid;
-    }
-  }
 
-  @media screen and (orientation: landscape) {
-    display: flex;
-    .lon-lat {
-      width: 50%;
-    }
-    .speed-time {
-      width: 50%;
-    }
+  .col-border {
+    border-right: 1px solid grey;
   }
 }
 
-.accuracy-altitude {
+.header-timer,
+.timer-icon {
   margin-left: 10px;
+}
+
+ion-card {
+  border-radius: 10px;
+}
+
+@import "~swiper/css";
+@import "~swiper/css/pagination";
+.swiper {
+  width: auto;
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+
+    /* Center slide text vertically */
+    display: block !important;
+  }
 }

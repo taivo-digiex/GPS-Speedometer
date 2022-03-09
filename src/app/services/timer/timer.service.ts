@@ -11,7 +11,7 @@ export class TimerService {
   public hiddenStartIcon: boolean = false;
   public hiddenStopIcon: boolean = true;
 
-  constructor() { }
+  constructor() {}
 
   public calculateTime() {
     let startTime: number;
@@ -44,6 +44,9 @@ export class TimerService {
     startTime = Date.now() - elapsedTime;
 
     this.timerInterval = setInterval(() => {
+      this.hiddenStartIcon = true;
+      this.hiddenStopIcon = false;
+
       elapsedTime = Date.now() - startTime;
 
       let diffInHrs = elapsedTime / 3600000;
@@ -60,10 +63,7 @@ export class TimerService {
       let formattedSS = ss.toString().padStart(2, '0');
 
       this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
-
-      this.hiddenStartIcon = true;
-      this.hiddenStopIcon = false;
-    }, 1000);
+    }, 250);
   }
 
   public stopTimer() {

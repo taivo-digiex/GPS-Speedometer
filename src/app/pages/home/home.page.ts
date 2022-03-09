@@ -51,7 +51,7 @@ export class HomePage implements OnInit, OnDestroy {
     private calculateService: CalculateService,
     private timerService: TimerService,
     private geolocationService: GeolocationService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.platform.ready().then(() => {
@@ -73,7 +73,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.convertUnit();
       this.hiddenStartIcon = this.timerService.hiddenStartIcon;
       this.hiddenStopIcon = this.timerService.hiddenStopIcon;
-    }, 250);
+    });
   }
 
   public changeUnit() {

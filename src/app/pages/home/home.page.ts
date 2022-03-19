@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Platform } from '@ionic/angular';
 import { UnitService } from '../../services/unit/unit.service';
-import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
@@ -34,9 +33,6 @@ export class HomePage implements OnInit, OnDestroy {
   public hiddenStartIcon: boolean = false;
   public hiddenStopIcon: boolean = true;
 
-  private rawAccuracy: number;
-  private rawAltitude: number;
-
   public settingsIcon: string = 'settings';
   public timerIcon: string = 'timer';
   public startIcon: string = 'play';
@@ -46,7 +42,6 @@ export class HomePage implements OnInit, OnDestroy {
     private insomnia: Insomnia,
     private platform: Platform,
     private unitService: UnitService,
-    private topSpeedService: TopSpeedService,
     private toastComponent: ToastComponent,
     private calculateService: CalculateService,
     private timerService: TimerService,
@@ -63,13 +58,8 @@ export class HomePage implements OnInit, OnDestroy {
   private initial() {
     setInterval(() => {
       this.time = this.timerService.time;
-      this.speed = this.geolocationService.speed;
       this.lat = this.geolocationService.lat;
       this.lon = this.geolocationService.lon;
-      this.rawAccuracy = this.geolocationService.rawAccuracy;
-      this.rawAltitude = this.geolocationService.rawAltitude;
-
-      this.topSpeed = this.topSpeedService.topSpeed;
       this.convertUnit();
       this.hiddenStartIcon = this.timerService.hiddenStartIcon;
       this.hiddenStopIcon = this.timerService.hiddenStopIcon;
@@ -94,28 +84,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   private convertUnit() {
     this.unitService.convertUnit();
-    this.calculateService.convert(
-      this.speed,
-      this.rawAccuracy,
-      this.rawAltitude
-    );
-
     this.speedo = this.calculateService.speedo;
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
-
-    if (
-      !isNaN(this.calculateService.sumDistance) &&
-      !isNaN(this.calculateService.sumTime)
-    ) {
-      this.distance = this.calculateService.distance;
-      this.avgSpeed = this.calculateService.avgSpeed;
-    } else {
-      this.distance = '-.-';
-      this.avgSpeed = '-.-';
-    }
-
+    this.distance = this.calculateService.distance;
+    this.avgSpeed = this.calculateService.avgSpeed;
     this.lenghtUnit = this.unitService.lenghtUnit;
     this.speedUnit = this.unitService.speedUnit;
     this.distanceUnit = this.unitService.distanceUnit;

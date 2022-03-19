@@ -4,6 +4,7 @@ import { LanguageService } from 'src/app/services/language/language.service';
 import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { UpdateService } from 'src/app/services/update/update.service';
+import { AlertComponent } from 'src/app/common/components/alert/alert.component';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,8 @@ export class SettingsPage implements OnInit {
     private languageService: LanguageService,
     private topSpeedService: TopSpeedService,
     private toast: ToastComponent,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private alertComponent: AlertComponent
   ) {}
 
   public ngOnInit() {
@@ -35,7 +37,21 @@ export class SettingsPage implements OnInit {
     this.selected = this.languageService.selected;
   }
 
-  public clearTopSpeed() {
+  public async confirmClear() {
+    await this.alertComponent.presentAlert(
+      'ALERT.HEADER.H1',
+      null,
+      'ALERT.MSG.M1',
+      null,
+      'BTN.cancel',
+      'BTN.confirm',
+      null,
+      this,
+      this.clearTopSpeed
+    );
+  }
+
+  private async clearTopSpeed() {
     this.topSpeedService.clearTopSpeed();
     this.toast.presentToast('TOAST.clearTopSpeedSuccess', null, 1000);
   }

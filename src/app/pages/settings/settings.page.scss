@@ -1,6 +1,7 @@
 .cus-toolbar {
-  --background: #000000 !important;
+  --background: var(--ion-background-color) !important;
 }
+
 .contact-btns {
   justify-content: center;
 }

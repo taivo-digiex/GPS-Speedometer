@@ -8,15 +8,13 @@
     "languages": "Languages",
     "appName": "App name",
     "version": "Version: {{value}}",
-    "currVersion": "Current version: {{value}}",
     "longtitude": "Longitude",
     "latitude": "Latitude",
     "topSpeed": "Top speed",
     "clearTopSpeed": "Clear top speed",
-    "contactMe": "Contact me",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
-    "checkUpdate": "Check update",
+    "checkForUpdate": "Check for update",
     "time": "Time",
     "avgSpeed": "Avg. speed",
     "download": "Download ({{value}} MB)",
@@ -33,24 +31,20 @@
     "err": "Error: {{value}}."
   },
 
-  "SELECT": {
-    "okText": "Confirm",
-    "cancelText": "Cancel"
-  },
-
   "ALERT": {
     "HEADER": {
       "H1": "Are you sure?",
-      "H2": "New update available",
-      "H3": "You are on the latest version"
+      "H2": "New update available {{value}}",
+      "H3": "You are on the latest version {{value}}"
     },
     "MSG": {
       "M1": "Be careful, this progress cannot be undone.",
       "M2": "Don't be impatient. A new version will come soon 😊"
-    },
-    "BTN": {
-      "confirm": "Confirm",
-      "cancel": "Cancel"
     }
+  },
+
+  "BTN": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }

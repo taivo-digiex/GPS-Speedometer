@@ -8,15 +8,13 @@
     "languages": "Ngôn ngữ",
     "appName": "Tên ứng dụng",
     "version": "Phiên bản: {{value}}",
-    "currVersion": "Phiên bản hiện tại: {{value}}",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
     "topSpeed": "Tốc độ cao nhất",
     "clearTopSpeed": "Xóa tốc độ cao nhất",
-    "contactMe": "Liên hệ tôi",
     "accuracy": "Độ chính xác",
     "altitude": "Độ cao",
-    "checkUpdate": "Kiểm tra cập nhật",
+    "checkForUpdate": "Kiểm tra cập nhật",
     "time": "Thời gian",
     "avgSpeed": "Tốc độ t.bình",
     "download": "Tải xuống ({{value}} MB)",
@@ -33,24 +31,20 @@
     "err": "Lỗi: {{value}}."
   },
 
-  "SELECT": {
-    "okText": "Xác nhận",
-    "cancelText": "Hủy"
-  },
-
   "ALERT": {
     "HEADER": {
       "H1": "Bạn có chắc không?",
-      "H2": "Có bản cập nhật mới",
-      "H3": "Bạn đang ở phiên bản mới nhất"
+      "H2": "Có bản cập nhật mới {{value}}",
+      "H3": "Bạn đang ở phiên bản mới nhất {{value}}"
     },
     "MSG": {
       "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác.",
       "M2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊."
-    },
-    "BTN": {
-      "confirm": "Xác nhận",
-      "cancel": "Hủy"
     }
+  },
+
+  "BTN": {
+    "confirm": "Xác nhận",
+    "cancel": "Hủy"
   }
 }

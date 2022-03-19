@@ -22,7 +22,7 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <div (click)="changeUnit()">
+    <div class="speedo-div" (click)="changeUnit()">
       <p id="speedo">
         <ion-text *ngIf="speedo != null">{{ speedo }}</ion-text>
         <ion-text *ngIf="speedo == null">-</ion-text>
@@ -30,21 +30,29 @@
       </p>
     </div>
 
-    <div class="ion-text-center landscape-info">
+    <div class="landscape-info">
       <ion-card>
         <div class="details">
-          <ion-row>
-            <ion-col class="col-border">
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
               <p>
                 <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
               </p>
-              <p>{{ topSpeed }} {{ speedUnit }}</p>
             </ion-col>
 
-            <ion-col>
+            <ion-col class="ion-text-right">
+              <p>{{ topSpeed }} {{ speedUnit }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
               <p>
                 <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
               </p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
               <p>
                 <ion-text *ngIf="avgSpeed !== null">{{ avgSpeed }}</ion-text>
                 <ion-text *ngIf="avgSpeed == null">-.-</ion-text>
@@ -52,27 +60,29 @@
               </p>
             </ion-col>
           </ion-row>
-        </div>
-      </ion-card>
 
-      <ion-card>
-        <div class="details">
-          <ion-row>
-            <ion-col class="col-border">
-              <p><strong>{{ "COMMON.altitude" | translate }}:</strong></p>
-              <p>{{ altitude }} {{ lenghtUnit }}</p>
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
+              <p><strong>{{ "COMMON.altitude" | translate }}:</strong>
+              </p>
             </ion-col>
 
-            <ion-col>
-              <p><strong>{{ "COMMON.accuracy" | translate }}:</strong></p>
+            <ion-col class="ion-text-right">
+              <p>{{ altitude }} {{ lenghtUnit }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
+              <p><strong>{{ "COMMON.accuracy" | translate }}:</strong>
+              </p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
               <p>{{ accuracy }} {{ lenghtUnit }}</p>
             </ion-col>
           </ion-row>
-        </div>
-      </ion-card>
 
-      <ion-card>
-        <div class="details">
           <ion-row>
             <ion-col class="col-border">
               <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>

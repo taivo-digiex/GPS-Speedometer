@@ -12,6 +12,8 @@
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
+  left: 0;
+  right: 0;
 
   #speedo {
     font-size: 150px;
@@ -38,11 +40,11 @@
 }
 
 .details {
+  color: var(--ion-text-color);
+
   p {
     margin: auto;
   }
-
-  color: var(--ion-text-color);
 
   .col-border {
     border-right: 1px solid var(--ion-color-step-200);
@@ -58,14 +60,14 @@
   --background: var(--ion-background-color) !important;
 }
 
-ion-card {
-  border-radius: 25px;
-}
-
 @media (orientation: portrait) {
-  #container {
-    left: 0;
-    right: 0;
+  // #container {
+  //   left: 0;
+  //   right: 0;
+  // }
+
+  ion-card {
+    border-radius: 25px;
   }
 
   .landscape-info {
@@ -87,16 +89,36 @@ ion-card {
 
 @media (orientation: landscape) {
   #container {
-    right: 0;
     display: flex;
   }
 
+  ion-card {
+    border-radius: 15px;
+  }
+
+  .speedo-div {
+    margin: 0 20px;
+  }
+
+  #trip {
+    display: block;
+  }
+
   .landscape-info {
-    margin: auto 0 auto 70px;
-    width: 400px;
+    margin: auto;
+    // width: 325px;
+    width: fit-content;
   }
 
   .portrait-info {
     display: none;
+  }
+
+  .details {
+    padding: 5px;
+
+    .border-bottom {
+      border-bottom: 1px solid var(--ion-color-step-200);
+    }
   }
 }

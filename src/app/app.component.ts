@@ -28,10 +28,10 @@ export class AppComponent {
     private geolocationService: GeolocationService,
     private updateService: UpdateService
   ) {
-    this.hardwareBackBtn();
-    this.createStorage();
-    this.startTracking();
     this.platform.ready().then(() => {
+      this.hardwareBackBtn();
+      this.createStorage();
+      this.startTracking();
       this.updateService.checkForUpdate(false);
     });
   }

@@ -42,18 +42,20 @@ export class GeolocationService {
     this.timerService.calculateTime();
   }
 
+  public convertUnit() {
+    this.calculateService.convert(
+      this.speed,
+      this.rawAccuracy,
+      this.rawAltitude
+    );
+  }
+
   private prepareTracking(res: any) {
     this.speed = res.coords.speed;
     this.lat = res.coords.latitude;
     this.lon = res.coords.longitude;
     this.rawAccuracy = res.coords.accuracy;
     this.rawAltitude = res.coords.altitude;
-
-    this.calculateService.convert(
-      this.speed,
-      this.rawAccuracy,
-      this.rawAltitude
-    );
 
     this.getSpeedAndTime();
     this.topSpeedService.saveTopSpeed(this.speed);

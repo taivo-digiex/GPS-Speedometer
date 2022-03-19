@@ -40,7 +40,7 @@ export class UpdateService {
               null,
               'COMMON.later',
               'COMMON.download',
-              (info.assets[0].size * 9.5367431640625e-7).toFixed(2) + ' MB',
+              (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
               this,
               this.downloadNewAppVersion
             );

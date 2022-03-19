@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
@@ -20,7 +20,6 @@ export class GeolocationService {
 
   constructor(
     private geolocation: Geolocation,
-    private ngZone: NgZone,
     private toastComponent: ToastComponent,
     private topSpeedService: TopSpeedService,
     private calculateService: CalculateService,
@@ -49,9 +48,14 @@ export class GeolocationService {
     this.lon = res.coords.longitude;
     this.rawAccuracy = res.coords.accuracy;
     this.rawAltitude = res.coords.altitude;
-    if (this.speed != null && this.timerService.totalElapsedTime != null) {
-      this.getSpeedAndTime();
-    }
+
+    this.calculateService.convert(
+      this.speed,
+      this.rawAccuracy,
+      this.rawAltitude
+    );
+
+    this.getSpeedAndTime();
     this.topSpeedService.saveTopSpeed(this.speed);
   }
 

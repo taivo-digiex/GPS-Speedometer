@@ -190,6 +190,11 @@ body {
   --ion-item-background: var(--ion-color-step-150);
 }
 
+.ios ion-icon,
+.ios ion-back-button {
+  color: var(--ion-text-color);
+}
+
 /*
  * Material Design Dark Theme
  * -------------------------------------------
@@ -233,9 +238,17 @@ body {
   --ion-card-background: #1e1e1e;
 }
 
+/*
+ * Custom Style
+ * -------------------------------------------
+ */
+
 ion-alert {
-  //background color
   .alert-wrapper.sc-ion-alert-md {
     background-color: #1a1a1a;
   }
+}
+
+ion-item ion-icon {
+  color: var(--ion-text-color);
 }

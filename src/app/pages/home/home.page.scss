@@ -5,11 +5,9 @@
 
 #container {
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: fixed;
   top: 50%;
-  transform: translateY(-40%); //old val-50%
+  transform: translateY(-50%);
   font-family: "Digi";
   width: fit-content;
   margin-left: auto;
@@ -17,7 +15,7 @@
 
   #speedo {
     font-size: 150px;
-    margin: auto;
+    // margin: auto;
   }
 
   #unit {
@@ -25,32 +23,29 @@
   }
 }
 
-#trip {
+.trip {
   font-size: 27px;
-  text-align: center;
   font-family: "Digi";
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0;
+  p {
+    width: fit-content;
+    margin: auto;
+    color: var(--ion-text-color);
+  }
 }
 
 .cus-btns {
   justify-content: flex-end;
 }
 
-.cus-toolbar {
-  --background: #000000 !important;
-}
-
 .details {
-  color: white;
   p {
     margin: auto;
   }
 
+  color: var(--ion-text-color);
+
   .col-border {
-    border-right: 1px solid grey;
+    border-right: 1px solid var(--ion-color-step-200);
   }
 }
 
@@ -59,20 +54,49 @@
   margin-left: 10px;
 }
 
-ion-card {
-  border-radius: 10px;
+.cus-toolbar {
+  --background: var(--ion-background-color) !important;
 }
 
-@import "~swiper/css";
-@import "~swiper/css/pagination";
-.swiper {
-  width: auto;
+ion-card {
+  border-radius: 25px;
+}
 
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
+@media (orientation: portrait) {
+  #container {
+    left: 0;
+    right: 0;
+  }
 
-    /* Center slide text vertically */
-    display: block !important;
+  .landscape-info {
+    display: none;
+  }
+
+  @import "~swiper/css";
+  @import "~swiper/css/pagination";
+  .swiper {
+    width: auto;
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      display: block !important;
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  #container {
+    right: 0;
+    display: flex;
+  }
+
+  .landscape-info {
+    margin: auto 0 auto 70px;
+    width: 400px;
+  }
+
+  .portrait-info {
+    display: none;
   }
 }

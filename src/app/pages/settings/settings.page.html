@@ -1,11 +1,7 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button
-        (click)="back()"
-        defaultHref="/"
-        text=""
-      ></ion-back-button>
+      <ion-back-button (click)="back()" defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
     <ion-title> {{ 'PAGETITLE.settings' | translate }} </ion-title>
   </ion-toolbar>
@@ -14,44 +10,27 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item lines="none">
-      <ion-icon
-        slot="start"
-        [ios]="langIcon + '-outline'"
-        [md]="langIcon + '-sharp'"
-      ></ion-icon>
+      <ion-icon slot="start" class="cus-icon" [ios]="langIcon + '-outline'" [md]="langIcon + '-sharp'">
+      </ion-icon>
       <ion-label>{{ 'COMMON.languages' | translate }}</ion-label>
-      <ion-select
-        slot="end"
-        (ionChange)="selectLng($event)"
-        [value]="selected"
-        okText='{{ "SELECT.okText" | translate }}'
-        cancelText='{{ "SELECT.cancelText" | translate }}'
-      >
-        <ion-select-option
-          *ngFor="let lng of languages"
-          value="{{ lng.value }}"
-        >
+      <ion-select slot="end" (ionChange)="selectLng($event)" [value]="selected" okText='{{ "BTN.confirm" | translate }}'
+        cancelText='{{ "BTN.cancel" | translate }}'>
+        <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
           {{ lng.text }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-item button lines="none" (click)="clearTopSpeed()">
-      <ion-icon
-        slot="start"
-        [ios]="trashIcon + '-outline'"
-        [md]="trashIcon + '-sharp'"
-      ></ion-icon>
+    <ion-item button lines="none" (click)="confirmClear()">
+      <ion-icon slot="start" class="cus-icon" [ios]="trashIcon + '-outline'" [md]="trashIcon + '-sharp'">
+      </ion-icon>
       <ion-label>{{ 'COMMON.clearTopSpeed' | translate }}</ion-label>
     </ion-item>
 
     <ion-item button lines="none" (click)="checkForUpdate()">
-      <ion-icon
-        slot="start"
-        [ios]="downloadIcon + '-outline'"
-        [md]="downloadIcon + '-sharp'"
-      ></ion-icon>
-      <ion-label>{{ 'COMMON.checkUpdate' | translate }}</ion-label>
+      <ion-icon slot="start" class="cus-icon" [ios]="downloadIcon + '-outline'" [md]="downloadIcon + '-sharp'">
+      </ion-icon>
+      <ion-label>{{ 'COMMON.checkForUpdate' | translate }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
@@ -60,11 +39,14 @@
   <ion-toolbar class="cus-toolbar">
     <ion-row class="contact-div">
       <ion-text class="ion-text-center">
-        <p>{{ 'COMMON.contactMe' | translate }}:</p>
       </ion-text>
       <ion-buttons class="contact-btns">
         <ion-button href="https://www.facebook.com/vdt.2210">
           <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+        </ion-button>
+
+        <ion-button href="https://github.com/vdt2210/GPS-Speedometer/">
+          <ion-icon slot="icon-only" name="logo-github"></ion-icon>
         </ion-button>
 
         <ion-button href="mailto:vdt1999@outlook.com">

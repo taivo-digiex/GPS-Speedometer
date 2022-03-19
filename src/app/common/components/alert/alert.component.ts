@@ -15,8 +15,6 @@ export class AlertComponent {
   public async presentAlert(
     header: string,
     headervalue: any,
-    subHeader: string,
-    subHeaderValue: any,
     msg: string,
     msgvalue: any,
     btnCancelTxt: string,
@@ -27,9 +25,6 @@ export class AlertComponent {
   ) {
     const alert = await this.alertController.create({
       header: this.translateService.instant(header, { value: headervalue }),
-      subHeader: this.translateService.instant(subHeader, {
-        value: subHeaderValue,
-      }),
       message: this.translateService.instant(msg, { value: msgvalue }),
       buttons: [
         {
@@ -49,17 +44,12 @@ export class AlertComponent {
   public async presentAlertOneBtn(
     header: string,
     headervalue: any,
-    subHeader: string,
-    subHeaderValue: any,
     msg: string,
     msgvalue: any,
     btnTxt: string
   ) {
     const alert = await this.alertController.create({
       header: this.translateService.instant(header, { value: headervalue }),
-      subHeader: this.translateService.instant(subHeader, {
-        value: subHeaderValue,
-      }),
       message: this.translateService.instant(msg, { value: msgvalue }),
       buttons: [
         {

@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
+import { speedTime } from 'src/app/common/models/speedTime.model';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { UnitService } from '../unit/unit.service';
 
-export interface ValueElement {
-  speed: number;
-  time: number;
-}
-
-const VALUE: ValueElement[] = [];
+const VALUE: speedTime[] = [];
 
 const DISTANCCE_DATA: Array<number> = [];
 
@@ -36,6 +32,10 @@ export class CalculateService {
   ) {}
 
   public getValue(speed: number, totalElapsedTime: number) {
+    if (speed == null || totalElapsedTime == null) {
+      return;
+    }
+
     this.value = [
       ...this.value,
       {
@@ -72,21 +72,46 @@ export class CalculateService {
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
     if (this.unitService.unit == 'metric') {
-      this.speedo = Math.round(speed * 3.6);
-      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
-      this.accuracy = Math.round(rawAccuracy);
-      this.altitude = Number(rawAltitude).toFixed(1);
-      this.distance = (this.sumDistance / 1000).toFixed(1);
-      this.avgSpeed = ((this.sumDistance / this.sumTime) * 3.6).toFixed(1);
+      this.metricUnit(speed, rawAccuracy, rawAltitude);
     } else if (this.unitService.unit == 'imperial') {
+      this.imperialUnit(speed, rawAccuracy, rawAltitude);
+    }
+  }
+
+  private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
+    if (speed != null) {
+      this.speedo = Math.round(speed * 3.6);
+    }
+    this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+    this.accuracy = Math.round(rawAccuracy);
+    this.altitude = Number(rawAltitude).toFixed(1);
+    if (this.sumDistance != undefined) {
+      this.distance = (this.sumDistance / 1000).toFixed(1);
+      if (this.sumTime != undefined) {
+        this.avgSpeed = ((this.sumDistance / this.sumTime) * 3.6).toFixed(1);
+      }
+    }
+  }
+
+  private imperialUnit(
+    speed: number,
+    rawAccuracy: number,
+    rawAltitude: number
+  ) {
+    if (speed != null) {
       this.speedo = Math.round(speed * 2.23693629);
-      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
-      this.accuracy = Math.round(rawAccuracy * 3.2808399);
-      this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
+    }
+    this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
+    this.accuracy = Math.round(rawAccuracy * 3.2808399);
+    this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
+    if (this.sumDistance != undefined) {
       this.distance = (this.sumDistance * 0.000621371192).toFixed(1);
-      this.avgSpeed = ((this.sumDistance / this.sumTime) * 2.23693629).toFixed(
-        1
-      );
+      if (this.sumTime != undefined) {
+        this.avgSpeed = (
+          (this.sumDistance / this.sumTime) *
+          2.23693629
+        ).toFixed(1);
+      }
     }
   }
 }

@@ -34,8 +34,11 @@ export class GeolocationService {
         if ('coords' in res) {
           this.prepareTracking(res);
         } else if ('code' in res) {
-          const msg = res.message;
-          this.toastComponent.presentToast('TOAST.err', msg, 1000);
+          this.toastComponent.presentToast(
+            'TOAST.error.code.' + res.code,
+            null,
+            1000
+          );
         }
       });
 

@@ -31,7 +31,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.hardwareBackBtn();
       this.createStorage();
-      this.startTracking();
+      this.geolocationService.startGeolocation();
       this.updateService.checkForUpdate(false);
     });
   }
@@ -52,9 +52,5 @@ export class AppComponent {
         this.location.back();
       }
     });
-  }
-
-  private startTracking() {
-    this.geolocationService.startGeolocation();
   }
 }

@@ -28,7 +28,21 @@
       "metric": "Chuyển sang hệ mét.",
       "imperial": "Chuyển sang hệ đo lường Anh."
     },
-    "err": "Lỗi: {{value}}."
+    "error": {
+      "permission": {
+        "location": { "denied": "Không thể truy cập vị trí." }
+      },
+      "code": {
+        "undefined": "Lỗi: Không xác định",
+        "1": "Lỗi: Người dùng từ chối Vị trí địa lý",
+        "400": "Lỗi: Yêu cầu không hợp lệ.",
+        "401": "Lỗi: Không được phép.",
+        "402": "Lỗi: Yêu cầu thanh toán.",
+        "403": "Lỗi: Cấm.",
+        "404": "Lỗi: Không tìm thấy.",
+        "600": "Lỗi: Vị trí không có sẵn."
+      }
+    }
   },
 
   "ALERT": {

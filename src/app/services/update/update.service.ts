@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { AlertComponent } from 'src/app/common/components/alert/alert.component';
 import { AppUpdateModel } from 'src/app/common/models/update.model';
+import { App } from '@capacitor/app';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,6 @@ export class UpdateService {
 
   constructor(
     private http: HttpClient,
-    private appVersion: AppVersion,
     private alertComponent: AlertComponent
   ) {}
 
@@ -23,7 +22,7 @@ export class UpdateService {
       )
       .subscribe(async (info: AppUpdateModel) => {
         if (info) {
-          const versionNumber = await this.appVersion.getVersionNumber();
+          const versionNumber = (await App.getInfo()).version;
           const splittedVersion = versionNumber.split(/[.-]/);
           const serverVersion = info.tag_name.split(/[.-]/);
 

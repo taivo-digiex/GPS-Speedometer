@@ -49,11 +49,13 @@
     "HEADER": {
       "H1": "Bạn có chắc không?",
       "H2": "Có bản cập nhật mới {{value}}",
-      "H3": "Bạn đang ở phiên bản mới nhất {{value}}"
+      "H3": "Bạn đang ở phiên bản mới nhất {{value}}",
+      "H4": "Không có mạng!"
     },
     "MSG": {
       "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác.",
-      "M2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊."
+      "M2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊.",
+      "M3": "Hãy kiểm tra mạng và thử lại."
     }
   },
 

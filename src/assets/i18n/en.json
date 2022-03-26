@@ -49,11 +49,13 @@
     "HEADER": {
       "H1": "Are you sure?",
       "H2": "New update available {{value}}",
-      "H3": "You are on the latest version {{value}}"
+      "H3": "You are on the latest version {{value}}",
+      "H4": "No internet!"
     },
     "MSG": {
       "M1": "Be careful, this progress cannot be undone.",
-      "M2": "Don't be impatient. A new version will come soon 😊"
+      "M2": "Don't be impatient. A new version will come soon 😊",
+      "M3": "Please check the internet and try again."
     }
   },
 

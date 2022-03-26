@@ -14,15 +14,14 @@
   margin-right: auto;
   left: 0;
   right: 0;
+}
 
-  #speedo {
-    font-size: 150px;
-    // margin: auto;
-  }
+#speedo {
+  font-size: 150px;
+}
 
-  #unit {
-    font-size: 25px;
-  }
+#unit {
+  font-size: 25px;
 }
 
 .trip {
@@ -61,11 +60,6 @@
 }
 
 @media (orientation: portrait) {
-  // #container {
-  //   left: 0;
-  //   right: 0;
-  // }
-
   ion-card {
     border-radius: 25px;
   }
@@ -74,15 +68,25 @@
     display: none;
   }
 
-  @import "~swiper/css";
-  @import "~swiper/css/pagination";
-  .swiper {
-    width: auto;
+  @media only screen and (max-width: 380px) {
+    #speedo {
+      font-size: 100px !important;
+    }
 
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      display: block !important;
+    #unit {
+      font-size: 20px !important;
+    }
+
+    .details {
+      font-size: 12px;
+    }
+
+    .trip {
+      font-size: 22px;
+    }
+
+    .timer {
+      font-size: 12px;
     }
   }
 }
@@ -96,18 +100,14 @@
     border-radius: 15px;
   }
 
-  .speedo-div {
-    margin: 0 20px;
-  }
-
   #trip {
     display: block;
   }
 
+  .speedo-div,
   .landscape-info {
     margin: auto;
-    // width: 325px;
-    width: fit-content;
+    min-width: 325px;
   }
 
   .portrait-info {
@@ -119,6 +119,30 @@
 
     .border-bottom {
       border-bottom: 1px solid var(--ion-color-step-200);
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    #speedo {
+      font-size: 100px !important;
+    }
+
+    #unit {
+      font-size: 20px !important;
+    }
+
+    .trip {
+      font-size: 22px;
+    }
+
+    .details,
+    .timer {
+      font-size: 12px;
+    }
+
+    .speedo-div,
+    .landscape-info {
+      min-width: 310px;
     }
   }
 }

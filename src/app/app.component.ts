@@ -8,7 +8,6 @@ import { UnitService } from './services/unit/unit.service';
 import { TopSpeedService } from './services/top-speed/top-speed.service';
 import { GeolocationService } from './services/geolocation/geolocation.service';
 import { UpdateService } from './services/update/update.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',

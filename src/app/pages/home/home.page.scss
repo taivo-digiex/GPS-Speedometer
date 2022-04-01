@@ -25,7 +25,7 @@
 }
 
 .trip {
-  font-size: 27px;
+  font-size: 30px;
   font-family: "Digi";
   p {
     width: fit-content;
@@ -77,16 +77,13 @@
       font-size: 20px !important;
     }
 
-    .details {
+    .details,
+    .times {
       font-size: 12px;
     }
 
     .trip {
       font-size: 22px;
-    }
-
-    .timer {
-      font-size: 12px;
     }
   }
 }
@@ -94,10 +91,6 @@
 @media (orientation: landscape) {
   #container {
     display: flex;
-  }
-
-  ion-card {
-    border-radius: 15px;
   }
 
   #trip {

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="back()" defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title> {{ 'PAGETITLE.settings' | translate }} </ion-title>
+    <ion-title> {{ 'page_title.settings' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,11 +12,23 @@
     <ion-item lines="none">
       <ion-icon slot="start" class="cus-icon" [ios]="langIcon + '-outline'" [md]="langIcon + '-sharp'">
       </ion-icon>
-      <ion-label>{{ 'COMMON.languages' | translate }}</ion-label>
-      <ion-select slot="end" (ionChange)="selectLng($event)" [value]="selected" okText='{{ "BTN.confirm" | translate }}'
-        cancelText='{{ "BTN.cancel" | translate }}'>
+      <ion-label>{{ 'common.language' | translate }}</ion-label>
+      <ion-select slot="end" (ionChange)="selectLng($event)" [value]="selectedLanguage"
+        okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
         <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
-          {{ lng.text }}
+          {{'lang.' + lng.value | translate }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-icon slot="start" class="cus-icon" [ios]="unitIcon + '-outline'" [md]="unitIcon + '-sharp'">
+      </ion-icon>
+      <ion-label>{{ 'common.unit' | translate }}</ion-label>
+      <ion-select slot="end" (ionChange)="changeUnit($event)" [value]="selectedUnit"
+        okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
+        <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
+          {{ 'unit.' + unit.value | translate }}
         </ion-select-option>
       </ion-select>
     </ion-item>
@@ -24,13 +36,13 @@
     <ion-item button lines="none" (click)="confirmClear()">
       <ion-icon slot="start" class="cus-icon" [ios]="trashIcon + '-outline'" [md]="trashIcon + '-sharp'">
       </ion-icon>
-      <ion-label>{{ 'COMMON.clearTopSpeed' | translate }}</ion-label>
+      <ion-label>{{ 'common.clear_top_speed' | translate }}</ion-label>
     </ion-item>
 
     <ion-item button lines="none" (click)="checkForUpdate()">
       <ion-icon slot="start" class="cus-icon" [ios]="downloadIcon + '-outline'" [md]="downloadIcon + '-sharp'">
       </ion-icon>
-      <ion-label>{{ 'COMMON.checkForUpdate' | translate }}</ion-label>
+      <ion-label>{{ 'common.check_for_update' | translate }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

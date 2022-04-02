@@ -1,5 +1,4 @@
 #container {
-  text-align: center;
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -17,10 +16,12 @@
 
 #unit {
   font-size: 25px;
+  font-style: italic;
 }
 
 .trip {
-  font-size: 30px;
+  font-size: 25px;
+  font-style: italic;
 
   p {
     width: fit-content;
@@ -30,6 +31,7 @@
 
   .trip-number {
     font-family: "Number";
+    font-style: normal;
   }
 }
 
@@ -59,9 +61,9 @@
 }
 
 @media (orientation: portrait) {
-  // .landscape-info {
-  //   display: none;
-  // }
+  #container {
+    text-align: center;
+  }
 
   @media only screen and (max-width: 380px) {
     #speedo {
@@ -78,7 +80,7 @@
     }
 
     .trip {
-      font-size: 22px;
+      font-size: 20px;
     }
   }
 }
@@ -86,7 +88,8 @@
 @media (orientation: landscape) {
   #container {
     display: flex;
-    gap: 20px;
+    gap: 25px;
+    text-align: end;
   }
 
   #trip {
@@ -101,11 +104,8 @@
 
   .landscape-info ion-card {
     box-shadow: 0 0 10px 0 #ffffff;
+    text-align: center;
   }
-
-  // .portrait-info {
-  //   display: none;
-  // }
 
   .details {
     padding: 5px;
@@ -125,7 +125,7 @@
     }
 
     .trip {
-      font-size: 22px;
+      font-size: 20px;
     }
 
     .details,

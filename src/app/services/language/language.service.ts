@@ -8,7 +8,7 @@ const LNG_KEY = 'selected-language';
   providedIn: 'root',
 })
 export class LanguageService {
-  public selected: string = '';
+  public selected: string;
 
   constructor(private translate: TranslateService, private storage: Storage) {}
 
@@ -38,10 +38,7 @@ export class LanguageService {
   }
 
   public getLanguages() {
-    return [
-      { text: 'English', value: 'en' },
-      { text: 'Tiếng Việt', value: 'vi' },
-    ];
+    return [{ value: 'en' }, { value: 'vi' }];
   }
 
   public async setLanguage(lng) {

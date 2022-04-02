@@ -42,4 +42,8 @@ export class UnitService {
       this.lenghtUnit = 'ft';
     }
   }
+
+  public getUnits() {
+    return [{ value: 'metric' }, { value: 'imperial' }];
+  }
 }

@@ -79,19 +79,19 @@ export class CalculateService {
   }
 
   private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
-    if (speed) {
+    if (speed != null) {
       this.speedo = Math.round(speed * 3.6);
     }
     this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
-    if (rawAccuracy) {
+    if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy);
     }
-    if (rawAltitude) {
+    if (rawAltitude != null) {
       this.altitude = Number(rawAltitude).toFixed(1);
     }
-    if (this.sumDistance) {
+    if (this.sumDistance != undefined) {
       this.distance = (this.sumDistance / 1000).toFixed(1);
-      if (this.sumTime) {
+      if (this.sumTime != undefined) {
         this.avgSpeed = ((this.sumDistance / this.sumTime) * 3.6).toFixed(1);
       }
     }
@@ -102,19 +102,19 @@ export class CalculateService {
     rawAccuracy: number,
     rawAltitude: number
   ) {
-    if (speed) {
+    if (speed != null) {
       this.speedo = Math.round(speed * 2.23693629);
     }
     this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
-    if (rawAccuracy) {
+    if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy * 3.2808399);
     }
-    if (rawAltitude) {
+    if (rawAltitude != null) {
       this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
     }
-    if (this.sumDistance) {
+    if (this.sumDistance != undefined) {
       this.distance = (this.sumDistance * 0.000621371192).toFixed(1);
-      if (this.sumTime) {
+      if (this.sumTime != undefined) {
         this.avgSpeed = (
           (this.sumDistance / this.sumTime) *
           2.23693629

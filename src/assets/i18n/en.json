@@ -1,30 +1,40 @@
 {
-  "PAGETITLE": {
+  "page_title": {
     "settings": "Settings"
   },
 
-  "COMMON": {
+  "common": {
     "about": "About",
-    "languages": "Languages",
-    "appName": "App name",
+    "language": "Languages",
     "version": "Version: {{value}}",
     "longtitude": "Longitude",
     "latitude": "Latitude",
-    "topSpeed": "Top speed",
-    "clearTopSpeed": "Clear top speed",
+    "top_speed": "Top speed",
+    "clear_top_speed": "Clear top speed",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
-    "checkForUpdate": "Check for update",
+    "check_for_update": "Check for update",
     "time": "Time",
-    "avgSpeed": "Avg. speed",
+    "avg_speed": "Avg. speed",
     "download": "Download ({{value}} MB)",
     "later": "Later",
-    "ok": "Ok"
+    "ok": "Ok",
+    "unit": "Unit"
   },
 
-  "TOAST": {
-    "clearTopSpeedSuccess": "Clear top speed success.",
-    "unitChange": {
+  "unit": {
+    "metric": "Metric",
+    "imperial": "Imperial"
+  },
+
+  "lang": {
+    "en": "English",
+    "vi": "Vietnamese"
+  },
+
+  "toast": {
+    "clear_success": "Clear success.",
+    "unit_change": {
       "metric": "Switch to metric.",
       "imperial": "Switch to imperial."
     },
@@ -33,7 +43,7 @@
         "location": { "denied": "Cannot access location." }
       },
       "code": {
-        "underlined": "Error: Undefined",
+        "undefined": "Error: Undefined",
         "1": "Error: User denied Geolocation",
         "400": "Error: Bad request.",
         "401": "Error: Unauthorized.",
@@ -45,21 +55,21 @@
     }
   },
 
-  "ALERT": {
-    "HEADER": {
-      "H1": "Are you sure?",
-      "H2": "New update available {{value}}",
-      "H3": "You are on the latest version {{value}}",
-      "H4": "No internet!"
+  "alert": {
+    "header": {
+      "h1": "Are you sure?",
+      "h2": "New update available {{value}}",
+      "h3": "You are on the latest version {{value}}",
+      "h4": "No internet!"
     },
-    "MSG": {
-      "M1": "Be careful, this progress cannot be undone.",
-      "M2": "Don't be impatient. A new version will come soon 😊",
-      "M3": "Please check the internet and try again."
+    "msg": {
+      "m1": "Be careful, this progress cannot be undone.",
+      "m2": "Don't be impatient. A new version will come soon 😊",
+      "m3": "Please check the internet and try again."
     }
   },
 
-  "BTN": {
+  "button": {
     "confirm": "Confirm",
     "cancel": "Cancel"
   }

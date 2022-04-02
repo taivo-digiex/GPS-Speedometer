@@ -35,23 +35,23 @@ export class UpdateService {
             ) {
               this.downloadLatest = info.assets[0].browser_download_url;
               await this.alertComponent.presentAlert(
-                'ALERT.HEADER.H2',
+                'alert.header.h2',
                 info.tag_name,
                 info.body,
                 null,
-                'COMMON.later',
-                'COMMON.download',
+                'common.later',
+                'common.download',
                 (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
                 this,
                 this.downloadNewAppVersion
               );
             } else if (isManual) {
               await this.alertComponent.presentAlertOneBtn(
-                'ALERT.HEADER.H3',
+                'alert.header.h3',
                 versionNumber,
-                'ALERT.MSG.M2',
+                'alert.msg.m2',
                 null,
-                'COMMON.ok'
+                'common.ok'
               );
             }
           }
@@ -59,11 +59,11 @@ export class UpdateService {
     } else {
       if (isManual) {
         await this.alertComponent.presentAlertOneBtn(
-          'ALERT.HEADER.H4',
+          'alert.header.h4',
           null,
-          'ALERT.MSG.M3',
+          'alert.msg.m3',
           null,
-          'COMMON.ok'
+          'common.ok'
         );
       }
     }

@@ -35,7 +35,7 @@ export class GeolocationService {
           this.prepareTracking(res);
         } else if ('code' in res) {
           this.toastComponent.presentToast(
-            'TOAST.error.code.' + res.code,
+            'toast.error.code.' + res.code,
             null,
             1000
           );

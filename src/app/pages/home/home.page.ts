@@ -17,7 +17,6 @@ SwiperCore.use([Autoplay, Pagination]);
   encapsulation: ViewEncapsulation.None,
 })
 export class HomePage implements OnInit, OnDestroy {
-  public speed: number;
   public lat: number;
   public lon: number;
   public speedo: number;
@@ -32,6 +31,7 @@ export class HomePage implements OnInit, OnDestroy {
   public distance: string;
   public hiddenStartIcon: boolean = false;
   public hiddenStopIcon: boolean = true;
+  public isPortrait: boolean = false;
 
   public settingsIcon: string = 'settings';
   public timerIcon: string = 'timer';
@@ -63,6 +63,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.lon = this.geolocationService.lon;
       this.hiddenStartIcon = this.timerService.hiddenStartIcon;
       this.hiddenStopIcon = this.timerService.hiddenStopIcon;
+      this.isPortrait = this.platform.isPortrait();
     });
   }
 

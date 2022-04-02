@@ -74,6 +74,9 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /** font **/
+  --ion-font-family: Main;
 }
 
 /*
@@ -180,7 +183,11 @@ body {
 
   --ion-item-background: #000000;
 
-  --ion-card-background: #1c1c1d;
+  --ion-card-background: linear-gradient(
+    to top,
+    var(--ion-color-step-100),
+    var(--ion-color-step-150)
+  );
 }
 
 .ios body ion-modal {
@@ -188,11 +195,6 @@ body {
   --ion-toolbar-background: var(--ion-color-step-150);
   --ion-toolbar-border-color: var(--ion-color-step-250);
   --ion-item-background: var(--ion-color-step-150);
-}
-
-.ios ion-icon,
-.ios ion-back-button {
-  color: var(--ion-text-color);
 }
 
 /*
@@ -235,7 +237,11 @@ body {
 
   --ion-tab-bar-background: #1f1f1f;
 
-  --ion-card-background: #1e1e1e;
+  --ion-card-background: linear-gradient(
+    to top,
+    var(--ion-color-step-100),
+    var(--ion-color-step-150)
+  );
 }
 
 /*
@@ -258,18 +264,14 @@ ion-alert {
   }
 }
 
-ion-item ion-icon {
+ion-icon,
+ion-back-button {
   color: var(--ion-text-color);
 }
 
 ion-card {
   border-radius: 25px;
-  background: linear-gradient(
-    to top,
-    var(--ion-color-step-100),
-    var(--ion-color-step-150)
-  );
-  box-shadow: 0 0 10px 0 #ffffff;
+  font-size: 16px;
 }
 
 .swiper {

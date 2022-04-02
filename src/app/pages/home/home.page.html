@@ -2,7 +2,7 @@
   <ion-toolbar class="cus-toolbar">
     <ion-icon class="timer-icon" size="large" slot="start" [ios]="timerIcon + '-outline'" [md]="timerIcon + '-sharp'">
     </ion-icon>
-    <ion-text class="timer" slot="start">{{ time }}</ion-text>
+    <ion-text slot="start">{{ time }}</ion-text>
 
     <ion-buttons class="cus-btns">
       <ion-button (click)="startTimer()" [hidden]="hiddenStartIcon">
@@ -22,15 +22,15 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <div class="speedo-div" (click)="changeUnit()">
-      <p id="speedo">
-        <ion-text *ngIf="speedo != null">{{ speedo }}</ion-text>
-        <ion-text *ngIf="speedo == null">-</ion-text>
-        <ion-text id="unit"> {{ speedUnit }}</ion-text>
+    <div class="speedo-div">
+      <p>
+        <ion-text id="speedo" *ngIf="speedo">{{ speedo }}</ion-text>
+        <ion-text id="speedo" *ngIf="!speedo">-</ion-text>
+        <ion-text id="unit" (click)="changeUnit()"> {{ speedUnit }}</ion-text>
       </p>
     </div>
 
-    <div class="landscape-info">
+    <div *ngIf="!isPortrait" class="landscape-info">
       <ion-card>
         <div class="details">
           <ion-row class="ion-justify-content-between border-bottom">
@@ -54,8 +54,8 @@
 
             <ion-col class="ion-text-right">
               <p>
-                <ion-text *ngIf="avgSpeed !== null">{{ avgSpeed }}</ion-text>
-                <ion-text *ngIf="avgSpeed == null">-.-</ion-text>
+                <ion-text *ngIf="avgSpeed">{{ avgSpeed }}</ion-text>
+                <ion-text *ngIf="!avgSpeed">-.-</ion-text>
                 <ion-text> {{ speedUnit }}</ion-text>
               </p>
             </ion-col>
@@ -68,7 +68,11 @@
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ altitude }} {{ lenghtUnit }}</p>
+              <p>
+                <ion-text *ngIf="altitude">{{ altitude }}</ion-text>
+                <ion-text *ngIf="!altitude">-</ion-text>
+                <ion-text> {{ lenghtUnit }}</ion-text>
+              </p>
             </ion-col>
           </ion-row>
 
@@ -79,21 +83,31 @@
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ accuracy }} {{ lenghtUnit }}</p>
+              <p>
+                <ion-text *ngIf="accuracy">{{ accuracy }}</ion-text>
+                <ion-text *ngIf="!accuracy">-</ion-text>
+                <ion-text> {{ lenghtUnit }}</ion-text>
+              </p>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col class="col-border">
               <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
-              <p>{{ lat }}</p>
+              <p>
+                <ion-text *ngIf="lat">{{ lat }}</ion-text>
+                <ion-text *ngIf="!lat">-.-</ion-text>
+              </p>
             </ion-col>
 
             <ion-col>
               <p>
                 <strong>{{ "COMMON.longtitude" | translate }}:</strong>
               </p>
-              <p>{{ lon }}</p>
+              <p>
+                <ion-text *ngIf="lon">{{ lon }}</ion-text>
+                <ion-text *ngIf="!lon">-.-</ion-text>
+              </p>
             </ion-col>
           </ion-row>
         </div>
@@ -106,13 +120,13 @@
 <ion-footer class="ion-no-border ion-text-center">
   <div class="trip">
     <p>
-      <ion-text *ngIf="distance != null">{{ distance }}</ion-text>
-      <ion-text *ngIf="distance == null">-.-</ion-text>
+      <ion-text class="trip-number" *ngIf="distance">{{ distance }}</ion-text>
+      <ion-text class="trip-number" *ngIf="!distance">-.-</ion-text>
       <ion-text> {{ distanceUnit }}</ion-text>
     </p>
   </div>
 
-  <div class="portrait-info">
+  <div *ngIf="isPortrait" class="portrait-info">
     <swiper [autoplay]="{
       delay: 10000,
       disableOnInteraction: false
@@ -133,8 +147,8 @@
                   <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
                 </p>
                 <p>
-                  <ion-text *ngIf="avgSpeed !== null">{{ avgSpeed }}</ion-text>
-                  <ion-text *ngIf="avgSpeed == null">-.-</ion-text>
+                  <ion-text *ngIf="avgSpeed">{{ avgSpeed }}</ion-text>
+                  <ion-text *ngIf="!avgSpeed">-.-</ion-text>
                   <ion-text> {{ speedUnit }}</ion-text>
                 </p>
               </ion-col>
@@ -149,12 +163,20 @@
             <ion-row>
               <ion-col class="col-border">
                 <p><strong>{{ "COMMON.altitude" | translate }}:</strong></p>
-                <p>{{ altitude }} {{ lenghtUnit }}</p>
+                <p>
+                  <ion-text *ngIf="altitude">{{ altitude }}</ion-text>
+                  <ion-text *ngIf="!altitude">-</ion-text>
+                  <ion-text> {{ lenghtUnit }}</ion-text>
+                </p>
               </ion-col>
 
               <ion-col>
                 <p><strong>{{ "COMMON.accuracy" | translate }}:</strong></p>
-                <p>{{ accuracy }} {{ lenghtUnit }}</p>
+                <p>
+                  <ion-text *ngIf="accuracy">{{ accuracy }}</ion-text>
+                  <ion-text *ngIf="!accuracy">-</ion-text>
+                  <ion-text> {{ lenghtUnit }}</ion-text>
+                </p>
               </ion-col>
             </ion-row>
           </div>
@@ -167,14 +189,20 @@
             <ion-row>
               <ion-col class="col-border">
                 <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
-                <p>{{ lat }}</p>
+                <p>
+                  <ion-text *ngIf="lat">{{ lat }}</ion-text>
+                  <ion-text *ngIf="!lat">-.-</ion-text>
+                </p>
               </ion-col>
 
               <ion-col>
                 <p>
                   <strong>{{ "COMMON.longtitude" | translate }}:</strong>
                 </p>
-                <p>{{ lon }}</p>
+                <p>
+                  <ion-text *ngIf="lon">{{ lon }}</ion-text>
+                  <ion-text *ngIf="!lon">-.-</ion-text>
+                </p>
               </ion-col>
             </ion-row>
           </div>

@@ -1,14 +1,8 @@
-@font-face {
-  font-family: Digi;
-  src: url(../../../assets/fonts/DS-DIGII.TTF);
-}
-
 #container {
   text-align: center;
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  font-family: "Digi";
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -17,6 +11,7 @@
 }
 
 #speedo {
+  font-family: "Number";
   font-size: 150px;
 }
 
@@ -26,11 +21,15 @@
 
 .trip {
   font-size: 30px;
-  font-family: "Digi";
+
   p {
     width: fit-content;
     margin: auto;
     color: var(--ion-text-color);
+  }
+
+  .trip-number {
+    font-family: "Number";
   }
 }
 
@@ -50,9 +49,9 @@
   }
 }
 
-.header-timer,
 .timer-icon {
   margin-left: 10px;
+  margin-right: 5px;
 }
 
 .cus-toolbar {
@@ -60,13 +59,9 @@
 }
 
 @media (orientation: portrait) {
-  ion-card {
-    border-radius: 25px;
-  }
-
-  .landscape-info {
-    display: none;
-  }
+  // .landscape-info {
+  //   display: none;
+  // }
 
   @media only screen and (max-width: 380px) {
     #speedo {
@@ -91,6 +86,7 @@
 @media (orientation: landscape) {
   #container {
     display: flex;
+    gap: 20px;
   }
 
   #trip {
@@ -103,9 +99,13 @@
     min-width: 325px;
   }
 
-  .portrait-info {
-    display: none;
+  .landscape-info ion-card {
+    box-shadow: 0 0 10px 0 #ffffff;
   }
+
+  // .portrait-info {
+  //   display: none;
+  // }
 
   .details {
     padding: 5px;

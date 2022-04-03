@@ -9,7 +9,7 @@
         <ion-icon slot="icon-only" [ios]="startIcon + '-outline'" [md]="startIcon + '-sharp'"></ion-icon>
       </ion-button>
 
-      <ion-button (click)="stopTimer()" [hidden]="hiddenStopIcon">
+      <ion-button (click)="stopTimer()" [hidden]="!hiddenStartIcon">
         <ion-icon slot="icon-only" [ios]="stopIcon + '-outline'" [md]="stopIcon + '-sharp'"></ion-icon>
       </ion-button>
 

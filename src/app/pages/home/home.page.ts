@@ -26,12 +26,11 @@ export class HomePage implements OnInit, OnDestroy {
   public distanceUnit: string;
   public accuracy: number;
   public altitude: string;
-  public time: string = '00:00:00';
   public avgSpeed: string;
   public distance: string;
-  public hiddenStartIcon: boolean = false;
-  public hiddenStopIcon: boolean = true;
-  public isPortrait: boolean = false;
+  public time: string = this.timerService.time;
+  public hiddenStartIcon: boolean = this.timerService.hiddenStartIcon;
+  public isPortrait: boolean = this.platform.isPortrait();
 
   public settingsIcon: string = 'settings';
   public timerIcon: string = 'timer';
@@ -50,6 +49,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.platform.ready().then(() => {
+      this.onOrientationChange();
       this.insomnia.keepAwake();
       this.initial();
     });
@@ -62,8 +62,6 @@ export class HomePage implements OnInit, OnDestroy {
       this.lat = this.geolocationService.lat;
       this.lon = this.geolocationService.lon;
       this.hiddenStartIcon = this.timerService.hiddenStartIcon;
-      this.hiddenStopIcon = this.timerService.hiddenStopIcon;
-      this.isPortrait = this.platform.isPortrait();
     });
   }
 
@@ -111,5 +109,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
+  }
+
+  public onOrientationChange() {
+    this.platform.resize.subscribe(() => {
+      this.isPortrait = this.platform.isPortrait();
+    });
   }
 }

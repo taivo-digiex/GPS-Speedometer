@@ -10,13 +10,13 @@
     "longtitude": "Longitude",
     "latitude": "Latitude",
     "top_speed": "Top speed",
-    "clear_top_speed": "Clear top speed",
+    "clear_data": "Clear data",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
     "check_for_update": "Check for update",
     "time": "Time",
     "avg_speed": "Avg. speed",
-    "download": "Download ({{value}} MB)",
+    "download": "Download",
     "later": "Later",
     "ok": "Ok",
     "unit": "Unit"
@@ -63,7 +63,7 @@
       "h4": "No internet!"
     },
     "msg": {
-      "m1": "Be careful, this progress cannot be undone.",
+      "m1": "This action will only clear <strong>top speed</strong> and <strong>trip meter</strong>.<br>Be careful, this action cannot be undone.",
       "m2": "Don't be impatient. A new version will come soon 😊",
       "m3": "Please check the internet and try again."
     }

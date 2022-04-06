@@ -14,7 +14,7 @@ export class UnitService {
 
   constructor(private storage: Storage) {}
 
-  public async setDefaultUnit() {
+  public async setUnit() {
     await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
         this.saveUnit(val);

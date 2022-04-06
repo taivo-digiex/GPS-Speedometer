@@ -6,6 +6,7 @@ import { ToastComponent } from 'src/app/common/components/toast/toast.component'
 import { UpdateService } from 'src/app/services/update/update.service';
 import { AlertComponent } from 'src/app/common/components/alert/alert.component';
 import { UnitService } from 'src/app/services/unit/unit.service';
+import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
 
 @Component({
   selector: 'app-settings',
@@ -30,7 +31,8 @@ export class SettingsPage implements OnInit {
     private toast: ToastComponent,
     private updateService: UpdateService,
     private alertComponent: AlertComponent,
-    private unitService: UnitService
+    private unitService: UnitService,
+    private odoTripService: OdoTripService
   ) {}
 
   public ngOnInit() {
@@ -58,12 +60,13 @@ export class SettingsPage implements OnInit {
       'button.confirm',
       null,
       this,
-      this.clearTopSpeed
+      this.clearData
     );
   }
 
-  private async clearTopSpeed() {
+  private async clearData() {
     this.topSpeedService.clearTopSpeed();
+    this.odoTripService.clearTrip();
     this.toast.presentToast('toast.clear_success', null, 1000);
   }
 

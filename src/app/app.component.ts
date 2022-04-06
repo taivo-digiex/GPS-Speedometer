@@ -8,6 +8,7 @@ import { UnitService } from './services/unit/unit.service';
 import { TopSpeedService } from './services/top-speed/top-speed.service';
 import { GeolocationService } from './services/geolocation/geolocation.service';
 import { UpdateService } from './services/update/update.service';
+import { OdoTripService } from './services/odo-trip/odo-trip.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,7 +26,8 @@ export class AppComponent {
     private unitService: UnitService,
     private topSpeedService: TopSpeedService,
     private geolocationService: GeolocationService,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private odoTripService: OdoTripService
   ) {
     this.platform.ready().then(() => {
       this.hardwareBackBtn();
@@ -38,8 +40,9 @@ export class AppComponent {
   private async createStorage() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
-    this.unitService.setDefaultUnit();
-    this.topSpeedService.setDefaultTopSpeed();
+    this.unitService.setUnit();
+    this.topSpeedService.getTopSpeed();
+    this.odoTripService.getOdoTrip();
   }
 
   private hardwareBackBtn() {

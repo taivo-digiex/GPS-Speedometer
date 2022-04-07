@@ -8,8 +8,11 @@ const TRIP_KEY = 'trip';
   providedIn: 'root',
 })
 export class OdoTripService {
-  public odo: number;
-  public trip: number;
+  public currentOdo: number;
+  public currentTrip: number;
+
+  public lastOdo: number;
+  public lastTrip: number;
 
   constructor(private storage: Storage) {}
 
@@ -22,44 +25,53 @@ export class OdoTripService {
     await this.storage.get(ODO_KEY).then((val) => {
       if (val) {
         this.saveOdo(val);
-        this.odo = val;
+        this.lastOdo = val;
+        this.currentOdo = val;
       } else {
         this.saveOdo(0);
-        this.odo = 0;
+        this.lastOdo = 0;
+        this.currentOdo = 0;
       }
     });
-  }
-
-  public async saveOdo(currentOdo: number) {
-    const odo = this.odo + currentOdo;
-    if (!isNaN(odo)) {
-      this.odo = odo;
-      await this.storage.set(ODO_KEY, odo);
-    }
   }
 
   private async getTrip() {
     await this.storage.get(TRIP_KEY).then((val) => {
       if (val) {
         this.saveTrip(val);
-        this.trip = val;
+        this.lastTrip = val;
+        this.currentTrip = val;
       } else {
         this.saveTrip(0);
-        this.trip = 0;
+        this.lastTrip = 0;
+        this.currentTrip = 0;
       }
     });
   }
 
-  public async saveTrip(currentTrip: number) {
-    const trip = this.trip + currentTrip;
-    if (!isNaN(trip)) {
-      this.trip = trip;
+  public saveOdoTrip(value: number) {
+    this.saveOdo(value);
+    this.saveTrip(value);
+  }
+
+  private async saveOdo(currentOdo: number) {
+    if (!isNaN(currentOdo) && !isNaN(this.lastOdo)) {
+      const odo = this.lastOdo + currentOdo;
+      this.currentOdo = odo;
+      await this.storage.set(ODO_KEY, odo);
+    }
+  }
+
+  private async saveTrip(currentTrip: number) {
+    if (!isNaN(currentTrip)) {
+      const trip = currentTrip;
+      this.currentTrip = this.lastTrip;
       await this.storage.set(TRIP_KEY, trip);
     }
   }
 
   public async clearTrip() {
     await this.storage.remove(TRIP_KEY);
-    this.trip = 0;
+    this.currentTrip = 0;
   }
 }

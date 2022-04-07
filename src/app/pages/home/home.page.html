@@ -48,6 +48,22 @@
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
               <p>
+                <strong>{{ "common.trip" | translate }}:</strong>
+              </p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
+              <p>
+                <ion-text *ngIf="trip != null">{{ trip }}</ion-text>
+                <ion-text *ngIf="trip == null">-.-</ion-text>
+                <ion-text> {{ distanceUnit }}</ion-text>
+              </p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
+              <p>
                 <strong>{{ "common.avg_speed" | translate }}:</strong>
               </p>
             </ion-col>
@@ -118,10 +134,10 @@
 
 
 <ion-footer class="ion-no-border ion-text-center">
-  <div class="trip">
+  <div class="odo">
     <p>
-      <ion-text class="trip-number" *ngIf="odo != null">{{ odo }}</ion-text>
-      <ion-text class="trip-number" *ngIf="odo == null">-.-</ion-text>
+      <ion-text class="odo-number" *ngIf="odo != null">{{ odo }}</ion-text>
+      <ion-text class="odo-number" *ngIf="odo == null">-.-</ion-text>
       <ion-text> {{ distanceUnit }}</ion-text>
     </p>
   </div>

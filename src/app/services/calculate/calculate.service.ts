@@ -20,6 +20,7 @@ export class CalculateService {
   public altitude: string;
   public avgSpeed: string;
   public odo: string;
+  public trip: string;
   public sumOdo: number;
   public sumTime: number;
 
@@ -67,8 +68,7 @@ export class CalculateService {
 
   private getOdo() {
     this.sumOdo = this.odoArr.reduce((partialSum, a) => partialSum + a, 0);
-    this.odoTripService.saveOdo(this.sumOdo);
-    this.odoTripService.saveTrip(this.sumOdo);
+    this.odoTripService.saveOdoTrip(this.sumOdo);
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
@@ -90,11 +90,10 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude).toFixed(1);
     }
-    if (this.odoTripService.odo != null) {
-      this.odo = (this.odoTripService.odo / 1000).toFixed(1);
-      if (this.sumTime != undefined) {
-        this.avgSpeed = ((this.sumOdo / this.sumTime) * 3.6).toFixed(1);
-      }
+    this.odo = (this.odoTripService.currentOdo / 1000).toFixed(1);
+    this.trip = (this.odoTripService.currentTrip / 1000).toFixed(1);
+    if (this.sumOdo != undefined || this.sumTime != undefined) {
+      this.avgSpeed = ((this.sumOdo / this.sumTime) * 3.6).toFixed(1);
     }
   }
 
@@ -113,11 +112,10 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
     }
-    if (this.odoTripService.odo != null) {
-      this.odo = (this.odoTripService.odo * 0.000621371192).toFixed(1);
-      if (this.sumTime != undefined) {
-        this.avgSpeed = ((this.sumOdo / this.sumTime) * 2.23693629).toFixed(1);
-      }
+    this.odo = (this.odoTripService.currentOdo * 0.000621371192).toFixed(1);
+    this.trip = (this.odoTripService.currentTrip * 0.000621371192).toFixed(1);
+    if (this.sumOdo != undefined || this.sumTime != undefined) {
+      this.avgSpeed = ((this.sumOdo / this.sumTime) * 2.23693629).toFixed(1);
     }
   }
 }

@@ -28,6 +28,7 @@ export class HomePage implements OnInit, OnDestroy {
   public altitude: string;
   public avgSpeed: string;
   public odo: string;
+  public trip: string;
   public time: string = this.timerService.time;
   public hiddenStartIcon: boolean = this.timerService.hiddenStartIcon;
   public isPortrait: boolean = this.platform.isPortrait();
@@ -86,6 +87,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
     this.odo = this.calculateService.odo;
+    this.trip = this.calculateService.trip;
     this.avgSpeed = this.calculateService.avgSpeed;
 
     this.unitService.convertUnit();

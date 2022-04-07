@@ -19,7 +19,7 @@
   font-style: italic;
 }
 
-.trip {
+.odo {
   font-size: 25px;
   font-style: italic;
 
@@ -29,7 +29,7 @@
     color: var(--ion-text-color);
   }
 
-  .trip-number {
+  .odo-number {
     font-family: "Number";
     font-style: normal;
   }
@@ -79,7 +79,7 @@
       font-size: 12px;
     }
 
-    .trip {
+    .odo {
       font-size: 20px;
     }
   }
@@ -90,10 +90,6 @@
     display: flex;
     gap: 25px;
     text-align: end;
-  }
-
-  #trip {
-    display: block;
   }
 
   .speedo-div,
@@ -124,7 +120,7 @@
       font-size: 20px !important;
     }
 
-    .trip {
+    .odo {
       font-size: 20px;
     }
 

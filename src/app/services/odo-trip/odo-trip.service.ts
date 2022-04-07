@@ -63,9 +63,9 @@ export class OdoTripService {
   }
 
   private async saveTrip(currentTrip: number) {
-    if (!isNaN(currentTrip)) {
-      const trip = currentTrip;
-      this.currentTrip = this.lastTrip;
+    if (!isNaN(currentTrip) && !isNaN(this.lastTrip)) {
+      const trip = this.lastTrip + currentTrip;
+      this.currentTrip = trip;
       await this.storage.set(TRIP_KEY, trip);
     }
   }

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
+
+const TT_KEY = 'total-time';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +12,10 @@ export class TimerService {
   public totalElapsedTime: number;
   public timerInterval: any;
   public hiddenStartIcon: boolean = false;
+  public currentTotalTime: number;
+  public lastTotalTime: number;
 
-  constructor() {}
+  constructor(private storage: Storage) {}
 
   public calculateTime() {
     let startTime: number;
@@ -66,5 +71,27 @@ export class TimerService {
   public stopTimer() {
     this.hiddenStartIcon = !this.hiddenStartIcon;
     clearInterval(this.timerInterval);
+  }
+
+  public async getTotalTime() {
+    await this.storage.get(TT_KEY).then((val) => {
+      if (val) {
+        this.saveTotalTime(val);
+        this.lastTotalTime = val;
+        this.currentTotalTime = val;
+      } else {
+        this.saveTotalTime(0);
+        this.lastTotalTime = 0;
+        this.currentTotalTime = 0;
+      }
+    });
+  }
+
+  public async saveTotalTime(time: number) {
+    if (!isNaN(time) && !isNaN(this.lastTotalTime)) {
+      const newTotalTime = this.lastTotalTime + time;
+      this.currentTotalTime = newTotalTime;
+      await this.storage.set(TT_KEY, newTotalTime);
+    }
   }
 }

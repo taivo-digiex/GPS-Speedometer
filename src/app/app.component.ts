@@ -9,6 +9,7 @@ import { TopSpeedService } from './services/top-speed/top-speed.service';
 import { GeolocationService } from './services/geolocation/geolocation.service';
 import { UpdateService } from './services/update/update.service';
 import { OdoTripService } from './services/odo-trip/odo-trip.service';
+import { TimerService } from './services/timer/timer.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -27,7 +28,8 @@ export class AppComponent {
     private topSpeedService: TopSpeedService,
     private geolocationService: GeolocationService,
     private updateService: UpdateService,
-    private odoTripService: OdoTripService
+    private odoTripService: OdoTripService,
+    private timerService: TimerService
   ) {
     this.platform.ready().then(() => {
       this.hardwareBackBtn();
@@ -43,6 +45,7 @@ export class AppComponent {
     this.unitService.setUnit();
     this.topSpeedService.getTopSpeed();
     this.odoTripService.getOdoTrip();
+    this.timerService.getTotalTime();
   }
 
   private hardwareBackBtn() {

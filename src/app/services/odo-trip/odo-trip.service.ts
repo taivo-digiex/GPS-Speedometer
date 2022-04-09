@@ -49,12 +49,7 @@ export class OdoTripService {
     });
   }
 
-  public saveOdoTrip(value: number) {
-    this.saveOdo(value);
-    this.saveTrip(value);
-  }
-
-  private async saveOdo(currentOdo: number) {
+  public async saveOdo(currentOdo: number) {
     if (!isNaN(currentOdo) && !isNaN(this.lastOdo)) {
       const odo = this.lastOdo + currentOdo;
       this.currentOdo = odo;
@@ -62,7 +57,7 @@ export class OdoTripService {
     }
   }
 
-  private async saveTrip(currentTrip: number) {
+  public async saveTrip(currentTrip: number) {
     if (!isNaN(currentTrip) && !isNaN(this.lastTrip)) {
       const trip = this.lastTrip + currentTrip;
       this.currentTrip = trip;
@@ -72,6 +67,7 @@ export class OdoTripService {
 
   public async clearTrip() {
     await this.storage.remove(TRIP_KEY);
+    this.lastTrip = 0;
     this.currentTrip = 0;
   }
 }

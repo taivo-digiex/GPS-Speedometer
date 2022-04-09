@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { speedTime } from 'src/app/common/models/speedTime.model';
 import { OdoTripService } from '../odo-trip/odo-trip.service';
+import { TimerService } from '../timer/timer.service';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { UnitService } from '../unit/unit.service';
 
@@ -23,15 +24,18 @@ export class CalculateService {
   public trip: string;
   public sumOdo: number;
   public sumTime: number;
+  public sumTrip: number;
 
   private odoArr = [...DISTANCCE_DATA];
+  private tripArr = [...DISTANCCE_DATA];
   private timeArr = [...TIME_DATA];
   private value = [...VALUE];
 
   constructor(
     private unitService: UnitService,
     private topSpeedService: TopSpeedService,
-    private odoTripService: OdoTripService
+    private odoTripService: OdoTripService,
+    private timerService: TimerService
   ) {}
 
   public getValue(speed: number, totalElapsedTime: number) {
@@ -48,14 +52,15 @@ export class CalculateService {
     ];
 
     for (let i = 0; i < this.value.length; i++) {
-      var odo = this.value[i].speed * this.value[i].time;
+      var trip = this.value[i].speed * this.value[i].time;
       var time = this.value[i].time;
     }
 
     this.timeArr = [...this.timeArr, time];
-    this.odoArr = [...this.odoArr, odo];
+    this.odoArr = [...this.odoArr, trip];
+    this.tripArr = [...this.tripArr, trip];
 
-    this.getOdo();
+    this.getOdoTrip();
     this.getTime();
   }
 
@@ -64,11 +69,14 @@ export class CalculateService {
       (partialSum, time) => partialSum + time,
       0
     );
+    this.timerService.saveTotalTime(this.sumTime);
   }
 
-  private getOdo() {
+  private getOdoTrip() {
     this.sumOdo = this.odoArr.reduce((partialSum, a) => partialSum + a, 0);
-    this.odoTripService.saveOdoTrip(this.sumOdo);
+    this.odoTripService.saveOdo(this.sumOdo);
+    this.sumTrip = this.tripArr.reduce((partialSum, a) => partialSum + a, 0);
+    this.odoTripService.saveTrip(this.sumOdo);
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
@@ -92,8 +100,11 @@ export class CalculateService {
     }
     this.odo = (this.odoTripService.currentOdo / 1000).toFixed(1);
     this.trip = (this.odoTripService.currentTrip / 1000).toFixed(1);
-    if (this.sumOdo != undefined || this.sumTime != undefined) {
-      this.avgSpeed = ((this.sumOdo / this.sumTime) * 3.6).toFixed(1);
+    if (this.timerService.currentTotalTime != 0) {
+      this.avgSpeed = (
+        (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
+        3.6
+      ).toFixed(1);
     }
   }
 
@@ -114,8 +125,11 @@ export class CalculateService {
     }
     this.odo = (this.odoTripService.currentOdo * 0.000621371192).toFixed(1);
     this.trip = (this.odoTripService.currentTrip * 0.000621371192).toFixed(1);
-    if (this.sumOdo != undefined || this.sumTime != undefined) {
-      this.avgSpeed = ((this.sumOdo / this.sumTime) * 2.23693629).toFixed(1);
+    if (this.timerService.currentTotalTime != 0) {
+      this.avgSpeed = (
+        (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
+        2.23693629
+      ).toFixed(1);
     }
   }
 }

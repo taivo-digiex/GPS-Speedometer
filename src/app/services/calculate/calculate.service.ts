@@ -22,11 +22,7 @@ export class CalculateService {
   public avgSpeed: string;
   public odo: string;
   public trip: string;
-  public sumOdo: number;
-  public sumTime: number;
-  public sumTrip: number;
 
-  private odoArr = [...DISTANCCE_DATA];
   private tripArr = [...DISTANCCE_DATA];
   private timeArr = [...TIME_DATA];
   private value = [...VALUE];
@@ -57,7 +53,6 @@ export class CalculateService {
     }
 
     this.timeArr = [...this.timeArr, time];
-    this.odoArr = [...this.odoArr, trip];
     this.tripArr = [...this.tripArr, trip];
 
     this.getOdoTrip();
@@ -65,18 +60,18 @@ export class CalculateService {
   }
 
   private getTime() {
-    this.sumTime = this.timeArr.reduce(
-      (partialSum, time) => partialSum + time,
-      0
+    this.timerService.saveTotalTime(
+      this.timeArr.reduce((partialSum, time) => partialSum + time, 0)
     );
-    this.timerService.saveTotalTime(this.sumTime);
   }
 
   private getOdoTrip() {
-    this.sumOdo = this.odoArr.reduce((partialSum, a) => partialSum + a, 0);
-    this.odoTripService.saveOdo(this.sumOdo);
-    this.sumTrip = this.tripArr.reduce((partialSum, a) => partialSum + a, 0);
-    this.odoTripService.saveTrip(this.sumOdo);
+    this.odoTripService.saveOdo(
+      this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
+    );
+    this.odoTripService.saveTrip(
+      this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
+    );
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {

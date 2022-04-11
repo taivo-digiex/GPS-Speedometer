@@ -67,7 +67,6 @@ export class OdoTripService {
 
   public async clearTrip() {
     await this.storage.remove(TRIP_KEY);
-    this.lastTrip = 0;
-    this.currentTrip = 0;
+    this.getTrip();
   }
 }

@@ -312,7 +312,7 @@ ion-alert {
 
   .alert-radio-label.sc-ion-alert-md,
   .alert-radio-label.sc-ion-alert-ios {
-    color: var(--ion-text-color);
+    color: var(--ion-text-color) !important;
     font-size: 16px;
   }
 
@@ -346,6 +346,20 @@ ion-back-button {
 ion-card {
   border-radius: 25px;
   font-size: 16px;
+}
+
+.custom-toast {
+  --width: max-content;
+  --border-radius: 25px;
+}
+
+.custom-toast.md {
+  --background: #262626e6;
+  --color: var(--ion-text-color);
+}
+
+.custom-toast.ios {
+  --background: #262626e6;
 }
 
 .swiper {

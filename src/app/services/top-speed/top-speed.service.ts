@@ -36,6 +36,6 @@ export class TopSpeedService {
 
   public async clearTopSpeed() {
     await this.storage.remove(TS_KEY);
-    this.topSpeed = 0;
+    this.getTopSpeed();
   }
 }

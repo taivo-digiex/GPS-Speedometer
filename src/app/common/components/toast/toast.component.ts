@@ -13,10 +13,21 @@ export class ToastComponent {
   ) {}
 
   public async presentToast(msg: any, value: any, time: number) {
-    const toast = await this.toastController.create({
-      message: this.translateService.instant(msg, { value: value }),
-      duration: time,
-    });
-    await toast.present();
+    this.toastController
+      .dismiss()
+      .then(() => {})
+      .catch(() => {})
+      .finally(() => {});
+
+    await this.toastController
+      .create({
+        message: this.translateService.instant(msg, { value: value }),
+        duration: time,
+        position: 'middle',
+        cssClass: 'custom-toast',
+      })
+      .then((toast) => {
+        toast.present();
+      });
   }
 }

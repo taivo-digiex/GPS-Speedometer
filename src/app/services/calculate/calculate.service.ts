@@ -23,7 +23,6 @@ export class CalculateService {
   public odo: string;
   public trip: string;
 
-  private odoArr = [...DISTANCCE_DATA];
   private tripArr = [...DISTANCCE_DATA];
   private timeArr = [...TIME_DATA];
   private value = [...VALUE];
@@ -54,7 +53,6 @@ export class CalculateService {
     }
 
     this.timeArr = [...this.timeArr, time];
-    this.odoArr = [...this.tripArr, trip];
     this.tripArr = [...this.tripArr, trip];
 
     this.getOdoTrip();
@@ -69,7 +67,7 @@ export class CalculateService {
 
   private getOdoTrip() {
     this.odoTripService.saveOdo(
-      this.odoArr.reduce((partialSum, a) => partialSum + a, 0)
+      this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
     );
     this.odoTripService.saveTrip(
       this.tripArr.reduce((partialSum, a) => partialSum + a, 0)

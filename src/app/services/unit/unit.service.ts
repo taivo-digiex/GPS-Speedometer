@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
-const UNIT_KEY = 'selected-unit';
+const UNIT_KEY = 'unit';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +14,14 @@ export class UnitService {
 
   constructor(private storage: Storage) {}
 
-  public async setUnit() {
+  public async getUnit() {
     await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
-        this.saveUnit(val);
         this.unit = val;
+        this.saveUnit(val);
       } else {
+        this.unit = 'metric';
         this.saveUnit('metric');
-        this.unit = this.unit;
       }
     });
   }

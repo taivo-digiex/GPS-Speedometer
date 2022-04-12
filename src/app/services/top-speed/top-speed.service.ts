@@ -12,15 +12,18 @@ export class TopSpeedService {
   constructor(private storage: Storage) {}
 
   public async getTopSpeed() {
-    await this.storage.get(TS_KEY).then((val) => {
-      if (val) {
-        this.saveTopSpeed(val);
-        this.topSpeed = val;
-      } else {
-        this.saveTopSpeed(0);
-        this.topSpeed = 0;
-      }
-    });
+    await this.storage
+      .get(TS_KEY)
+      .then((val) => {
+        if (val) {
+          this.topSpeed = val;
+          this.saveTopSpeed(val);
+        } else {
+          this.topSpeed = 0;
+          this.saveTopSpeed(0);
+        }
+      })
+      .catch(() => {});
   }
 
   public async saveTopSpeed(speed: number) {

@@ -28,7 +28,7 @@ export class SettingsPage implements OnInit {
     private location: Location,
     private languageService: LanguageService,
     private topSpeedService: TopSpeedService,
-    private toast: ToastComponent,
+    private toastComponent: ToastComponent,
     private updateService: UpdateService,
     private alertComponent: AlertComponent,
     private unitService: UnitService,
@@ -67,7 +67,7 @@ export class SettingsPage implements OnInit {
   private async clearData() {
     this.topSpeedService.clearTopSpeed();
     this.odoTripService.clearTrip();
-    this.toast.presentToast('toast.clear_success', null, 1000);
+    this.toastComponent.presentToast('toast.clear_success', null, 1000);
   }
 
   public selectLng(ev: any) {

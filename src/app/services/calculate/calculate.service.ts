@@ -7,7 +7,7 @@ import { UnitService } from '../unit/unit.service';
 
 const VALUE: speedTime[] = [];
 
-const DISTANCCE_DATA: Array<number> = [];
+// const DISTANCCE_DATA: Array<number> = [];
 
 const TIME_DATA: Array<number> = [];
 
@@ -23,7 +23,7 @@ export class CalculateService {
   public odo: string;
   public trip: string;
 
-  private tripArr = [...DISTANCCE_DATA];
+  // private tripArr = [...DISTANCCE_DATA];
   private timeArr = [...TIME_DATA];
   private value = [...VALUE];
 
@@ -53,9 +53,9 @@ export class CalculateService {
     }
 
     this.timeArr = [...this.timeArr, time];
-    this.tripArr = [...this.tripArr, trip];
+    // this.tripArr = [...this.tripArr, trip];
 
-    this.getOdoTrip();
+    this.getOdoTrip(trip);
     this.getTime();
   }
 
@@ -65,13 +65,15 @@ export class CalculateService {
     );
   }
 
-  private getOdoTrip() {
-    this.odoTripService.saveOdo(
-      this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
-    );
-    this.odoTripService.saveTrip(
-      this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
-    );
+  private getOdoTrip(trip: number) {
+    // this.odoTripService.saveOdo(
+    //   this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
+    // );
+    // this.odoTripService.saveTrip(
+    //   this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
+    // );
+    this.odoTripService.saveOdo(trip);
+    this.odoTripService.saveTrip(trip);
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
@@ -95,7 +97,7 @@ export class CalculateService {
     }
     this.odo = (this.odoTripService.currentOdo / 1000).toFixed(1);
     this.trip = (this.odoTripService.currentTrip / 1000).toFixed(1);
-    if (this.timerService.currentTotalTime != 0) {
+    if (this.timerService.currentTotalTime > 0) {
       this.avgSpeed = (
         (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
         3.6
@@ -120,7 +122,7 @@ export class CalculateService {
     }
     this.odo = (this.odoTripService.currentOdo * 0.000621371192).toFixed(1);
     this.trip = (this.odoTripService.currentTrip * 0.000621371192).toFixed(1);
-    if (this.timerService.currentTotalTime != 0) {
+    if (this.timerService.currentTotalTime > 0) {
       this.avgSpeed = (
         (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
         2.23693629

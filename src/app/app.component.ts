@@ -31,9 +31,9 @@ export class AppComponent {
     private odoTripService: OdoTripService,
     private timerService: TimerService
   ) {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
+      await this.createStorage();
       this.hardwareBackBtn();
-      this.createStorage();
       this.geolocationService.startGeolocation();
       this.updateService.checkForUpdate(false);
     });
@@ -42,7 +42,7 @@ export class AppComponent {
   private async createStorage() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
-    this.unitService.setUnit();
+    this.unitService.getUnit();
     this.topSpeedService.getTopSpeed();
     this.odoTripService.getOdoTrip();
     this.timerService.getTotalTime();

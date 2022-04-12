@@ -74,17 +74,20 @@ export class TimerService {
   }
 
   public async getTotalTime() {
-    await this.storage.get(TT_KEY).then((val) => {
-      if (val) {
-        this.saveTotalTime(val);
-        this.lastTotalTime = val;
-        this.currentTotalTime = val;
-      } else {
-        this.saveTotalTime(0);
-        this.lastTotalTime = 0;
-        this.currentTotalTime = 0;
-      }
-    });
+    await this.storage
+      .get(TT_KEY)
+      .then((val) => {
+        if (val) {
+          this.lastTotalTime = val;
+          this.currentTotalTime = val;
+          this.saveTotalTime(val);
+        } else {
+          this.lastTotalTime = 0;
+          this.currentTotalTime = 0;
+          this.saveTotalTime(0);
+        }
+      })
+      .catch(() => {});
   }
 
   public async saveTotalTime(time: number) {

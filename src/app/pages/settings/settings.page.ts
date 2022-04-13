@@ -65,9 +65,15 @@ export class SettingsPage implements OnInit {
   }
 
   private async clearData() {
-    this.topSpeedService.clearTopSpeed();
-    this.odoTripService.clearTrip();
-    this.toastComponent.presentToast('toast.clear_success', null, 1000);
+    try {
+      await Promise.all([
+        this.topSpeedService.clearTopSpeed(),
+        this.odoTripService.clearTrip(),
+      ]);
+      this.toastComponent.presentToast('toast.clear_success', null, 1000);
+    } catch (e) {
+      this.toastComponent.presentToast('toast.clear_failed: ' + e, null, 1000);
+    }
   }
 
   public selectLng(ev: any) {

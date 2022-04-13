@@ -23,7 +23,7 @@ export class ToastComponent {
       .create({
         message: this.translateService.instant(msg, { value: value }),
         duration: time,
-        position: 'middle',
+        position: 'top',
         cssClass: 'custom-toast',
       })
       .then((toast) => {

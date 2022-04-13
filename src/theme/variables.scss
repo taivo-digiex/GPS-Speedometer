@@ -349,17 +349,17 @@ ion-card {
 }
 
 .custom-toast {
-  --width: max-content;
+  // --width: max-content;
   --border-radius: 25px;
 }
 
 .custom-toast.md {
-  --background: #262626e6;
-  --color: var(--ion-text-color);
+  --background: #ffffffe6;
 }
 
 .custom-toast.ios {
-  --background: #262626e6;
+  --background: #ffffffe6;
+  --color: #000000;
 }
 
 .swiper {

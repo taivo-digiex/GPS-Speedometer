@@ -78,7 +78,7 @@ export class TimerService {
       .get(TT_KEY)
       .then((val) => {
         if (val) {
-          this.lastTotalTime = val;
+          this.lastTotalTime = 0;
           this.currentTotalTime = val;
           this.saveTotalTime(val);
         } else {
@@ -86,15 +86,19 @@ export class TimerService {
           this.currentTotalTime = 0;
           this.saveTotalTime(0);
         }
+
+        setInterval(() => {
+          this.saveTotalTime(1);
+        }, 1000);
       })
       .catch(() => {});
   }
 
   public async saveTotalTime(time: number) {
     if (!isNaN(time) && !isNaN(this.lastTotalTime)) {
-      const newTotalTime = this.lastTotalTime + time;
-      this.currentTotalTime = newTotalTime;
-      await this.storage.set(TT_KEY, newTotalTime);
+      this.currentTotalTime = this.lastTotalTime + time;
+      this.lastTotalTime = this.currentTotalTime;
+      await this.storage.set(TT_KEY, this.currentTotalTime);
     }
   }
 }

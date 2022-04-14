@@ -24,36 +24,38 @@ export class UpdateService {
         )
         .subscribe(async (info: AppUpdateModel) => {
           if (info) {
-            const versionNumber = (await App.getInfo()).version;
-            const splittedVersion = versionNumber.split(/[.-]/);
-            const serverVersion = info.tag_name.split(/[.-]/);
+            try {
+              const versionNumber = (await App.getInfo()).version;
+              const splittedVersion = versionNumber.split(/[.-]/);
+              const serverVersion = info.tag_name.split(/[.-]/);
 
-            if (
-              serverVersion[0] > splittedVersion[0] ||
-              serverVersion[1] > splittedVersion[1] ||
-              serverVersion[2] > splittedVersion[2]
-            ) {
-              this.downloadLatest = info.assets[0].browser_download_url;
-              await this.alertComponent.presentAlert(
-                'alert.header.h2',
-                info.tag_name,
-                info.body,
-                null,
-                'common.later',
-                'common.download',
-                (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
-                this,
-                this.downloadNewAppVersion
-              );
-            } else if (isManual) {
-              await this.alertComponent.presentAlertOneBtn(
-                'alert.header.h3',
-                versionNumber,
-                'alert.msg.m2',
-                null,
-                'common.ok'
-              );
-            }
+              if (
+                serverVersion[0] > splittedVersion[0] ||
+                serverVersion[1] > splittedVersion[1] ||
+                serverVersion[2] > splittedVersion[2]
+              ) {
+                this.downloadLatest = info.assets[0].browser_download_url;
+                await this.alertComponent.presentAlert(
+                  'alert.header.h2',
+                  info.tag_name,
+                  info.body,
+                  null,
+                  'common.later',
+                  'common.download',
+                  (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
+                  this,
+                  this.downloadNewAppVersion
+                );
+              } else if (isManual) {
+                await this.alertComponent.presentAlertOneBtn(
+                  'alert.header.h3',
+                  versionNumber,
+                  'alert.msg.m2',
+                  null,
+                  'common.ok'
+                );
+              }
+            } catch (e) {}
           }
         });
     } else {

@@ -24,7 +24,7 @@ export class CalculateService {
   public trip: string;
 
   // private tripArr = [...DISTANCCE_DATA];
-  private timeArr = [...TIME_DATA];
+  // private timeArr = [...TIME_DATA];
   private value = [...VALUE];
 
   constructor(
@@ -49,20 +49,18 @@ export class CalculateService {
 
     for (let i = 0; i < this.value.length; i++) {
       var trip = this.value[i].speed * this.value[i].time;
-      var time = this.value[i].time;
+      // var time = this.value[i].time;
     }
 
-    this.timeArr = [...this.timeArr, time];
+    // this.timeArr = [...this.timeArr, time];
     // this.tripArr = [...this.tripArr, trip];
 
     this.getOdoTrip(trip);
-    this.getTime();
+    // this.getTime(time);
   }
 
-  private getTime() {
-    this.timerService.saveTotalTime(
-      this.timeArr.reduce((partialSum, time) => partialSum + time, 0)
-    );
+  private getTime(time: number) {
+    this.timerService.saveTotalTime(time);
   }
 
   private getOdoTrip(trip: number) {

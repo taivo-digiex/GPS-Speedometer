@@ -43,9 +43,9 @@ export class AppComponent {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
     this.unitService.getUnit();
-    this.topSpeedService.getTopSpeed();
-    this.odoTripService.getOdoTrip();
     this.timerService.getTotalTime();
+    this.odoTripService.getOdoTrip();
+    this.topSpeedService.getTopSpeed();
   }
 
   private hardwareBackBtn() {

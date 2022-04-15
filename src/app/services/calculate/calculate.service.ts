@@ -7,10 +7,6 @@ import { UnitService } from '../unit/unit.service';
 
 const VALUE: speedTime[] = [];
 
-// const DISTANCCE_DATA: Array<number> = [];
-
-const TIME_DATA: Array<number> = [];
-
 @Injectable({
   providedIn: 'root',
 })
@@ -23,8 +19,6 @@ export class CalculateService {
   public odo: string;
   public trip: string;
 
-  // private tripArr = [...DISTANCCE_DATA];
-  // private timeArr = [...TIME_DATA];
   private value = [...VALUE];
 
   constructor(
@@ -34,8 +28,8 @@ export class CalculateService {
     private timerService: TimerService
   ) {}
 
-  public getValue(speed: number, totalElapsedTime: number) {
-    if (speed == null || totalElapsedTime == null) {
+  public getValue(speed: number) {
+    if (speed == null || this.timerService.totalElapsedTime == null) {
       return;
     }
 
@@ -43,33 +37,14 @@ export class CalculateService {
       ...this.value,
       {
         speed: speed,
-        time: totalElapsedTime,
+        time: this.timerService.totalElapsedTime,
       },
     ];
 
     for (let i = 0; i < this.value.length; i++) {
       var trip = this.value[i].speed * this.value[i].time;
-      // var time = this.value[i].time;
     }
 
-    // this.timeArr = [...this.timeArr, time];
-    // this.tripArr = [...this.tripArr, trip];
-
-    this.getOdoTrip(trip);
-    // this.getTime(time);
-  }
-
-  private getTime(time: number) {
-    this.timerService.saveTotalTime(time);
-  }
-
-  private getOdoTrip(trip: number) {
-    // this.odoTripService.saveOdo(
-    //   this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
-    // );
-    // this.odoTripService.saveTrip(
-    //   this.tripArr.reduce((partialSum, a) => partialSum + a, 0)
-    // );
     this.odoTripService.saveOdo(trip);
     this.odoTripService.saveTrip(trip);
   }

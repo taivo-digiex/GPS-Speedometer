@@ -76,7 +76,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.toastComponent.presentToast(
       'toast.unit_change.' + this.unitService.unit,
       null,
-      500
+      500,
+      null
     );
   }
 

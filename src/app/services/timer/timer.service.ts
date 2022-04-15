@@ -40,6 +40,7 @@ export class TimerService {
 
   public stopTotalElapsedTime() {
     clearInterval(this.totalElapsedTimeInterval);
+    this.calculateTime();
   }
 
   public timer() {

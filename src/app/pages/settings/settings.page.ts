@@ -70,9 +70,19 @@ export class SettingsPage implements OnInit {
         this.topSpeedService.clearTopSpeed(),
         this.odoTripService.clearTrip(),
       ]);
-      this.toastComponent.presentToast('toast.clear_success', null, 1000);
+      this.toastComponent.presentToast(
+        'toast.clear_success',
+        null,
+        1000,
+        'success'
+      );
     } catch (e) {
-      this.toastComponent.presentToast('toast.clear_failed: ' + e, null, 1000);
+      this.toastComponent.presentToast(
+        'toast.clear_failed: ' + e,
+        null,
+        1000,
+        'danger'
+      );
     }
   }
 

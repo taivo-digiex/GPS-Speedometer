@@ -37,7 +37,8 @@ export class GeolocationService {
           this.toastComponent.presentToast(
             'toast.error.code.' + res.code,
             null,
-            1000
+            1000,
+            'danger'
           );
         }
       });
@@ -65,13 +66,8 @@ export class GeolocationService {
   }
 
   public getSpeedAndTime() {
-    this.calculateService.getValue(
-      this.speed,
-      this.timerService.totalElapsedTime
-    );
-
+    this.calculateService.getValue(this.speed);
     this.timerService.stopTotalElapsedTime();
-    this.timerService.calculateTime();
   }
 
   public stop() {

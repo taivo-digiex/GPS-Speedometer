@@ -11,8 +11,8 @@ export class OdoTripService {
   public currentOdo: number;
   public currentTrip: number;
 
-  public lastOdo: number;
-  public lastTrip: number;
+  private lastOdo: number;
+  private lastTrip: number;
 
   constructor(private storage: Storage) {}
 
@@ -56,12 +56,6 @@ export class OdoTripService {
   }
 
   public async saveOdo(currentOdo: number) {
-    // if (!isNaN(currentOdo) && !isNaN(this.lastOdo)) {
-    //   const odo = this.lastOdo + currentOdo;
-    //   this.currentOdo = odo;
-    //   await this.storage.set(ODO_KEY, odo);
-    // }
-
     if (!isNaN(currentOdo) && !isNaN(this.lastOdo)) {
       this.currentOdo = this.lastOdo + currentOdo;
       this.lastOdo = this.currentOdo;

@@ -12,7 +12,7 @@ export class ToastComponent {
     private translateService: TranslateService
   ) {}
 
-  public async presentToast(msg: any, value: any, time: number) {
+  public async presentToast(msg: any, value: any, time: number, color: string) {
     this.toastController
       .dismiss()
       .then(() => {})
@@ -25,6 +25,15 @@ export class ToastComponent {
         duration: time,
         position: 'top',
         cssClass: 'custom-toast',
+        mode: 'ios',
+        color: color || 'dark',
+        buttons: [
+          {
+            icon: 'close-outline',
+            side: 'end',
+            role: 'cancel',
+          },
+        ],
       })
       .then((toast) => {
         toast.present();

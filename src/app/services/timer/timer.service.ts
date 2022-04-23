@@ -79,27 +79,33 @@ export class TimerService {
       .get(TT_KEY)
       .then((val) => {
         if (val) {
-          this.lastTotalTime = 0;
+          this.lastTotalTime = val;
           this.currentTotalTime = val;
-          this.saveTotalTime(val);
+          // this.saveTotalTime(val);
         } else {
           this.lastTotalTime = 0;
           this.currentTotalTime = 0;
-          this.saveTotalTime(0);
+          // this.saveTotalTime(0);
         }
-
-        setInterval(() => {
-          this.saveTotalTime(1);
-        }, 1000);
+        this.saveTotalTime();
       })
       .catch(() => {});
   }
 
-  public async saveTotalTime(time: number) {
-    if (!isNaN(time) && !isNaN(this.lastTotalTime)) {
-      this.currentTotalTime = this.lastTotalTime + time;
-      this.lastTotalTime = this.currentTotalTime;
-      await this.storage.set(TT_KEY, this.currentTotalTime);
-    }
+  public async saveTotalTime() {
+    setInterval(async () => {
+      if (!isNaN(this.lastTotalTime)) {
+        this.currentTotalTime = this.lastTotalTime + 1;
+        this.lastTotalTime = this.currentTotalTime;
+        await this.storage.set(TT_KEY, this.currentTotalTime);
+      }
+      // console.log(
+      //   Math.floor(this.currentTotalTime / 3600) +
+      //     ':' +
+      //     ('0' + (Math.floor(this.currentTotalTime / 60) % 60)).slice(-2) +
+      //     ':' +
+      //     ('0' + (this.currentTotalTime % 60)).slice(-2)
+      // );
+    }, 1000);
   }
 }

@@ -19,7 +19,7 @@
   font-style: italic;
 }
 
-.odo {
+.distance {
   font-size: 25px;
   font-style: italic;
 
@@ -29,9 +29,15 @@
     color: var(--ion-text-color);
   }
 
-  .odo-number {
+  .distance-number {
     font-family: "Number";
     font-style: normal;
+  }
+
+  .distance-text {
+    font-size: 16px;
+    font-style: normal;
+    margin-right: 10px;
   }
 }
 
@@ -79,7 +85,7 @@
       font-size: 12px;
     }
 
-    .odo {
+    .distance {
       font-size: 20px;
     }
   }
@@ -120,7 +126,7 @@
       font-size: 20px !important;
     }
 
-    .odo {
+    .distance {
       font-size: 20px;
     }
 

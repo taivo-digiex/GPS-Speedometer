@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
 const TT_KEY = 'total-time';
@@ -7,7 +7,8 @@ const TT_KEY = 'total-time';
   providedIn: 'root',
 })
 export class TimerService {
-  public time: string = '00:00:00';
+  public totalTime = new EventEmitter();
+  public time = new EventEmitter();
   public totalElapsedTimeInterval: any;
   public totalElapsedTime: number;
   public timerInterval: any;
@@ -65,13 +66,27 @@ export class TimerService {
       let formattedMM = mm.toString().padStart(2, '0');
       let formattedSS = ss.toString().padStart(2, '0');
 
-      this.time = `${formattedHH}:${formattedMM}:${formattedSS}`;
+      this.time.emit(`${formattedHH}:${formattedMM}:${formattedSS}`);
     }, 1000);
   }
 
   public stopTimer() {
     this.hiddenStartIcon = !this.hiddenStartIcon;
     clearInterval(this.timerInterval);
+  }
+
+  public convertTotalTravelTime() {
+    this.totalTime.emit(
+      Math.floor(this.currentTotalTime / 3600)
+        .toString()
+        .padStart(2, '0') +
+        ':' +
+        (Math.floor(this.currentTotalTime / 60) % 60)
+          .toString()
+          .padStart(2, '0') +
+        ':' +
+        (this.currentTotalTime % 60).toString().padStart(2, '0')
+    );
   }
 
   public async getTotalTime() {
@@ -81,11 +96,9 @@ export class TimerService {
         if (val) {
           this.lastTotalTime = val;
           this.currentTotalTime = val;
-          // this.saveTotalTime(val);
         } else {
           this.lastTotalTime = 0;
           this.currentTotalTime = 0;
-          // this.saveTotalTime(0);
         }
         this.saveTotalTime();
       })
@@ -94,18 +107,12 @@ export class TimerService {
 
   public async saveTotalTime() {
     setInterval(async () => {
+      this.convertTotalTravelTime();
       if (!isNaN(this.lastTotalTime)) {
         this.currentTotalTime = this.lastTotalTime + 1;
         this.lastTotalTime = this.currentTotalTime;
         await this.storage.set(TT_KEY, this.currentTotalTime);
       }
-      // console.log(
-      //   Math.floor(this.currentTotalTime / 3600) +
-      //     ':' +
-      //     ('0' + (Math.floor(this.currentTotalTime / 60) % 60)).slice(-2) +
-      //     ':' +
-      //     ('0' + (this.currentTotalTime % 60)).slice(-2)
-      // );
     }, 1000);
   }
 }

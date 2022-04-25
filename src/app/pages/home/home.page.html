@@ -2,7 +2,7 @@
   <ion-toolbar class="cus-toolbar">
     <ion-icon class="timer-icon" size="large" slot="start" [ios]="timerIcon + '-outline'" [md]="timerIcon + '-sharp'">
     </ion-icon>
-    <ion-text slot="start">{{ time }}</ion-text>
+    <ion-text slot="start">{{ time != null ? time : '00:00:00'}}</ion-text>
 
     <ion-buttons class="cus-btns">
       <ion-button (click)="startTimer()" [hidden]="hiddenStartIcon">
@@ -32,6 +32,20 @@
     <div *ngIf="!isPortrait" class="landscape-info">
       <ion-card>
         <div class="details">
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
+              <p>
+                <strong>
+                  {{ "common.total_time" | translate }}:
+                </strong>
+              </p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
+              <p>{{ totalTime != null ? totalTime : '00:00:00'}}</p>
+            </ion-col>
+          </ion-row>
+
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
               <p>
@@ -134,11 +148,21 @@
               <ion-col class="col-border">
                 <p>
                   <strong>
+                    {{ "common.total_time" | translate }}:
+                  </strong>
+                </p>
+                <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
+              </ion-col>
+
+              <ion-col class="col-border">
+                <p>
+                  <strong>
                     {{ "common.top_speed" | translate }}:
                   </strong>
                 </p>
                 <p>{{ topSpeed }} {{ speedUnit }}</p>
               </ion-col>
+
 
               <ion-col>
                 <p>

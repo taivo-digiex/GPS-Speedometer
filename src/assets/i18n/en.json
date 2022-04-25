@@ -21,7 +21,8 @@
     "ok": "Ok",
     "unit": "Unit",
     "trip": "Trip",
-    "total": "Total"
+    "total": "Total",
+    "total_time": "Total time"
   },
 
   "unit": {
@@ -40,6 +41,8 @@
       "metric": "Switch to metric.",
       "imperial": "Switch to imperial."
     },
+    "checkingForUpdate": "Checking for update...",
+    "checkForUpdateFailed": "Fail to check for update. {{value}}",
     "error": {
       "permission": {
         "location": { "denied": "Cannot access location." }

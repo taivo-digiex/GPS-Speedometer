@@ -39,10 +39,11 @@
       <ion-label>{{ 'common.clear_data' | translate }}</ion-label>
     </ion-item>
 
-    <ion-item button lines="none" (click)="checkForUpdate()" detail="false">
+    <ion-item button lines="none" (click)="checkForUpdate()" detail="false" [disabled]="!appVersion">
       <ion-icon slot="start" class="cus-icon" [ios]="downloadIcon + '-outline'" [md]="downloadIcon + '-sharp'">
       </ion-icon>
       <ion-label>{{ 'common.check_for_update' | translate }}</ion-label>
+      <ion-label slot="end">{{ appVersion != null ? appVersion: '-'  }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

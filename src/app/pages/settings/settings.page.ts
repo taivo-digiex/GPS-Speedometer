@@ -18,6 +18,7 @@ export class SettingsPage implements OnInit {
   public units = [];
   public selectedLanguage: string;
   public selectedUnit: string;
+  public appVersion: string;
 
   public langIcon: string = 'language';
   public unitIcon: string = 'speedometer';
@@ -38,6 +39,7 @@ export class SettingsPage implements OnInit {
   public ngOnInit() {
     this.getLangSelected();
     this.getUnitSelected();
+    this.appVersion = this.updateService.versionNumber;
   }
 
   private getLangSelected() {

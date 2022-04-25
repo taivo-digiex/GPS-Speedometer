@@ -39,4 +39,12 @@ export class ToastComponent {
         toast.present();
       });
   }
+
+  public dismissToast() {
+    this.toastController
+      .dismiss()
+      .then(() => {})
+      .catch(() => {})
+      .finally(() => {});
+  }
 }

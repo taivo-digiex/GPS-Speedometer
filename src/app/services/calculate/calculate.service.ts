@@ -50,10 +50,15 @@ export class CalculateService {
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
-    if (this.unitService.unit == 'metric') {
-      this.metricUnit(speed, rawAccuracy, rawAltitude);
-    } else if (this.unitService.unit == 'imperial') {
-      this.imperialUnit(speed, rawAccuracy, rawAltitude);
+    switch (this.unitService.unit) {
+      case 'imperial':
+        {
+          this.imperialUnit(speed, rawAccuracy, rawAltitude);
+        }
+        break;
+      default: {
+        this.metricUnit(speed, rawAccuracy, rawAltitude);
+      }
     }
   }
 

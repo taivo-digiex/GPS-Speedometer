@@ -21,7 +21,8 @@
     "ok": "Ok",
     "unit": "Đơn vị",
     "trip": "Q.đường",
-    "total": "Tổng"
+    "total": "Tổng",
+    "total_time": "Tổng thời gian"
   },
 
   "unit": {
@@ -40,6 +41,8 @@
       "metric": "Chuyển sang hệ mét.",
       "imperial": "Chuyển sang hệ đo lường Anh."
     },
+    "checkingForUpdate": "Đang kiểm tra cập nhật...",
+    "checkForUpdateFailed": "Kiểm tra cập nhật thất bại. {{value}}",
     "error": {
       "permission": {
         "location": { "denied": "Không thể truy cập vị trí." }

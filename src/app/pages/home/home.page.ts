@@ -28,7 +28,8 @@ export class HomePage implements OnInit, OnDestroy {
   public altitude: string;
   public avgSpeed: string;
   public distance: string;
-  public time: string = this.timerService.time;
+  public time: string;
+  public totalTime: string;
   public hiddenStartIcon: boolean = this.timerService.hiddenStartIcon;
   public isPortrait: boolean = this.platform.isPortrait();
   public isSwitchTrip: boolean = false;
@@ -57,9 +58,16 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private initial() {
+    this.timerService.totalTime.subscribe((data) => {
+      this.totalTime = data;
+    });
+
+    this.timerService.time.subscribe((data) => {
+      this.time = data;
+    });
+
     setInterval(() => {
       this.convertUnit();
-      this.time = this.timerService.time;
       this.lat = this.geolocationService.lat;
       this.lon = this.geolocationService.lon;
       this.hiddenStartIcon = this.timerService.hiddenStartIcon;

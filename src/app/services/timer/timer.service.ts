@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
 const TT_KEY = 'total-time';
@@ -7,33 +7,35 @@ const TT_KEY = 'total-time';
   providedIn: 'root',
 })
 export class TimerService {
-  public totalTime = new EventEmitter();
-  public time = new EventEmitter();
+  @Output() timerData = new EventEmitter();
+  @Output() icon = new EventEmitter();
+  @Output() totalTime = new EventEmitter();
   public totalElapsedTimeInterval: any;
   public totalElapsedTime: number;
   public timerInterval: any;
-  public hiddenStartIcon: boolean = false;
+  public hiddenStartIcon = false;
   public currentTotalTime: number;
   public lastTotalTime: number;
+
+  private totalTimerInterval: any;
 
   constructor(private storage: Storage) {}
 
   public calculateTime() {
-    let startTime: number;
-    let elapsedTime: number = 0;
-    startTime = Date.now() - elapsedTime;
+    let elapsedTime = 0;
+    const startTime = Date.now() - elapsedTime;
 
     this.totalElapsedTimeInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime;
 
-      let diffInHrs = elapsedTime / 3600000;
-      let hh = Math.floor(diffInHrs);
+      const diffInHrs = elapsedTime / 3600000;
+      const hh = Math.floor(diffInHrs);
 
-      let diffInMin = (diffInHrs - hh) * 60;
-      let mm = Math.floor(diffInMin);
+      const diffInMin = (diffInHrs - hh) * 60;
+      const mm = Math.floor(diffInMin);
 
-      let diffInSec = (diffInMin - mm) * 60;
-      let ss = Math.floor(diffInSec);
+      const diffInSec = (diffInMin - mm) * 60;
+      const ss = Math.floor(diffInSec);
 
       this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
     }, 1000);
@@ -45,33 +47,33 @@ export class TimerService {
   }
 
   public timer() {
-    let startTime: number;
-    let elapsedTime: number = 0;
-    startTime = Date.now() - elapsedTime;
-    this.hiddenStartIcon = !this.hiddenStartIcon;
+    this.icon.emit(true);
+    let elapsedTime = 0;
+    const startTime = Date.now() - elapsedTime;
 
     this.timerInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime;
 
-      let diffInHrs = elapsedTime / 3600000;
-      let hh = Math.floor(diffInHrs);
+      const diffInHrs = elapsedTime / 3600000;
+      const hh = Math.floor(diffInHrs);
 
-      let diffInMin = (diffInHrs - hh) * 60;
-      let mm = Math.floor(diffInMin);
+      const diffInMin = (diffInHrs - hh) * 60;
+      const mm = Math.floor(diffInMin);
 
-      let diffInSec = (diffInMin - mm) * 60;
-      let ss = Math.floor(diffInSec);
+      const diffInSec = (diffInMin - mm) * 60;
+      const ss = Math.floor(diffInSec);
 
-      let formattedHH = hh.toString().padStart(2, '0');
-      let formattedMM = mm.toString().padStart(2, '0');
-      let formattedSS = ss.toString().padStart(2, '0');
+      const formattedHH = hh.toString().padStart(2, '0');
+      const formattedMM = mm.toString().padStart(2, '0');
+      const formattedSS = ss.toString().padStart(2, '0');
 
-      this.time.emit(`${formattedHH}:${formattedMM}:${formattedSS}`);
+      this.timerData.emit(`${formattedHH}:${formattedMM}:${formattedSS}`);
     }, 1000);
   }
 
   public stopTimer() {
-    this.hiddenStartIcon = !this.hiddenStartIcon;
+    this.timerData.emit('00:00:00');
+    this.icon.emit(false);
     clearInterval(this.timerInterval);
   }
 
@@ -85,7 +87,7 @@ export class TimerService {
           .toString()
           .padStart(2, '0') +
         ':' +
-        (this.currentTotalTime % 60).toString().padStart(2, '0')
+        (this.currentTotalTime % 60).toString().padStart(2, '0') || '00:00:00'
     );
   }
 
@@ -100,19 +102,32 @@ export class TimerService {
           this.lastTotalTime = 0;
           this.currentTotalTime = 0;
         }
-        this.saveTotalTime();
+        // this.saveTotalTime();
+        this.convertTotalTravelTime();
       })
       .catch(() => {});
   }
 
-  public async saveTotalTime() {
-    setInterval(async () => {
-      this.convertTotalTravelTime();
-      if (!isNaN(this.lastTotalTime)) {
-        this.currentTotalTime = this.lastTotalTime + 1;
-        this.lastTotalTime = this.currentTotalTime;
-        await this.storage.set(TT_KEY, this.currentTotalTime);
-      }
-    }, 1000);
+  public async saveTotalTime(time: number) {
+    // this.totalTimerInterval = setInterval(async () => {
+    //   this.convertTotalTravelTime();
+    //   if (!isNaN(this.lastTotalTime)) {
+    //     this.currentTotalTime = this.lastTotalTime + 1;
+    //     this.lastTotalTime = this.currentTotalTime;
+    //     await this.storage.set(TT_KEY, this.currentTotalTime);
+    //   }
+    // }, 1000);
+    this.convertTotalTravelTime();
+    if (!isNaN(this.lastTotalTime)) {
+      this.currentTotalTime = this.lastTotalTime + time;
+      this.lastTotalTime = this.currentTotalTime;
+      await this.storage.set(TT_KEY, this.currentTotalTime);
+    }
+  }
+
+  public async resetTotalTime() {
+    // clearInterval(this.totalTimerInterval);
+    await this.storage.remove(TT_KEY);
+    this.getTotalTime();
   }
 }

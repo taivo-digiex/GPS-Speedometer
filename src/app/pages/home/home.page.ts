@@ -27,17 +27,17 @@ export class HomePage implements OnInit, OnDestroy {
   public accuracy: number;
   public altitude: string;
   public avgSpeed: string;
-  public distance: string;
+  public distance: any;
   public time: string;
   public totalTime: string;
-  public hiddenStartIcon: boolean = this.timerService.hiddenStartIcon;
-  public isPortrait: boolean = this.platform.isPortrait();
-  public isSwitchTrip: boolean = false;
+  public hiddenStartIcon = this.timerService.hiddenStartIcon;
+  public isPortrait = this.platform.isPortrait();
+  public isSwitchTrip = true;
 
-  public settingsIcon: string = 'settings';
-  public timerIcon: string = 'timer';
-  public startIcon: string = 'play';
-  public stopIcon: string = 'stop';
+  public settingsIcon = 'settings';
+  public timerIcon = 'timer';
+  public startIcon = 'play';
+  public stopIcon = 'stop';
 
   constructor(
     private insomnia: Insomnia,
@@ -51,33 +51,15 @@ export class HomePage implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.platform.ready().then(() => {
-      this.onOrientationChange();
       this.insomnia.keepAwake();
       this.initial();
     });
   }
 
-  private initial() {
-    this.timerService.totalTime.subscribe((data) => {
-      this.totalTime = data;
-    });
-
-    this.timerService.time.subscribe((data) => {
-      this.time = data;
-    });
-
-    setInterval(() => {
-      this.convertUnit();
-      this.lat = this.geolocationService.lat;
-      this.lon = this.geolocationService.lon;
-      this.hiddenStartIcon = this.timerService.hiddenStartIcon;
-    });
-  }
-
   public changeUnit() {
-    if (this.unitService.unit == 'imperial') {
+    if (this.unitService.unit === 'imperial') {
       this.unitService.saveUnit('metric');
-    } else if (this.unitService.unit == 'metric') {
+    } else if (this.unitService.unit === 'metric') {
       this.unitService.saveUnit('imperial');
     }
 
@@ -87,23 +69,6 @@ export class HomePage implements OnInit, OnDestroy {
       500,
       null
     );
-  }
-
-  private convertUnit() {
-    this.geolocationService.convertUnit();
-    this.speedo = this.calculateService.speedo;
-    this.topSpeed = this.calculateService.topSpeed;
-    this.accuracy = this.calculateService.accuracy;
-    this.altitude = this.calculateService.altitude;
-    this.distance = this.isSwitchTrip
-      ? this.calculateService.trip
-      : this.calculateService.odo;
-    this.avgSpeed = this.calculateService.avgSpeed;
-
-    this.unitService.convertUnit();
-    this.lenghtUnit = this.unitService.lenghtUnit;
-    this.speedUnit = this.unitService.speedUnit;
-    this.distanceUnit = this.unitService.distanceUnit;
   }
 
   public stopTracking() {
@@ -123,9 +88,71 @@ export class HomePage implements OnInit, OnDestroy {
     this.insomnia.allowSleepAgain();
   }
 
-  public onOrientationChange() {
-    this.platform.resize.subscribe(() => {
+  public switchTrip() {
+    this.isSwitchTrip = !this.isSwitchTrip;
+    this.distance = this.isSwitchTrip
+      ? this.calculateService.trip
+      : this.calculateService.odo;
+  }
+
+  private initial() {
+    setInterval(() => {
       this.isPortrait = this.platform.isPortrait();
+    }, 250);
+
+    this.unitService.unitSystem.subscribe((data) => {
+      this.speedUnit = this.unitService.speedUnit;
+      this.distanceUnit = this.unitService.distanceUnit;
+      this.lenghtUnit = this.unitService.lenghtUnit;
+      this.geolocationService.convertUnit();
+    });
+
+    this.geolocationService.geolocationData.subscribe((data) => {
+      this.geolocationService.convertUnit();
+      this.lat = this.geolocationService.lat;
+      this.lon = this.geolocationService.lon;
+    });
+
+    this.calculateService.calculateData.subscribe((data) => {
+      this.speedo = this.calculateService.speedo;
+      this.topSpeed = this.calculateService.topSpeed;
+      this.accuracy = this.calculateService.accuracy;
+      this.altitude = this.calculateService.altitude;
+      this.distance = this.isSwitchTrip
+        ? this.calculateService.trip
+        : this.calculateService.odo;
+      this.avgSpeed = this.calculateService.avgSpeed;
+    });
+
+    this.timerService.totalTime.subscribe((data) => {
+      this.totalTime = data;
+    });
+
+    this.timerService.timerData.subscribe((data) => {
+      this.time = data;
+    });
+
+    this.timerService.icon.subscribe((data) => {
+      this.hiddenStartIcon = data;
     });
   }
+
+  // private convertUnit() {
+  //   // this.unitService.convertUnit();
+  //   this.lenghtUnit = this.unitService.lenghtUnit;
+  //   this.speedUnit = this.unitService.speedUnit;
+  //   this.distanceUnit = this.unitService.distanceUnit;
+
+  //   // this.geolocationService.convertUnit();
+  //   this.speedo = this.calculateService.speedo;
+  //   this.topSpeed = this.calculateService.topSpeed;
+  //   this.accuracy = this.calculateService.accuracy;
+  //   this.altitude = this.calculateService.altitude;
+  //   this.distance = this.isSwitchTrip
+  //     ? this.calculateService.trip
+  //     : this.calculateService.odo;
+  //   this.avgSpeed = this.calculateService.avgSpeed;
+  //   this.lat = this.geolocationService.lat;
+  //   this.lon = this.geolocationService.lon;
+  // }
 }

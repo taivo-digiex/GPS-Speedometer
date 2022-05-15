@@ -1,7 +1,9 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.application' 
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+
+  namespace 'com.vdt.gpsspeedometer'
+  compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.vdt.gpsspeedometer"
         minSdkVersion rootProject.ext.minSdkVersion

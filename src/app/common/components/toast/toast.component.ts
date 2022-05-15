@@ -21,7 +21,7 @@ export class ToastComponent {
 
     await this.toastController
       .create({
-        message: this.translateService.instant(msg, { value: value }),
+        message: this.translateService.instant(msg, { value }),
         duration: time,
         position: 'top',
         cssClass: 'custom-toast',

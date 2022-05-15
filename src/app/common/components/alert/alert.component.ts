@@ -20,8 +20,8 @@ export class AlertComponent {
     btnCancelTxt: string,
     btnTxt: string,
     btnValue: any,
-    context: Object,
-    action: () => {}
+    context: object,
+    action: () => Record<string, any>
   ) {
     const alert = await this.alertController.create({
       header: this.translateService.instant(header, { value: headervalue }),

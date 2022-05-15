@@ -42,7 +42,7 @@
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ totalTime != null ? totalTime : '00:00:00'}}</p>
+              <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
             </ion-col>
           </ion-row>
 
@@ -56,7 +56,7 @@
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ topSpeed }} {{ speedUnit }}</p>
+              <p>{{ topSpeed != null ? topSpeed : '-'}} {{ speedUnit }}</p>
             </ion-col>
           </ion-row>
 
@@ -131,7 +131,7 @@
 <ion-footer class="ion-no-border ion-text-center">
   <div class="distance">
     <p>
-      <ion-text class="distance-text" (click)="isSwitchTrip = !isSwitchTrip">
+      <ion-text class="distance-text" (click)="switchTrip()">
         {{ !isSwitchTrip ? ('common.total' | translate) : ('common.trip' | translate) }}
       </ion-text>
       <ion-text class="distance-number">{{ distance != null ? distance : '-.-' }}</ion-text>
@@ -160,7 +160,7 @@
                     {{ "common.top_speed" | translate }}:
                   </strong>
                 </p>
-                <p>{{ topSpeed }} {{ speedUnit }}</p>
+                <p>{{ topSpeed != null ? topSpeed : '-' }} {{ speedUnit }}</p>
               </ion-col>
 
 

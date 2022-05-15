@@ -7,6 +7,7 @@ import { UpdateService } from 'src/app/services/update/update.service';
 import { AlertComponent } from 'src/app/common/components/alert/alert.component';
 import { UnitService } from 'src/app/services/unit/unit.service';
 import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
+import { TimerService } from 'src/app/services/timer/timer.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,10 +21,10 @@ export class SettingsPage implements OnInit {
   public selectedUnit: string;
   public appVersion: string;
 
-  public langIcon: string = 'language';
-  public unitIcon: string = 'speedometer';
-  public trashIcon: string = 'trash';
-  public downloadIcon: string = 'download';
+  public langIcon = 'language';
+  public unitIcon = 'speedometer';
+  public trashIcon = 'trash';
+  public downloadIcon = 'download';
 
   constructor(
     private location: Location,
@@ -33,23 +34,14 @@ export class SettingsPage implements OnInit {
     private updateService: UpdateService,
     private alertComponent: AlertComponent,
     private unitService: UnitService,
-    private odoTripService: OdoTripService
+    private odoTripService: OdoTripService,
+    private timerService: TimerService
   ) {}
 
   public ngOnInit() {
     this.getLangSelected();
     this.getUnitSelected();
     this.appVersion = this.updateService.versionNumber;
-  }
-
-  private getLangSelected() {
-    this.languages = this.languageService.getLanguages();
-    this.selectedLanguage = this.languageService.selected;
-  }
-
-  private getUnitSelected() {
-    this.units = this.unitService.getUnits();
-    this.selectedUnit = this.unitService.unit;
   }
 
   public async confirmClear() {
@@ -66,10 +58,37 @@ export class SettingsPage implements OnInit {
     );
   }
 
+  public selectLng(ev: any) {
+    this.languageService.setLanguage(ev.target.value);
+  }
+
+  public back() {
+    this.location.back();
+  }
+
+  public checkForUpdate() {
+    this.updateService.checkForUpdate(true);
+  }
+
+  public changeUnit(ev: any) {
+    this.unitService.saveUnit(ev.target.value);
+  }
+
+  private getLangSelected() {
+    this.languages = this.languageService.getLanguages();
+    this.selectedLanguage = this.languageService.selected;
+  }
+
+  private getUnitSelected() {
+    this.units = this.unitService.getUnits();
+    this.selectedUnit = this.unitService.unit;
+  }
+
   private async clearData() {
     try {
       await Promise.all([
         this.topSpeedService.clearTopSpeed(),
+        this.timerService.resetTotalTime(),
         this.odoTripService.clearTrip(),
       ]);
       this.toastComponent.presentToast(
@@ -86,21 +105,5 @@ export class SettingsPage implements OnInit {
         'danger'
       );
     }
-  }
-
-  public selectLng(ev: any) {
-    this.languageService.setLanguage(ev.target.value);
-  }
-
-  public back() {
-    this.location.back();
-  }
-
-  public checkForUpdate() {
-    this.updateService.checkForUpdate(true);
-  }
-
-  public changeUnit(ev: any) {
-    this.unitService.saveUnit(ev.target.value);
   }
 }

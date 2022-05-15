@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { speedTime } from 'src/app/common/models/speedTime.model';
 import { OdoTripService } from '../odo-trip/odo-trip.service';
 import { TimerService } from '../timer/timer.service';
@@ -11,12 +11,13 @@ const VALUE: speedTime[] = [];
   providedIn: 'root',
 })
 export class CalculateService {
+  @Output() calculateData = new EventEmitter();
   public speedo: number;
   public topSpeed: number;
   public accuracy: number;
   public altitude: string;
   public avgSpeed: string;
-  public odo: string;
+  public odo: number;
   public trip: string;
 
   private value = [...VALUE];
@@ -28,21 +29,22 @@ export class CalculateService {
     private timerService: TimerService
   ) {}
 
-  public getValue(speed: number) {
-    if (speed == null || this.timerService.totalElapsedTime == null) {
+  public getValue(speed: number, time: number) {
+    if (speed == null || time == null) {
       return;
     }
 
     this.value = [
       ...this.value,
       {
-        speed: speed,
-        time: this.timerService.totalElapsedTime,
+        speed,
+        time,
       },
     ];
 
+    let trip = 0;
     for (let i = 0; i < this.value.length; i++) {
-      var trip = this.value[i].speed * this.value[i].time;
+      trip = this.value[i].speed * this.value[i].time;
     }
 
     this.odoTripService.saveOdo(trip);
@@ -60,6 +62,7 @@ export class CalculateService {
         this.metricUnit(speed, rawAccuracy, rawAltitude);
       }
     }
+    this.calculateData.emit();
   }
 
   private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
@@ -73,11 +76,11 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude).toFixed(1);
     }
-    this.odo = (this.odoTripService.currentOdo / 1000).toFixed(1);
+    this.odo = Math.trunc(this.odoTripService.currentOdo / 1000);
     this.trip = (this.odoTripService.currentTrip / 1000).toFixed(1);
     if (this.timerService.currentTotalTime > 0) {
       this.avgSpeed = (
-        (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
+        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
         3.6
       ).toFixed(1);
     }
@@ -98,11 +101,11 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
     }
-    this.odo = (this.odoTripService.currentOdo * 0.000621371192).toFixed(1);
+    this.odo = Math.trunc(this.odoTripService.currentOdo * 0.000621371192);
     this.trip = (this.odoTripService.currentTrip * 0.000621371192).toFixed(1);
     if (this.timerService.currentTotalTime > 0) {
       this.avgSpeed = (
-        (this.odoTripService.currentOdo / this.timerService.currentTotalTime) *
+        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
         2.23693629
       ).toFixed(1);
     }

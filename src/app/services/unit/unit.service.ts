@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
 const UNIT_KEY = 'unit';
@@ -7,6 +7,7 @@ const UNIT_KEY = 'unit';
   providedIn: 'root',
 })
 export class UnitService {
+  @Output() unitSystem = new EventEmitter();
   public unit: string;
   public lenghtUnit: string;
   public speedUnit: string;
@@ -29,18 +30,24 @@ export class UnitService {
   public async saveUnit(unit: string) {
     this.unit = unit;
     await this.storage.set(UNIT_KEY, unit);
+    this.convertUnit();
   }
 
   public convertUnit() {
-    if (this.unit == 'metric') {
-      this.speedUnit = 'km/h';
-      this.distanceUnit = 'km';
-      this.lenghtUnit = 'm';
-    } else if (this.unit == 'imperial') {
-      this.speedUnit = 'mph';
-      this.distanceUnit = 'mi';
-      this.lenghtUnit = 'ft';
+    switch (this.unit) {
+      case 'imperial':
+        this.speedUnit = 'mph';
+        this.distanceUnit = 'mi';
+        this.lenghtUnit = 'ft';
+        break;
+
+      default:
+        this.speedUnit = 'km/h';
+        this.distanceUnit = 'km';
+        this.lenghtUnit = 'm';
+        break;
     }
+    this.unitSystem.emit();
   }
 
   public getUnits() {

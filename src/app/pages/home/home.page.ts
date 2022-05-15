@@ -39,6 +39,8 @@ export class HomePage implements OnInit, OnDestroy {
   public startIcon = 'play';
   public stopIcon = 'stop';
 
+  public checkIsPortraitInterval: any;
+
   constructor(
     private insomnia: Insomnia,
     private platform: Platform,
@@ -52,6 +54,7 @@ export class HomePage implements OnInit, OnDestroy {
   public ngOnInit() {
     this.platform.ready().then(() => {
       this.insomnia.keepAwake();
+      this.convertUnit();
       this.initial();
     });
   }
@@ -86,6 +89,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
+    clearInterval(this.checkIsPortraitInterval);
   }
 
   public switchTrip() {
@@ -96,15 +100,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private initial() {
-    setInterval(() => {
+    this.checkIsPortraitInterval = setInterval(() => {
       this.isPortrait = this.platform.isPortrait();
     }, 250);
 
     this.unitService.unitSystem.subscribe((data) => {
+      this.geolocationService.convertUnit();
       this.speedUnit = this.unitService.speedUnit;
       this.distanceUnit = this.unitService.distanceUnit;
       this.lenghtUnit = this.unitService.lenghtUnit;
-      this.geolocationService.convertUnit();
     });
 
     this.geolocationService.geolocationData.subscribe((data) => {
@@ -137,22 +141,24 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
-  // private convertUnit() {
-  //   // this.unitService.convertUnit();
-  //   this.lenghtUnit = this.unitService.lenghtUnit;
-  //   this.speedUnit = this.unitService.speedUnit;
-  //   this.distanceUnit = this.unitService.distanceUnit;
+  private convertUnit() {
+    // this.unitService.convertUnit();
+    this.lenghtUnit = this.unitService.lenghtUnit;
+    this.speedUnit = this.unitService.speedUnit;
+    this.distanceUnit = this.unitService.distanceUnit;
 
-  //   // this.geolocationService.convertUnit();
-  //   this.speedo = this.calculateService.speedo;
-  //   this.topSpeed = this.calculateService.topSpeed;
-  //   this.accuracy = this.calculateService.accuracy;
-  //   this.altitude = this.calculateService.altitude;
-  //   this.distance = this.isSwitchTrip
-  //     ? this.calculateService.trip
-  //     : this.calculateService.odo;
-  //   this.avgSpeed = this.calculateService.avgSpeed;
-  //   this.lat = this.geolocationService.lat;
-  //   this.lon = this.geolocationService.lon;
-  // }
+    // this.geolocationService.convertUnit();
+    this.speedo = this.calculateService.speedo;
+    this.topSpeed = this.calculateService.topSpeed;
+    this.accuracy = this.calculateService.accuracy;
+    this.altitude = this.calculateService.altitude;
+    this.distance = this.isSwitchTrip
+      ? this.calculateService.trip
+      : this.calculateService.odo;
+    this.avgSpeed = this.calculateService.avgSpeed;
+    this.lat = this.geolocationService.lat;
+    this.lon = this.geolocationService.lon;
+    this.totalTime = this.timerService.convertedTotalTime;
+    this.hiddenStartIcon = this.timerService.hiddenStartIcon;
+  }
 }

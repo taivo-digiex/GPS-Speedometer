@@ -16,6 +16,7 @@ export class TimerService {
   public hiddenStartIcon = false;
   public currentTotalTime: number;
   public lastTotalTime: number;
+  public convertedTotalTime: string;
 
   private totalTimerInterval: any;
 
@@ -47,7 +48,8 @@ export class TimerService {
   }
 
   public timer() {
-    this.icon.emit(true);
+    this.hiddenStartIcon = true;
+    this.icon.emit(this.hiddenStartIcon);
     let elapsedTime = 0;
     const startTime = Date.now() - elapsedTime;
 
@@ -72,23 +74,24 @@ export class TimerService {
   }
 
   public stopTimer() {
+    this.hiddenStartIcon = false;
     this.timerData.emit('00:00:00');
-    this.icon.emit(false);
+    this.icon.emit(this.hiddenStartIcon);
     clearInterval(this.timerInterval);
   }
 
   public convertTotalTravelTime() {
-    this.totalTime.emit(
+    this.convertedTotalTime =
       Math.floor(this.currentTotalTime / 3600)
         .toString()
         .padStart(2, '0') +
-        ':' +
-        (Math.floor(this.currentTotalTime / 60) % 60)
-          .toString()
-          .padStart(2, '0') +
-        ':' +
-        (this.currentTotalTime % 60).toString().padStart(2, '0') || '00:00:00'
-    );
+      ':' +
+      (Math.floor(this.currentTotalTime / 60) % 60)
+        .toString()
+        .padStart(2, '0') +
+      ':' +
+      (this.currentTotalTime % 60).toString().padStart(2, '0');
+    this.totalTime.emit(this.convertedTotalTime);
   }
 
   public async getTotalTime() {

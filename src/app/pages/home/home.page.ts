@@ -142,12 +142,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private convertUnit() {
-    // this.unitService.convertUnit();
+    this.unitService.convertUnit();
     this.lenghtUnit = this.unitService.lenghtUnit;
     this.speedUnit = this.unitService.speedUnit;
     this.distanceUnit = this.unitService.distanceUnit;
 
-    // this.geolocationService.convertUnit();
+    this.geolocationService.convertUnit();
     this.speedo = this.calculateService.speedo;
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
@@ -158,6 +158,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
+
     this.totalTime = this.timerService.convertedTotalTime;
     this.hiddenStartIcon = this.timerService.hiddenStartIcon;
   }

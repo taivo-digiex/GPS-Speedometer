@@ -76,14 +76,20 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude).toFixed(1);
     }
-    this.odo = Math.trunc(this.odoTripService.currentOdo / 1000);
+    this.odo = parseInt(
+      (this.odoTripService.currentOdo / 1000).toFixed(1),
+      Infinity
+    );
     this.trip = (this.odoTripService.currentTrip / 1000).toFixed(1);
-    if (this.timerService.currentTotalTime > 0) {
-      this.avgSpeed = (
-        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
-        3.6
-      ).toFixed(1);
-    }
+
+    this.avgSpeed =
+      this.timerService.currentTotalTime === 0
+        ? null
+        : (
+            (this.odoTripService.currentTrip /
+              this.timerService.currentTotalTime) *
+            3.6
+          ).toFixed(1);
   }
 
   private imperialUnit(
@@ -101,13 +107,19 @@ export class CalculateService {
     if (rawAltitude != null) {
       this.altitude = Number(rawAltitude * 3.2808399).toFixed(1);
     }
-    this.odo = Math.trunc(this.odoTripService.currentOdo * 0.000621371192);
+    this.odo = parseInt(
+      (this.odoTripService.currentOdo * 0.000621371192).toFixed(1),
+      Infinity
+    );
     this.trip = (this.odoTripService.currentTrip * 0.000621371192).toFixed(1);
-    if (this.timerService.currentTotalTime > 0) {
-      this.avgSpeed = (
-        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
-        2.23693629
-      ).toFixed(1);
-    }
+
+    this.avgSpeed =
+      this.timerService.currentTotalTime === 0
+        ? null
+        : (
+            (this.odoTripService.currentTrip /
+              this.timerService.currentTotalTime) *
+            2.23693629
+          ).toFixed(1);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
@@ -10,11 +10,14 @@ import { TimerService } from '../timer/timer.service';
   providedIn: 'root',
 })
 export class GeolocationService {
+  @Output() geolocationData = new EventEmitter();
   public speed: number;
-  public lat: number;
-  public lon: number;
   public rawAccuracy: number;
   public rawAltitude: number;
+  public lat: number;
+  public lon: number;
+
+  private lastTimestamp: number;
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
@@ -34,12 +37,16 @@ export class GeolocationService {
         if ('coords' in res) {
           this.prepareTracking(res);
         } else if ('code' in res) {
-          const msg = res.message;
-          this.toastComponent.presentToast('TOAST.err', msg, 1000);
+          this.toastComponent.presentToast(
+            'toast.error.code.' + res.code,
+            null,
+            1000,
+            'danger'
+          );
         }
       });
 
-    this.timerService.calculateTime();
+    // this.timerService.calculateTime();
   }
 
   public convertUnit() {
@@ -50,28 +57,34 @@ export class GeolocationService {
     );
   }
 
-  private prepareTracking(res: any) {
-    this.speed = res.coords.speed;
-    this.lat = res.coords.latitude;
-    this.lon = res.coords.longitude;
-    this.rawAccuracy = res.coords.accuracy;
-    this.rawAltitude = res.coords.altitude;
-
-    this.getSpeedAndTime();
-    this.topSpeedService.saveTopSpeed(this.speed);
-  }
-
-  public getSpeedAndTime() {
-    this.calculateService.getValue(
-      this.speed,
-      this.timerService.totalElapsedTime
-    );
-
-    this.timerService.stopTotalElapsedTime();
-    this.timerService.calculateTime();
+  public getSpeedAndTime(speed: number, time: number) {
+    this.timerService.saveTotalTime(Math.floor(time));
+    this.calculateService.getValue(speed, time);
+    // this.timerService.stopTotalElapsedTime();
   }
 
   public stop() {
     this.onDestroy$.next();
+  }
+
+  private prepareTracking(res: any) {
+    this.speed = res.coords.speed;
+    this.rawAccuracy = res.coords.accuracy;
+    this.rawAltitude = res.coords.altitude;
+    this.lat = res.coords.latitude;
+    this.lon = res.coords.longitude;
+
+    let time: number;
+    if (this.lastTimestamp && this.speed) {
+      time = (res.timestamp - this.lastTimestamp) / 1000;
+    } else {
+      this.lastTimestamp = res.timestamp;
+      time = (res.timestamp - this.lastTimestamp) / 1000;
+    }
+    this.lastTimestamp = res.timestamp;
+
+    this.getSpeedAndTime(this.speed, time);
+    this.topSpeedService.saveTopSpeed(this.speed);
+    this.geolocationData.emit();
   }
 }

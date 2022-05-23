@@ -15,7 +15,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AlertComponent } from './common/components/alert/alert.component';
 import { ToastComponent } from './common/components/toast/toast.component';
 import { SwiperModule } from 'swiper/angular';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -40,7 +39,6 @@ export function createTranslateLoader(http: HttpClient) {
     }),
   ],
   providers: [
-    AppVersion,
     Insomnia,
     Geolocation,
     AlertComponent,

@@ -1,49 +1,80 @@
 {
-  "PAGETITLE": {
+  "page_title": {
     "settings": "Cài đặt"
   },
 
-  "COMMON": {
+  "common": {
     "about": "Thông tin",
-    "languages": "Ngôn ngữ",
-    "appName": "Tên ứng dụng",
+    "language": "Ngôn ngữ",
     "version": "Phiên bản: {{value}}",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
-    "topSpeed": "Tốc độ cao nhất",
-    "clearTopSpeed": "Xóa tốc độ cao nhất",
+    "top_speed": "Tốc độ cao nhất",
+    "clear_data": "Xóa dữ liệu",
     "accuracy": "Độ chính xác",
     "altitude": "Độ cao",
-    "checkForUpdate": "Kiểm tra cập nhật",
+    "check_for_update": "Kiểm tra cập nhật",
     "time": "Thời gian",
-    "avgSpeed": "Tốc độ t.bình",
-    "download": "Tải xuống ({{value}} MB)",
+    "avg_speed": "Tốc độ t.bình",
+    "download": "Tải xuống",
     "later": "Để sau",
-    "ok": "Ok"
+    "ok": "Ok",
+    "unit": "Đơn vị",
+    "trip": "Q.đường",
+    "total": "Tổng",
+    "total_time": "Tổng thời gian"
   },
 
-  "TOAST": {
-    "clearTopSpeedSuccess": "Xóa tốc độ cao nhất thành công.",
-    "unitChange": {
+  "unit": {
+    "metric": "Hệ mét",
+    "imperial": "Hệ đo lường Anh"
+  },
+
+  "lang": {
+    "en": "Tiếng Anh",
+    "vi": "Tiếng Việt"
+  },
+
+  "toast": {
+    "clear_success": "Xóa thành công.",
+    "unit_change": {
       "metric": "Chuyển sang hệ mét.",
       "imperial": "Chuyển sang hệ đo lường Anh."
     },
-    "err": "Lỗi: {{value}}."
-  },
-
-  "ALERT": {
-    "HEADER": {
-      "H1": "Bạn có chắc không?",
-      "H2": "Có bản cập nhật mới {{value}}",
-      "H3": "Bạn đang ở phiên bản mới nhất {{value}}"
-    },
-    "MSG": {
-      "M1": "Hãy cẩn thận, tiến trình này không thể được hoàn tác.",
-      "M2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊."
+    "checkingForUpdate": "Đang kiểm tra cập nhật...",
+    "checkForUpdateFailed": "Kiểm tra cập nhật thất bại. {{value}}",
+    "error": {
+      "permission": {
+        "location": { "denied": "Không thể truy cập vị trí." }
+      },
+      "code": {
+        "undefined": "Lỗi: Không xác định",
+        "1": "Lỗi: Người dùng từ chối Vị trí địa lý",
+        "400": "Lỗi: Yêu cầu không hợp lệ.",
+        "401": "Lỗi: Không được phép.",
+        "402": "Lỗi: Yêu cầu thanh toán.",
+        "403": "Lỗi: Cấm.",
+        "404": "Lỗi: Không tìm thấy.",
+        "600": "Lỗi: Vị trí không có sẵn."
+      }
     }
   },
 
-  "BTN": {
+  "alert": {
+    "header": {
+      "h1": "Bạn có chắc không?",
+      "h2": "Có bản cập nhật mới {{value}}",
+      "h3": "Bạn đang ở phiên bản mới nhất {{value}}",
+      "h4": "Không có mạng!"
+    },
+    "msg": {
+      "m1": "Hành động này sẽ chỉ xóa <strong>tốc độ tối đa</strong> và <strong>đồng hồ đo hành trình</strong>.<br>Hãy cẩn thận, hành động không thể hoàn tác.",
+      "m2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊.",
+      "m3": "Hãy kiểm tra mạng và thử lại."
+    }
+  },
+
+  "button": {
     "confirm": "Xác nhận",
     "cancel": "Hủy"
   }

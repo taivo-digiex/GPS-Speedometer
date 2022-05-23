@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
-const MS_KEY = 'top-speed';
+const TS_KEY = 'top-speed';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +11,19 @@ export class TopSpeedService {
 
   constructor(private storage: Storage) {}
 
-  public async setDefaultTopSpeed() {
-    await this.storage.get(MS_KEY).then((val) => {
-      if (val) {
-        this.saveTopSpeed(val);
-        this.topSpeed = val;
-      } else {
-        this.saveTopSpeed(0);
-        this.topSpeed = 0;
-      }
-    });
+  public async getTopSpeed() {
+    await this.storage
+      .get(TS_KEY)
+      .then((val) => {
+        if (val) {
+          this.topSpeed = val;
+          this.saveTopSpeed(val);
+        } else {
+          this.topSpeed = 0;
+          this.saveTopSpeed(0);
+        }
+      })
+      .catch(() => {});
   }
 
   public async saveTopSpeed(speed: number) {
@@ -30,12 +33,12 @@ export class TopSpeedService {
 
     if (!isNaN(topSpeed)) {
       this.topSpeed = topSpeed;
-      await this.storage.set(MS_KEY, topSpeed);
+      await this.storage.set(TS_KEY, topSpeed);
     }
   }
 
   public async clearTopSpeed() {
-    await this.storage.remove(MS_KEY);
-    this.topSpeed = 0;
+    await this.storage.remove(TS_KEY);
+    this.getTopSpeed();
   }
 }

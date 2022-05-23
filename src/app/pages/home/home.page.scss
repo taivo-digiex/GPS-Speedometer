@@ -1,14 +1,7 @@
-@font-face {
-  font-family: Digi;
-  src: url(../../../assets/fonts/DS-DIGII.TTF);
-}
-
 #container {
-  text-align: center;
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  font-family: "Digi";
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -17,20 +10,34 @@
 }
 
 #speedo {
+  font-family: "Number";
   font-size: 150px;
 }
 
 #unit {
   font-size: 25px;
+  font-style: italic;
 }
 
-.trip {
-  font-size: 27px;
-  font-family: "Digi";
+.distance {
+  font-size: 25px;
+  font-style: italic;
+
   p {
     width: fit-content;
     margin: auto;
     color: var(--ion-text-color);
+  }
+
+  .distance-number {
+    font-family: "Number";
+    font-style: normal;
+  }
+
+  .distance-text {
+    font-size: 16px;
+    font-style: normal;
+    margin-right: 10px;
   }
 }
 
@@ -50,9 +57,9 @@
   }
 }
 
-.header-timer,
 .timer-icon {
   margin-left: 10px;
+  margin-right: 5px;
 }
 
 .cus-toolbar {
@@ -60,12 +67,8 @@
 }
 
 @media (orientation: portrait) {
-  ion-card {
-    border-radius: 25px;
-  }
-
-  .landscape-info {
-    display: none;
+  #container {
+    text-align: center;
   }
 
   @media only screen and (max-width: 380px) {
@@ -77,16 +80,13 @@
       font-size: 20px !important;
     }
 
-    .details {
+    .details,
+    .times {
       font-size: 12px;
     }
 
-    .trip {
-      font-size: 22px;
-    }
-
-    .timer {
-      font-size: 12px;
+    .distance {
+      font-size: 20px;
     }
   }
 }
@@ -94,14 +94,8 @@
 @media (orientation: landscape) {
   #container {
     display: flex;
-  }
-
-  ion-card {
-    border-radius: 15px;
-  }
-
-  #trip {
-    display: block;
+    gap: 25px;
+    text-align: end;
   }
 
   .speedo-div,
@@ -110,8 +104,9 @@
     min-width: 325px;
   }
 
-  .portrait-info {
-    display: none;
+  .landscape-info ion-card {
+    box-shadow: 0 0 10px 0 #ffffff;
+    text-align: center;
   }
 
   .details {
@@ -131,8 +126,8 @@
       font-size: 20px !important;
     }
 
-    .trip {
-      font-size: 22px;
+    .distance {
+      font-size: 20px;
     }
 
     .details,

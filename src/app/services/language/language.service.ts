@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage-angular';
 
-const LNG_KEY = 'selected-language';
+const LNG_KEY = 'language';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LanguageService {
-  public selected: string = '';
+  public selected: string;
 
   constructor(private translate: TranslateService, private storage: Storage) {}
 
@@ -17,31 +17,28 @@ export class LanguageService {
     const checkLng = this.getLanguages().find(function (e) {
       return e.value == language;
     });
-    if (checkLng === undefined) {
+    if (checkLng == undefined) {
       this.translate.setDefaultLang('en');
-      await this.storage.get(LNG_KEY).then((val) => {
-        this.setLanguage('en');
+      await this.storage.get(LNG_KEY).then(() => {
         this.selected = 'en';
+        this.setLanguage('en');
       });
     } else {
       this.translate.setDefaultLang(language);
       await this.storage.get(LNG_KEY).then((val) => {
         if (val) {
-          this.setLanguage(val);
           this.selected = val;
+          this.setLanguage(val);
         } else {
-          this.setLanguage(language);
           this.selected = language;
+          this.setLanguage(language);
         }
       });
     }
   }
 
   public getLanguages() {
-    return [
-      { text: 'English', value: 'en' },
-      { text: 'Tiếng Việt', value: 'vi' },
-    ];
+    return [{ value: 'en' }, { value: 'vi' }];
   }
 
   public async setLanguage(lng) {

@@ -5,6 +5,9 @@ import { TopSpeedService } from 'src/app/services/top-speed/top-speed.service';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { UpdateService } from 'src/app/services/update/update.service';
 import { AlertComponent } from 'src/app/common/components/alert/alert.component';
+import { UnitService } from 'src/app/services/unit/unit.service';
+import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
+import { TimerService } from 'src/app/services/timer/timer.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,52 +16,50 @@ import { AlertComponent } from 'src/app/common/components/alert/alert.component'
 })
 export class SettingsPage implements OnInit {
   public languages = [];
-  public selected: string;
+  public units = [];
+  public selectedLanguage: string;
+  public selectedUnit: string;
+  public appVersion: string;
 
-  public langIcon: string = 'language';
-  public trashIcon: string = 'trash';
-  public downloadIcon: string = 'download';
+  public langIcon = 'language';
+  public unitIcon = 'speedometer';
+  public trashIcon = 'trash';
+  public downloadIcon = 'download';
 
   constructor(
     private location: Location,
     private languageService: LanguageService,
     private topSpeedService: TopSpeedService,
-    private toast: ToastComponent,
+    private toastComponent: ToastComponent,
     private updateService: UpdateService,
-    private alertComponent: AlertComponent
+    private alertComponent: AlertComponent,
+    private unitService: UnitService,
+    private odoTripService: OdoTripService,
+    private timerService: TimerService
   ) {}
 
   public ngOnInit() {
     this.getLangSelected();
-  }
-
-  private getLangSelected() {
-    this.languages = this.languageService.getLanguages();
-    this.selected = this.languageService.selected;
+    this.getUnitSelected();
+    this.appVersion = this.updateService.versionNumber;
   }
 
   public async confirmClear() {
     await this.alertComponent.presentAlert(
-      'ALERT.HEADER.H1',
+      'alert.header.h1',
       null,
-      'ALERT.MSG.M1',
+      'alert.msg.m1',
       null,
-      'BTN.cancel',
-      'BTN.confirm',
+      'button.cancel',
+      'button.confirm',
       null,
       this,
-      this.clearTopSpeed
+      this.clearData
     );
   }
 
-  private async clearTopSpeed() {
-    this.topSpeedService.clearTopSpeed();
-    this.toast.presentToast('TOAST.clearTopSpeedSuccess', null, 1000);
-  }
-
   public selectLng(ev: any) {
-    const lng = ev.target.value;
-    this.languageService.setLanguage(lng);
+    this.languageService.setLanguage(ev.target.value);
   }
 
   public back() {
@@ -67,5 +68,42 @@ export class SettingsPage implements OnInit {
 
   public checkForUpdate() {
     this.updateService.checkForUpdate(true);
+  }
+
+  public changeUnit(ev: any) {
+    this.unitService.saveUnit(ev.target.value);
+  }
+
+  private getLangSelected() {
+    this.languages = this.languageService.getLanguages();
+    this.selectedLanguage = this.languageService.selected;
+  }
+
+  private getUnitSelected() {
+    this.units = this.unitService.getUnits();
+    this.selectedUnit = this.unitService.unit;
+  }
+
+  private async clearData() {
+    try {
+      await Promise.all([
+        this.topSpeedService.clearTopSpeed(),
+        this.timerService.resetTotalTime(),
+        this.odoTripService.clearTrip(),
+      ]);
+      this.toastComponent.presentToast(
+        'toast.clear_success',
+        null,
+        1000,
+        'success'
+      );
+    } catch (e) {
+      this.toastComponent.presentToast(
+        'toast.clear_failed: ' + e,
+        null,
+        1000,
+        'danger'
+      );
+    }
   }
 }

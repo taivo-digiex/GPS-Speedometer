@@ -28,3 +28,14 @@
 /* Swiper styles */
 @import "~swiper/css";
 @import "~swiper/css/pagination";
+
+/* Fonts */
+@font-face {
+  font-family: Main;
+  src: url(./assets/fonts/Main.TTF);
+}
+
+@font-face {
+  font-family: Number;
+  src: url(./assets/fonts/Number.TTF);
+}

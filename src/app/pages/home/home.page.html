@@ -2,14 +2,14 @@
   <ion-toolbar class="cus-toolbar">
     <ion-icon class="timer-icon" size="large" slot="start" [ios]="timerIcon + '-outline'" [md]="timerIcon + '-sharp'">
     </ion-icon>
-    <ion-text class="timer" slot="start">{{ time }}</ion-text>
+    <ion-text slot="start">{{ time != null ? time : '00:00:00'}}</ion-text>
 
     <ion-buttons class="cus-btns">
       <ion-button (click)="startTimer()" [hidden]="hiddenStartIcon">
         <ion-icon slot="icon-only" [ios]="startIcon + '-outline'" [md]="startIcon + '-sharp'"></ion-icon>
       </ion-button>
 
-      <ion-button (click)="stopTimer()" [hidden]="hiddenStopIcon">
+      <ion-button (click)="stopTimer()" [hidden]="!hiddenStartIcon">
         <ion-icon slot="icon-only" [ios]="stopIcon + '-outline'" [md]="stopIcon + '-sharp'"></ion-icon>
       </ion-button>
 
@@ -22,78 +22,103 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <div class="speedo-div" (click)="changeUnit()">
-      <p id="speedo">
-        <ion-text *ngIf="speedo != null">{{ speedo }}</ion-text>
-        <ion-text *ngIf="speedo == null">-</ion-text>
-        <ion-text id="unit"> {{ speedUnit }}</ion-text>
+    <div class="speedo-div">
+      <p>
+        <ion-text id="speedo">{{ speedo != null ? speedo : '-'}}</ion-text>
+        <ion-text id="unit" (click)="changeUnit()"> {{ speedUnit }}</ion-text>
       </p>
     </div>
 
-    <div class="landscape-info">
+    <div *ngIf="!isPortrait" class="landscape-info">
       <ion-card>
         <div class="details">
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
               <p>
-                <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
+                <strong>
+                  {{ "common.total_time" | translate }}:
+                </strong>
               </p>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ topSpeed }} {{ speedUnit }}</p>
+              <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
               <p>
-                <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
+                <strong>
+                  {{ "common.top_speed" | translate }}:
+                </strong>
               </p>
             </ion-col>
 
             <ion-col class="ion-text-right">
+              <p>{{ topSpeed != null ? topSpeed : '-'}} {{ speedUnit }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
               <p>
-                <ion-text *ngIf="avgSpeed !== null">{{ avgSpeed }}</ion-text>
-                <ion-text *ngIf="avgSpeed == null">-.-</ion-text>
-                <ion-text> {{ speedUnit }}</ion-text>
+                <strong>
+                  {{ "common.avg_speed" | translate }}:
+                </strong>
               </p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
+              <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
-              <p><strong>{{ "COMMON.altitude" | translate }}:</strong>
+              <p>
+                <strong>
+                  {{ "common.altitude" | translate }}:
+                </strong>
               </p>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ altitude }} {{ lenghtUnit }}</p>
+              <p>{{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}</p>
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
-              <p><strong>{{ "COMMON.accuracy" | translate }}:</strong>
+              <p>
+                <strong>
+                  {{ "common.accuracy" | translate }}:
+                </strong>
               </p>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ accuracy }} {{ lenghtUnit }}</p>
+              <p>{{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}</p>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col class="col-border">
-              <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
-              <p>{{ lat }}</p>
+              <p>
+                <strong>
+                  {{ "common.latitude" | translate }}:
+                </strong>
+              </p>
+              <p>{{ lat != null ? lat : '-.-' }}</p>
             </ion-col>
 
             <ion-col>
               <p>
-                <strong>{{ "COMMON.longtitude" | translate }}:</strong>
+                <strong>
+                  {{ "common.longtitude" | translate }}:
+                </strong>
               </p>
-              <p>{{ lon }}</p>
+              <p>{{ lon != null ? lon : '-.-' }}</p>
             </ion-col>
           </ion-row>
         </div>
@@ -104,39 +129,48 @@
 
 
 <ion-footer class="ion-no-border ion-text-center">
-  <div class="trip">
+  <div class="distance">
     <p>
-      <ion-text *ngIf="distance != null">{{ distance }}</ion-text>
-      <ion-text *ngIf="distance == null">-.-</ion-text>
-      <ion-text> {{ distanceUnit }}</ion-text>
+      <ion-text class="distance-text" (click)="switchTrip()">
+        {{ !isSwitchTrip ? ('common.total' | translate) : ('common.trip' | translate) }}
+      </ion-text>
+      <ion-text class="distance-number">{{ distance != null ? distance : '-.-' }}</ion-text>
+      <ion-text>{{ distanceUnit }}</ion-text>
     </p>
   </div>
 
-  <div class="portrait-info">
-    <swiper [autoplay]="{
-      delay: 10000,
-      disableOnInteraction: false
-    }">
+  <div *ngIf="isPortrait" class="portrait-info">
+    <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true">
       <ng-template swiperSlide>
         <ion-card>
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
                 <p>
-                  <strong>{{ "COMMON.topSpeed" | translate }}:</strong>
+                  <strong>
+                    {{ "common.total_time" | translate }}:
+                  </strong>
                 </p>
-                <p>{{ topSpeed }} {{ speedUnit }}</p>
+                <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
               </ion-col>
+
+              <ion-col class="col-border">
+                <p>
+                  <strong>
+                    {{ "common.top_speed" | translate }}:
+                  </strong>
+                </p>
+                <p>{{ topSpeed != null ? topSpeed : '-' }} {{ speedUnit }}</p>
+              </ion-col>
+
 
               <ion-col>
                 <p>
-                  <strong>{{ "COMMON.avgSpeed" | translate }}:</strong>
+                  <strong>
+                    {{ "common.avg_speed" | translate }}:
+                  </strong>
                 </p>
-                <p>
-                  <ion-text *ngIf="avgSpeed !== null">{{ avgSpeed }}</ion-text>
-                  <ion-text *ngIf="avgSpeed == null">-.-</ion-text>
-                  <ion-text> {{ speedUnit }}</ion-text>
-                </p>
+                <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
               </ion-col>
             </ion-row>
           </div>
@@ -148,13 +182,21 @@
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
-                <p><strong>{{ "COMMON.altitude" | translate }}:</strong></p>
-                <p>{{ altitude }} {{ lenghtUnit }}</p>
+                <p>
+                  <strong>
+                    {{ "common.altitude" | translate }}:
+                  </strong>
+                </p>
+                <p>{{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}</p>
               </ion-col>
 
               <ion-col>
-                <p><strong>{{ "COMMON.accuracy" | translate }}:</strong></p>
-                <p>{{ accuracy }} {{ lenghtUnit }}</p>
+                <p>
+                  <strong>
+                    {{ "common.accuracy" | translate }}:
+                  </strong>
+                </p>
+                <p>{{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}</p>
               </ion-col>
             </ion-row>
           </div>
@@ -166,15 +208,21 @@
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
-                <p><strong>{{ "COMMON.latitude" | translate }}:</strong></p>
-                <p>{{ lat }}</p>
+                <p>
+                  <strong>
+                    {{ "common.latitude" | translate }}:
+                  </strong>
+                </p>
+                <p>{{ lat != null ? lat : '-.-' }}</p>
               </ion-col>
 
               <ion-col>
                 <p>
-                  <strong>{{ "COMMON.longtitude" | translate }}:</strong>
+                  <strong>
+                    {{ "common.longtitude" | translate }}:
+                  </strong>
                 </p>
-                <p>{{ lon }}</p>
+                <p>{{ lon != null ? lon : '-.-' }}</p>
               </ion-col>
             </ion-row>
           </div>

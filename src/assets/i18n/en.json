@@ -1,49 +1,80 @@
 {
-  "PAGETITLE": {
+  "page_title": {
     "settings": "Settings"
   },
 
-  "COMMON": {
+  "common": {
     "about": "About",
-    "languages": "Languages",
-    "appName": "App name",
+    "language": "Languages",
     "version": "Version: {{value}}",
     "longtitude": "Longitude",
     "latitude": "Latitude",
-    "topSpeed": "Top speed",
-    "clearTopSpeed": "Clear top speed",
+    "top_speed": "Top speed",
+    "clear_data": "Clear data",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
-    "checkForUpdate": "Check for update",
+    "check_for_update": "Check for update",
     "time": "Time",
-    "avgSpeed": "Avg. speed",
-    "download": "Download ({{value}} MB)",
+    "avg_speed": "Avg. speed",
+    "download": "Download",
     "later": "Later",
-    "ok": "Ok"
+    "ok": "Ok",
+    "unit": "Unit",
+    "trip": "Trip",
+    "total": "Total",
+    "total_time": "Total time"
   },
 
-  "TOAST": {
-    "clearTopSpeedSuccess": "Clear top speed success.",
-    "unitChange": {
+  "unit": {
+    "metric": "Metric",
+    "imperial": "Imperial"
+  },
+
+  "lang": {
+    "en": "English",
+    "vi": "Vietnamese"
+  },
+
+  "toast": {
+    "clear_success": "Clear success.",
+    "unit_change": {
       "metric": "Switch to metric.",
       "imperial": "Switch to imperial."
     },
-    "err": "Error: {{value}}."
-  },
-
-  "ALERT": {
-    "HEADER": {
-      "H1": "Are you sure?",
-      "H2": "New update available {{value}}",
-      "H3": "You are on the latest version {{value}}"
-    },
-    "MSG": {
-      "M1": "Be careful, this progress cannot be undone.",
-      "M2": "Don't be impatient. A new version will come soon 😊"
+    "checkingForUpdate": "Checking for update...",
+    "checkForUpdateFailed": "Fail to check for update. {{value}}",
+    "error": {
+      "permission": {
+        "location": { "denied": "Cannot access location." }
+      },
+      "code": {
+        "undefined": "Error: Undefined",
+        "1": "Error: User denied Geolocation",
+        "400": "Error: Bad request.",
+        "401": "Error: Unauthorized.",
+        "402": "Error: Payment required.",
+        "403": "Error: Forbidden.",
+        "404": "Error: Not found.",
+        "600": "Error: Location not available."
+      }
     }
   },
 
-  "BTN": {
+  "alert": {
+    "header": {
+      "h1": "Are you sure?",
+      "h2": "New update available {{value}}",
+      "h3": "You are on the latest version {{value}}",
+      "h4": "No internet!"
+    },
+    "msg": {
+      "m1": "This action will only clear <strong>top speed</strong> and <strong>trip meter</strong>.<br>Be careful, this action cannot be undone.",
+      "m2": "Don't be impatient. A new version will come soon 😊",
+      "m3": "Please check the internet and try again."
+    }
+  },
+
+  "button": {
     "confirm": "Confirm",
     "cancel": "Cancel"
   }

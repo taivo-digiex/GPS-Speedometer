@@ -1,46 +1,21 @@
-import {
-  HttpClient,
-  HttpEvent,
-  HttpHandler,
-  HttpHeaders,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import CryptoES from 'crypto-es';
-import * as crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 import * as OAuth from 'oauth-1.0a';
+import { Storage } from '@ionic/storage-angular';
+
+const SSL_KEY = 'show-speed-limit';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HereMapService implements HttpInterceptor {
-  constructor(private http: HttpClient) {}
+export class HereMapService {
+  public showSpeedLimit: boolean;
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    req = req.clone({
-      setHeaders: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'OAuth',
-      },
-    });
-
-    return next.handle(req);
-  }
+  constructor(private http: HttpClient, private storage: Storage) {}
 
   public getHereMapToken(): Observable<any> {
-    return this.http
-      .post<any>('https://account.api.here.com/oauth2/token', {
-        grant_type: 'client_credentials',
-      })
-      .pipe(map((result) => result));
-  }
-
-  public async getSpeedLimit(url: any) {
     const oauth = new OAuth({
       consumer: {
         key: 'V3R6bmLb4WmmDznqE-ellA',
@@ -49,24 +24,27 @@ export class HereMapService implements HttpInterceptor {
       },
       signature_method: 'HMAC-SHA256',
       hash_function(base_string, key) {
-        let hash: any = CryptoES.enc.Base64.stringify(
-          CryptoES.HmacSHA256(base_string, key)
+        // let hash: any = CryptoES.enc.Base64.stringify(
+        // CryptoES.HmacSHA256(base_string, key)
+        // );
+        return CryptoJS.enc.Base64.stringify(
+          CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key)
+            .update(base_string)
+            .finalize()
         );
-        console.log(hash);
-        return hash;
-        // return crypto
-        //   .createHmac('sha256', key)
+        // return CryptoJS.createHmac('sha256', key)
         //   .update(base_string)
         //   .digest('base64');
       },
     });
+
     const request_data = {
       url: 'https://account.api.here.com/oauth2/token',
       method: 'POST',
       data: 'grant_type=client_credentials',
     };
 
-    this.http
+    return this.http
       .post('https://account.api.here.com/oauth2/token', request_data.data, {
         headers: new HttpHeaders({
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -74,9 +52,11 @@ export class HereMapService implements HttpInterceptor {
             .Authorization,
         }),
       })
-      .subscribe((res) => {
-        console.log(res);
-      });
+      .pipe(
+        map((result) => {
+          return result;
+        })
+      );
 
     // this.http
     //   .request(
@@ -99,9 +79,17 @@ export class HereMapService implements HttpInterceptor {
     //   }
     // );
 
+    // return this.http
+    //   .post<any>('https://account.api.here.com/oauth2/token', {
+    //     grant_type: 'client_credentials',
+    //   })
+    //   .pipe(map((result) => result));
+  }
+
+  public async getSpeedLimit(url: any) {
     const requestHeaders = {
       Authorization:
-        'Bearer eyJhbGciOiJSUzUxMiIsImN0eSI6IkpXVCIsImlzcyI6IkhFUkUiLCJhaWQiOiJCSmUyb3NiYkc1eElrZjVVVkY5SCIsImlhdCI6MTY1NDEzNDk2MCwiZXhwIjoxNjU0MjIxMzYwLCJraWQiOiJqMSJ9.ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuLnR4MURMUWtmNWJUc3Q0NHNDZklVQ2cuWHk1THg0RkM4QnZCSW5CTURkVE9vX2lRdk9HWkxoYzhleVd6djRyVkxmNy1RNWxreUFoaXVtMmxBdFNkRmliN2hUOWNyc3JQME9tckMtZlN4TVE1aGhKQTNrSlFjVlI2RUkxbzBrU0hKT0RIWTA4WlZEUW1GWW5rdFZuWE55LTBra040VmR1clBoWTNSb2k4RVYwaUR3LnhJRUZQdGx5M1lCd0g3Vy1MVVhPbTg1eEE4Y19ScTRNWTRDalg0SzJ0OGM.qBiQd0_S10Atgy-t83Qm51861s2EWLa6wP2binmMBauv-0KmmUUWTjxPjDBhj9oUG_VXa8s5a8EoYcZJtTW2rhAsZdhjjeHPHQX_Z3kA27PBB8P7OmjFFwF7pTUJy5ZZshg0RI4hA0cTpxTYe97G66OswRW7gUjiY3bsw2WrU-dX5iSTpw6xIJQP_2_3zFjA9HiANU76wwFtScbQvpiKe1BSDPDbjxzAFkT-gpJBt3Mt4LPlPHZSKFxIh57j0KKXTqhjTIAThnMAdklXDZWIcUzpzYUiWhKA09mFexqDysftmCBafj3zlflznD9CTC5FZAHCCD6hOkLibKiYPxg7ow',
+        'Bearer eyJhbGciOiJSUzUxMiIsImN0eSI6IkpXVCIsImlzcyI6IkhFUkUiLCJhaWQiOiJCSmUyb3NiYkc1eElrZjVVVkY5SCIsImlhdCI6MTY1NDE1MzkwOCwiZXhwIjoxNjU0MjQwMzA4LCJraWQiOiJqMSJ9.ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuLmRpbjFMMzZrc0NMbUlIQnRMVTFEZEEucUxqSVp3MnhjcUpPdTFwOTh1VVJCSnFpTEphZGpOUnBEdXBubjE3Ylprc0o0RWgzdFQ4MkpWUzdmMnBHUHRhbUJvajFHSnBlemRfN0JBaXduVC1Bdl95ZkdZREMtb1BMT3pOdzdKdGlhdW5ibGlhd3dhWFpzTjhMM1o4cWt5cEVUWnNXNkZvNGhfOXRtWUZhNFJxWkRRLlZXWTBtVlBVenlIS2tTRGdEclhPcE1vU2xBWDV3MS02YkEzVmdGU3FXSjA.jpV8efRuxicyX3hes3afNBywtIgWreLz3IUATcCcC9k1_BLhIRH-iACE3xZKB2c7XHeur_EmAJMMLrD0kmoUIYZ3l9GJ_fGkeCenve5hxwnJKyXaJ27VuBkIK77E9sMPxvQOK91KIqRHAwwRWzoUr-H0TcmT2Ee0qHFZ1zPEjIRamUbW7xW_Jg9tZbEElzoHovAmJ35Kg6mqfSsSrzroui-r7ZwVhcDnOLUjMU_XIOmjVaQw-Qi-pTnNTmfhM5Z8Sf1MaDs-3_1w3T4DVcd7L-x9Gj3eIP-k8QGt0UJpLN88qkE0rwFLKf7IKeXMElukPMRQ0L41mb2ScbCTX6z_EQ',
     };
 
     let res: any;
@@ -114,8 +102,23 @@ export class HereMapService implements HttpInterceptor {
     } catch (e) {}
 
     return await res.json();
-    // return this.http
-    //   .get<any>('https://router.hereapi.com/v8/routes?', param)
-    //   .pipe(map((result) => result));
+  }
+
+  public async getShowSpeedLimit() {
+    await this.storage
+      .get(SSL_KEY)
+      .then((val) => {
+        if (val !== null) {
+          this.saveShowSpeedLimit(val);
+        } else {
+          this.saveShowSpeedLimit(true);
+        }
+      })
+      .catch(() => {});
+  }
+
+  public async saveShowSpeedLimit(value: boolean) {
+    this.showSpeedLimit = value;
+    await this.storage.set(SSL_KEY, value);
   }
 }

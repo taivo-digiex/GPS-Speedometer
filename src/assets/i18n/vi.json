@@ -22,7 +22,8 @@
     "unit": "Đơn vị",
     "trip": "Q.đường",
     "total": "Tổng",
-    "total_time": "Tổng thời gian"
+    "total_time": "Tổng thời gian",
+    "speed_limit_by_here": "Tốc độ giới hạn (bởi HERE)"
   },
 
   "unit": {

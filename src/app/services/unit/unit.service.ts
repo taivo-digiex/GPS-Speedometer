@@ -18,10 +18,8 @@ export class UnitService {
   public async getUnit() {
     await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
-        this.unit = val;
         this.saveUnit(val);
       } else {
-        this.unit = 'metric';
         this.saveUnit('metric');
       }
     });
@@ -41,7 +39,7 @@ export class UnitService {
         this.lenghtUnit = 'ft';
         break;
 
-      default:
+      case 'metric':
         this.speedUnit = 'km/h';
         this.distanceUnit = 'km';
         this.lenghtUnit = 'm';

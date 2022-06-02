@@ -7,6 +7,7 @@ import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
+import { HereMapService } from 'src/app/services/here-map/here-map.service';
 
 SwiperCore.use([Autoplay, Pagination]);
 
@@ -34,6 +35,7 @@ export class HomePage implements OnInit, OnDestroy {
   public isPortrait = this.platform.isPortrait();
   public isSwitchTrip = true;
   public speedLimit: number;
+  public showSpeedLimit: boolean;
 
   public settingsIcon = 'settings';
   public timerIcon = 'timer';
@@ -49,7 +51,8 @@ export class HomePage implements OnInit, OnDestroy {
     private toastComponent: ToastComponent,
     private calculateService: CalculateService,
     private timerService: TimerService,
-    private geolocationService: GeolocationService
+    private geolocationService: GeolocationService,
+    private hereMapService: HereMapService
   ) {}
 
   public ngOnInit() {
@@ -103,6 +106,7 @@ export class HomePage implements OnInit, OnDestroy {
   private initial() {
     this.checkIsPortraitInterval = setInterval(() => {
       this.isPortrait = this.platform.isPortrait();
+      this.showSpeedLimit = this.hereMapService.showSpeedLimit;
     }, 250);
 
     this.unitService.unitSystem.subscribe(() => {

@@ -22,7 +22,8 @@
     "unit": "Unit",
     "trip": "Trip",
     "total": "Total",
-    "total_time": "Total time"
+    "total_time": "Total time",
+    "speed_limit_by_here": "Speed limit (by HERE)"
   },
 
   "unit": {

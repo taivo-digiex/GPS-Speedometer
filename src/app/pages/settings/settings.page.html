@@ -33,6 +33,12 @@
       </ion-select>
     </ion-item>
 
+    <ion-item lines="none">
+      <img width="24" height="24" slot="start" class="cus-icon" src="../../../assets/icon/speedlimiticon.png">
+      <ion-label>{{ 'common.speed_limit_by_here' | translate }}</ion-label>
+      <ion-toggle slot="end" (ionChange)="toggleSpeedLimit($event)" [checked]="getShowSpeedLimit()"></ion-toggle>
+    </ion-item>
+
     <ion-item button lines="none" (click)="confirmClear()" detail="false">
       <ion-icon slot="start" class="cus-icon" [ios]="trashIcon + '-outline'" [md]="trashIcon + '-sharp'">
       </ion-icon>

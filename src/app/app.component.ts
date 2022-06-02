@@ -10,6 +10,7 @@ import { GeolocationService } from './services/geolocation/geolocation.service';
 import { UpdateService } from './services/update/update.service';
 import { OdoTripService } from './services/odo-trip/odo-trip.service';
 import { TimerService } from './services/timer/timer.service';
+import { HereMapService } from './services/here-map/here-map.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -29,13 +30,17 @@ export class AppComponent {
     private geolocationService: GeolocationService,
     private updateService: UpdateService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private hereMapService: HereMapService
   ) {
     this.platform.ready().then(async () => {
       await this.createStorage();
       this.hardwareBackBtn();
       this.geolocationService.startGeolocation();
       this.updateService.checkForUpdate(false);
+      this.hereMapService.getHereMapToken().subscribe((data) => {
+        console.log(data);
+      });
     });
   }
 
@@ -46,6 +51,7 @@ export class AppComponent {
     this.timerService.getTotalTime();
     this.odoTripService.getOdoTrip();
     this.topSpeedService.getTopSpeed();
+    this.hereMapService.getShowSpeedLimit();
   }
 
   private hardwareBackBtn() {

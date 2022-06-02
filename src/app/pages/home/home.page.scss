@@ -73,10 +73,13 @@
   border-radius: 50%;
   height: 60px;
   width: 60px;
-  font-weight: 900;
   font-size: 24px;
   padding-top: 9px;
   text-align: center;
+}
+
+.speed-limit-txt {
+  margin: auto;
 }
 
 @media (orientation: portrait) {

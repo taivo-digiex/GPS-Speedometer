@@ -66,9 +66,27 @@
   --background: var(--ion-background-color) !important;
 }
 
+.speed-limit {
+  background: white;
+  color: black;
+  border: 7px solid crimson;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  font-weight: 900;
+  font-size: 24px;
+  padding-top: 9px;
+  text-align: center;
+}
+
 @media (orientation: portrait) {
   #container {
     text-align: center;
+  }
+
+  .speed-limit {
+    margin-left: auto;
+    margin-right: 10px;
   }
 
   @media only screen and (max-width: 380px) {
@@ -87,6 +105,14 @@
 
     .distance {
       font-size: 20px;
+    }
+
+    .speed-limit {
+      border: 6px solid crimson;
+      height: 50px;
+      width: 50px;
+      font-size: 20px;
+      padding-top: 7px;
     }
   }
 }
@@ -117,6 +143,11 @@
     }
   }
 
+  .speed-limit {
+    margin-left: 10px;
+    margin-right: auto;
+  }
+
   @media only screen and (max-width: 700px) {
     #speedo {
       font-size: 100px !important;
@@ -138,6 +169,14 @@
     .speedo-div,
     .landscape-info {
       min-width: 310px;
+    }
+
+    .speed-limit {
+      border: 6px solid crimson;
+      height: 50px;
+      width: 50px;
+      font-size: 20px;
+      padding-top: 7px;
     }
   }
 }

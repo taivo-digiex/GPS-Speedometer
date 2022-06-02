@@ -21,6 +21,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="speed-limit" *ngIf="speedLimit != null">
+    <ion-text>{{ speedLimit }}</ion-text>
+  </div>
+
   <div id="container">
     <div class="speedo-div">
       <p>

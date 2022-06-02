@@ -33,6 +33,7 @@ export class HomePage implements OnInit, OnDestroy {
   public hiddenStartIcon = this.timerService.hiddenStartIcon;
   public isPortrait = this.platform.isPortrait();
   public isSwitchTrip = true;
+  public speedLimit: number;
 
   public settingsIcon = 'settings';
   public timerIcon = 'timer';
@@ -104,21 +105,27 @@ export class HomePage implements OnInit, OnDestroy {
       this.isPortrait = this.platform.isPortrait();
     }, 250);
 
-    this.unitService.unitSystem.subscribe((data) => {
+    this.unitService.unitSystem.subscribe(() => {
       this.geolocationService.convertUnit();
       this.speedUnit = this.unitService.speedUnit;
       this.distanceUnit = this.unitService.distanceUnit;
       this.lenghtUnit = this.unitService.lenghtUnit;
     });
 
-    this.geolocationService.geolocationData.subscribe((data) => {
+    this.geolocationService.geolocationData.subscribe(() => {
       this.geolocationService.convertUnit();
       this.lat = this.geolocationService.lat;
       this.lon = this.geolocationService.lon;
     });
 
-    this.calculateService.calculateData.subscribe((data) => {
+    this.geolocationService.speedLimitData.subscribe(() => {
+      this.geolocationService.convertUnit();
+      this.speedLimit = this.calculateService.speedLimit;
+    });
+
+    this.calculateService.calculateData.subscribe(() => {
       this.speedo = this.calculateService.speedo;
+      this.speedLimit = this.calculateService.speedLimit;
       this.topSpeed = this.calculateService.topSpeed;
       this.accuracy = this.calculateService.accuracy;
       this.altitude = this.calculateService.altitude;
@@ -158,6 +165,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
+    this.speedLimit = this.calculateService.speedLimit;
 
     this.totalTime = this.timerService.convertedTotalTime;
     this.hiddenStartIcon = this.timerService.hiddenStartIcon;

@@ -41,7 +41,6 @@ export class UpdateService {
                 null
               );
             }
-            console.log(serverVersion);
 
             if (
               (serverVersion[0] > splittedVersion[0] ||

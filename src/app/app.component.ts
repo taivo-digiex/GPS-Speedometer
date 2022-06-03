@@ -38,9 +38,7 @@ export class AppComponent {
       this.hardwareBackBtn();
       this.geolocationService.startGeolocation();
       this.updateService.checkForUpdate(false);
-      this.hereMapService.getHereMapToken().subscribe((data) => {
-        console.log(data);
-      });
+      this.hereMapService.getHereMapToken();
     });
   }
 

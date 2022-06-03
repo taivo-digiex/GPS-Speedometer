@@ -100,17 +100,7 @@ export class GeolocationService {
 
   private getSpeedLimit() {
     this.hereMapService
-      .getSpeedLimit(
-        'https://router.hereapi.com/v8/routes?transportMode=car&destination=' +
-          this.lat +
-          ',' +
-          this.lon +
-          '&origin=' +
-          this.lat +
-          ',' +
-          this.lon +
-          '&return=polyline&spans=names,speedLimit'
-      )
+      .getSpeedLimit(this.lat, this.lon)
       .then((data) => {
         if ('routes' in data) {
           this.speedLimit = data.routes[0].sections[0].spans[0].speedLimit;

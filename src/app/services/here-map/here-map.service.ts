@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import CryptoJS from 'crypto-js';
 import * as OAuth from 'oauth-1.0a';
 import { Storage } from '@ionic/storage-angular';
+
+// const request = require('request');
 
 const SSL_KEY = 'show-speed-limit';
 
@@ -12,10 +12,13 @@ const SSL_KEY = 'show-speed-limit';
 })
 export class HereMapService {
   public showSpeedLimit: boolean;
+  private token: string =
+    null ||
+    'eyJhbGciOiJSUzUxMiIsImN0eSI6IkpXVCIsImlzcyI6IkhFUkUiLCJhaWQiOiJCSmUyb3NiYkc1eElrZjVVVkY5SCIsImlhdCI6MTY1NDI3MjcwOCwiZXhwIjoxNjU0MzU5MTA4LCJraWQiOiJqMSJ9.ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuLndJaEh5eVhhVm5Uek14RmFiNFFhdWcuRVpJdzJaMnhVUXhYSE1aNzRta21aMlJBbFdKc2dJSVJkUDd4em1kbkJLMF8yZ1NMTG9uWXVJd0RocDhWaXNqSVRhM3VKLXRFN0drNWNYeko5bGhmTG9kSV9aYW9HOU5JOXNCTEtRMEQyZzhRejdka0F4NW5LdE5udm11a3N5QWJyeXMwVGl4aF9iNk95VWJrSkZEa1NnLmJDTDVYMVpHQzhqeERUTGdGZGhCLUhmMkVFNUp0aEVUNmszaVlxTklULVk.OSrF2Lm2EOdokc4lTHeRIniIUAUCZMsfiAyk-RNxpZhP4WML-ooa0JNrIhxiXTCuFgut8CUkWw6ICMfQUfptXH9ADyrdeFu1VZ22EllxXQ3ffFmDyfKiqEPCW0OMao92rAOtiS906qZMQtXn6MBcWpZh6MjDmX9UDXN7FyJuK0cp9b9FQ4bzq_euJRrvEB0YzWuAszZDfkKQe35uaEm1cV8sjwtbr1lhhW6gtH5d20dlZDF-QdNbEJjwd1AmEh6CyQWrbVBaR6aS95_Z40Zuf-0eGaPjebplBdAgcfojf7748Wp6fNilIc_qD_TJ9UpnDQRNwPevZb4ld8qltKGE2g';
 
-  constructor(private http: HttpClient, private storage: Storage) {}
+  constructor(private storage: Storage) {}
 
-  public getHereMapToken(): Observable<any> {
+  getHereMapToken() {
     const oauth = new OAuth({
       consumer: {
         key: 'V3R6bmLb4WmmDznqE-ellA',
@@ -24,75 +27,56 @@ export class HereMapService {
       },
       signature_method: 'HMAC-SHA256',
       hash_function(base_string, key) {
-        // let hash: any = CryptoES.enc.Base64.stringify(
-        // CryptoES.HmacSHA256(base_string, key)
-        // );
         return CryptoJS.enc.Base64.stringify(
           CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key)
             .update(base_string)
             .finalize()
         );
-        // return CryptoJS.createHmac('sha256', key)
-        //   .update(base_string)
-        //   .digest('base64');
       },
     });
 
     const request_data = {
       url: 'https://account.api.here.com/oauth2/token',
       method: 'POST',
-      data: 'grant_type=client_credentials',
+      data: { grant_type: 'client_credentials' },
     };
 
-    return this.http
-      .post('https://account.api.here.com/oauth2/token', request_data.data, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: oauth.toHeader(oauth.authorize(request_data))
-            .Authorization,
-        }),
-      })
-      .pipe(
-        map((result) => {
-          return result;
-        })
-      );
-
-    // this.http
-    //   .request(
-    //     request_data.method,
-
-    //     request_data.url,
-    //     {
-    //       body: request_data.data,
-    //       headers: oauth.toHeader(oauth.authorize(request_data)),
-    //     }
-    //   )
-    //   .subscribe((e) => {
-    //     console.log(e);
-    //   });
-    //   (error, response, body) => {
+    // request(
+    //   {
+    //     url: request_data.url,
+    //     method: request_data.method,
+    //     form: request_data.data,
+    //     headers: oauth.toHeader(oauth.authorize(request_data)),
+    //   },
+    //   (error: any, response: any, body: any) => {
     //     if (response.statusCode == 200) {
-    //       const result = JSON.parse(response.body);
-    //       console.log('Token', result);
+    //       this.token = JSON.parse(response.body).access_token;
+    //       console.log(this.token);
     //     }
     //   }
     // );
-
-    // return this.http
-    //   .post<any>('https://account.api.here.com/oauth2/token', {
-    //     grant_type: 'client_credentials',
-    //   })
-    //   .pipe(map((result) => result));
   }
 
-  public async getSpeedLimit(url: any) {
+  public async getSpeedLimit(lat: number, lon: number) {
+    if (!this.token) {
+      return;
+    }
+
     const requestHeaders = {
-      Authorization:
-        'Bearer eyJhbGciOiJSUzUxMiIsImN0eSI6IkpXVCIsImlzcyI6IkhFUkUiLCJhaWQiOiJCSmUyb3NiYkc1eElrZjVVVkY5SCIsImlhdCI6MTY1NDE1MzkwOCwiZXhwIjoxNjU0MjQwMzA4LCJraWQiOiJqMSJ9.ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuLmRpbjFMMzZrc0NMbUlIQnRMVTFEZEEucUxqSVp3MnhjcUpPdTFwOTh1VVJCSnFpTEphZGpOUnBEdXBubjE3Ylprc0o0RWgzdFQ4MkpWUzdmMnBHUHRhbUJvajFHSnBlemRfN0JBaXduVC1Bdl95ZkdZREMtb1BMT3pOdzdKdGlhdW5ibGlhd3dhWFpzTjhMM1o4cWt5cEVUWnNXNkZvNGhfOXRtWUZhNFJxWkRRLlZXWTBtVlBVenlIS2tTRGdEclhPcE1vU2xBWDV3MS02YkEzVmdGU3FXSjA.jpV8efRuxicyX3hes3afNBywtIgWreLz3IUATcCcC9k1_BLhIRH-iACE3xZKB2c7XHeur_EmAJMMLrD0kmoUIYZ3l9GJ_fGkeCenve5hxwnJKyXaJ27VuBkIK77E9sMPxvQOK91KIqRHAwwRWzoUr-H0TcmT2Ee0qHFZ1zPEjIRamUbW7xW_Jg9tZbEElzoHovAmJ35Kg6mqfSsSrzroui-r7ZwVhcDnOLUjMU_XIOmjVaQw-Qi-pTnNTmfhM5Z8Sf1MaDs-3_1w3T4DVcd7L-x9Gj3eIP-k8QGt0UJpLN88qkE0rwFLKf7IKeXMElukPMRQ0L41mb2ScbCTX6z_EQ',
+      Authorization: 'Bearer ' + this.token,
     };
 
     let res: any;
+    const url =
+      'https://router.hereapi.com/v8/routes?transportMode=car&destination=' +
+      lat +
+      ',' +
+      lon +
+      '&origin=' +
+      lat +
+      ',' +
+      lon +
+      '&return=polyline&spans=names,speedLimit';
 
     try {
       res = await fetch(url, {

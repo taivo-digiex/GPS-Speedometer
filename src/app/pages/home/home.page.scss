@@ -71,15 +71,20 @@
   color: black;
   border: 7px solid crimson;
   border-radius: 50%;
-  height: 60px;
-  width: 60px;
-  font-size: 24px;
-  padding-top: 9px;
-  text-align: center;
+  height: 70px;
+  width: 70px;
+  font-size: 28px;
+  // padding-top: 10px;
+  // text-align: center;
 }
 
 .speed-limit-txt {
-  margin: auto;
+  margin: 0;
+  /* padding: 10px 0; */
+  display: flex;
+  align-items: center;
+  height: -webkit-fill-available;
+  justify-content: center;
 }
 
 @media (orientation: portrait) {
@@ -112,10 +117,14 @@
 
     .speed-limit {
       border: 6px solid crimson;
-      height: 50px;
-      width: 50px;
-      font-size: 20px;
-      padding-top: 7px;
+      height: 60px;
+      width: 60px;
+      font-size: 24px;
+      // padding-top: 10px;
+    }
+
+    .speed-limit-txt {
+      padding: 9px 0;
     }
   }
 }
@@ -176,10 +185,14 @@
 
     .speed-limit {
       border: 6px solid crimson;
-      height: 50px;
-      width: 50px;
-      font-size: 20px;
-      padding-top: 7px;
+      height: 60px;
+      width: 60px;
+      font-size: 24px;
+      // padding-top: 10px;
+    }
+
+    .speed-limit-txt {
+      padding: 9px 0;
     }
   }
 }

@@ -124,12 +124,18 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.geolocationService.speedLimitData.subscribe(() => {
       this.geolocationService.convertUnit();
-      this.speedLimit = this.calculateService.speedLimit;
+      this.speedLimit =
+        this.calculateService.speedLimit > 0
+          ? this.calculateService.speedLimit
+          : null;
     });
 
     this.calculateService.calculateData.subscribe(() => {
       this.speedo = this.calculateService.speedo;
-      this.speedLimit = this.calculateService.speedLimit;
+      this.speedLimit =
+        this.calculateService.speedLimit > 0
+          ? this.calculateService.speedLimit
+          : null;
       this.topSpeed = this.calculateService.topSpeed;
       this.accuracy = this.calculateService.accuracy;
       this.altitude = this.calculateService.altitude;
@@ -169,7 +175,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
-    this.speedLimit = this.calculateService.speedLimit;
+    this.speedLimit =
+      this.calculateService.speedLimit > 0
+        ? this.calculateService.speedLimit
+        : null;
 
     this.totalTime = this.timerService.convertedTotalTime;
     this.hiddenStartIcon = this.timerService.hiddenStartIcon;

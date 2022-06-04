@@ -60,20 +60,17 @@ export class CalculateService {
     speedLimit: number
   ) {
     switch (this.unitService.unit) {
-      case 'imperial':
-        {
-          this.imperialUnit(speed, rawAccuracy, rawAltitude);
-          if (speedLimit != null) {
-            this.imperialSpeedLimit(speedLimit);
-          }
-        }
-        break;
       case 'metric':
         {
           this.metricUnit(speed, rawAccuracy, rawAltitude);
-          if (speedLimit != null) {
-            this.metricSpeedLimit(speedLimit);
-          }
+          this.metricSpeedLimit(speedLimit);
+        }
+        break;
+
+      case 'imperial':
+        {
+          this.imperialUnit(speed, rawAccuracy, rawAltitude);
+          this.imperialSpeedLimit(speedLimit);
         }
         break;
     }

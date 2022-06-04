@@ -107,6 +107,9 @@ export class GeolocationService {
           this.speedLimitData.emit();
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        this.speedLimit = 0;
+        this.speedLimitData.emit();
+      });
   }
 }

@@ -21,6 +21,7 @@ export class SettingsPage implements OnInit {
   public selectedLanguage: string;
   public selectedUnit: string;
   public appVersion: string;
+  public isCheckingForUpdate: boolean;
 
   public langIcon = 'language';
   public unitIcon = 'speedometer';
@@ -70,11 +71,22 @@ export class SettingsPage implements OnInit {
   }
 
   public checkForUpdate() {
-    this.updateService.checkForUpdate(true);
+    this.isCheckingForUpdate = true;
+    this.updateService.checkForUpdate(true).then(() => {
+      this.isCheckingForUpdate = false;
+    });
   }
 
   public changeUnit(ev: any) {
     this.unitService.saveUnit(ev.target.value);
+  }
+
+  public getShowSpeedLimit() {
+    return this.hereMapService.showSpeedLimit;
+  }
+
+  public toggleSpeedLimit(ev: any) {
+    this.hereMapService.saveShowSpeedLimit(ev.detail.checked);
   }
 
   private getLangSelected() {
@@ -108,13 +120,5 @@ export class SettingsPage implements OnInit {
         'danger'
       );
     }
-  }
-
-  public getShowSpeedLimit() {
-    return this.hereMapService.showSpeedLimit;
-  }
-
-  public toggleSpeedLimit(ev: any) {
-    this.hereMapService.saveShowSpeedLimit(ev.detail.checked);
   }
 }

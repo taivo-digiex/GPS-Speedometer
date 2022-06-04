@@ -35,7 +35,7 @@ export class HereMapService {
       },
     });
 
-    const request_data = {
+    const requestData = {
       url: 'https://account.api.here.com/oauth2/token',
       method: 'POST',
       data: { grant_type: 'client_credentials' },
@@ -43,10 +43,10 @@ export class HereMapService {
 
     // request(
     //   {
-    //     url: request_data.url,
-    //     method: request_data.method,
-    //     form: request_data.data,
-    //     headers: oauth.toHeader(oauth.authorize(request_data)),
+    //     url: requestData.url,
+    //     method: requestData.method,
+    //     form: requestData.data,
+    //     headers: oauth.toHeader(oauth.authorize(requestData)),
     //   },
     //   (error: any, response: any, body: any) => {
     //     if (response.statusCode == 200) {
@@ -63,10 +63,9 @@ export class HereMapService {
     }
 
     const requestHeaders = {
-      Authorization: 'Bearer ' + this.token,
+      authorization: 'Bearer ' + this.token,
     };
 
-    let res: any;
     const url =
       'https://router.hereapi.com/v8/routes?transportMode=car&destination=' +
       lat +
@@ -79,13 +78,14 @@ export class HereMapService {
       '&return=polyline&spans=names,speedLimit';
 
     try {
-      res = await fetch(url, {
+      const res = await fetch(url, {
         method: 'get',
         headers: requestHeaders,
       });
-    } catch (e) {}
-
-    return await res.json();
+      return await res.json();
+    } catch (e) {
+      return false;
+    }
   }
 
   public async getShowSpeedLimit() {

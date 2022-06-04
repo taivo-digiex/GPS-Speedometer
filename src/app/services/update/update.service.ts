@@ -11,6 +11,7 @@ import { ToastComponent } from 'src/app/common/components/toast/toast.component'
 })
 export class UpdateService {
   public versionNumber: string;
+
   private downloadLatest: string;
 
   constructor(
@@ -56,7 +57,7 @@ export class UpdateService {
                 null,
                 'common.later',
                 'common.download',
-                (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
+                null,
                 this,
                 this.downloadNewAppVersion
               );

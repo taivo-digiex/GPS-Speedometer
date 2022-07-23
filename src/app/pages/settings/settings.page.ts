@@ -8,7 +8,6 @@ import { AlertComponent } from 'src/app/common/components/alert/alert.component'
 import { UnitService } from 'src/app/services/unit/unit.service';
 import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
-import { HereMapService } from 'src/app/services/here-map/here-map.service';
 
 @Component({
   selector: 'app-settings',
@@ -37,14 +36,12 @@ export class SettingsPage implements OnInit {
     private alertComponent: AlertComponent,
     private unitService: UnitService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService,
-    private hereMapService: HereMapService
+    private timerService: TimerService
   ) {}
 
   public ngOnInit() {
     this.getLangSelected();
     this.getUnitSelected();
-    this.getShowSpeedLimit();
     this.appVersion = this.updateService.versionNumber;
   }
 
@@ -79,14 +76,6 @@ export class SettingsPage implements OnInit {
 
   public changeUnit(ev: any) {
     this.unitService.saveUnit(ev.target.value);
-  }
-
-  public getShowSpeedLimit() {
-    return this.hereMapService.showSpeedLimit;
-  }
-
-  public toggleSpeedLimit(ev: any) {
-    this.hereMapService.saveShowSpeedLimit(ev.detail.checked);
   }
 
   private getLangSelected() {

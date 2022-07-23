@@ -66,35 +66,9 @@
   --background: var(--ion-background-color) !important;
 }
 
-.speed-limit {
-  background: white;
-  color: black;
-  border: 7px solid crimson;
-  border-radius: 50%;
-  height: 70px;
-  width: 70px;
-  font-size: 28px;
-  // padding-top: 10px;
-  // text-align: center;
-}
-
-.speed-limit-txt {
-  margin: 0;
-  /* padding: 10px 0; */
-  display: flex;
-  align-items: center;
-  height: -webkit-fill-available;
-  justify-content: center;
-}
-
 @media (orientation: portrait) {
   #container {
     text-align: center;
-  }
-
-  .speed-limit {
-    margin-left: auto;
-    margin-right: 10px;
   }
 
   @media only screen and (max-width: 380px) {
@@ -113,18 +87,6 @@
 
     .distance {
       font-size: 20px;
-    }
-
-    .speed-limit {
-      border: 6px solid crimson;
-      height: 60px;
-      width: 60px;
-      font-size: 24px;
-      // padding-top: 10px;
-    }
-
-    .speed-limit-txt {
-      padding: 9px 0;
     }
   }
 }
@@ -155,11 +117,6 @@
     }
   }
 
-  .speed-limit {
-    margin-left: 10px;
-    margin-right: auto;
-  }
-
   @media only screen and (max-width: 700px) {
     #speedo {
       font-size: 100px !important;
@@ -181,18 +138,6 @@
     .speedo-div,
     .landscape-info {
       min-width: 310px;
-    }
-
-    .speed-limit {
-      border: 6px solid crimson;
-      height: 60px;
-      width: 60px;
-      font-size: 24px;
-      // padding-top: 10px;
-    }
-
-    .speed-limit-txt {
-      padding: 9px 0;
     }
   }
 }

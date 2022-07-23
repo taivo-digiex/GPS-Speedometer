@@ -5,7 +5,6 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { CalculateService } from '../calculate/calculate.service';
 import { TimerService } from '../timer/timer.service';
-import { HereMapService } from '../here-map/here-map.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,6 @@ export class GeolocationService {
   public rawAltitude: number;
   public lat: number;
   public lon: number;
-  public speedLimit: number;
 
   private lastTimestamp: number;
 
@@ -30,8 +28,7 @@ export class GeolocationService {
     private toastComponent: ToastComponent,
     private topSpeedService: TopSpeedService,
     private calculateService: CalculateService,
-    private timerService: TimerService,
-    private hereMapService: HereMapService
+    private timerService: TimerService
   ) {}
 
   public startGeolocation() {
@@ -58,8 +55,7 @@ export class GeolocationService {
     this.calculateService.convert(
       this.speed,
       this.rawAccuracy,
-      this.rawAltitude,
-      this.speedLimit
+      this.rawAltitude
     );
   }
 
@@ -89,27 +85,8 @@ export class GeolocationService {
     }
     this.lastTimestamp = res.timestamp;
 
-    if (this.lat && this.lon) {
-      this.getSpeedLimit();
-    }
-
     this.getSpeedAndTime(this.speed, time);
     this.topSpeedService.saveTopSpeed(this.speed);
     this.geolocationData.emit();
-  }
-
-  private getSpeedLimit() {
-    this.hereMapService
-      .getSpeedLimit(this.lat, this.lon)
-      .then((data) => {
-        if ('routes' in data) {
-          this.speedLimit = data.routes[0].sections[0].spans[0].speedLimit;
-          this.speedLimitData.emit();
-        }
-      })
-      .catch(() => {
-        this.speedLimit = 0;
-        this.speedLimitData.emit();
-      });
   }
 }

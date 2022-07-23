@@ -18,67 +18,14 @@ export class TimerService {
   public lastTotalTime: number;
   public convertedTotalTime: string;
 
-  private totalTimerInterval: any;
+  // private totalTimerInterval: any;
 
   constructor(private storage: Storage) {}
 
-  public calculateTime() {
-    let elapsedTime = 0;
-    const startTime = Date.now() - elapsedTime;
-
-    this.totalElapsedTimeInterval = setInterval(() => {
-      elapsedTime = Date.now() - startTime;
-
-      const diffInHrs = elapsedTime / 3600000;
-      const hh = Math.floor(diffInHrs);
-
-      const diffInMin = (diffInHrs - hh) * 60;
-      const mm = Math.floor(diffInMin);
-
-      const diffInSec = (diffInMin - mm) * 60;
-      const ss = Math.floor(diffInSec);
-
-      this.totalElapsedTime = hh * 3600000 + mm * 60 + ss;
-    }, 1000);
-  }
-
-  public stopTotalElapsedTime() {
-    clearInterval(this.totalElapsedTimeInterval);
-    this.calculateTime();
-  }
-
-  public timer() {
-    this.hiddenStartIcon = true;
-    this.icon.emit(this.hiddenStartIcon);
-    let elapsedTime = 0;
-    const startTime = Date.now() - elapsedTime;
-
-    this.timerInterval = setInterval(() => {
-      elapsedTime = Date.now() - startTime;
-
-      const diffInHrs = elapsedTime / 3600000;
-      const hh = Math.floor(diffInHrs);
-
-      const diffInMin = (diffInHrs - hh) * 60;
-      const mm = Math.floor(diffInMin);
-
-      const diffInSec = (diffInMin - mm) * 60;
-      const ss = Math.floor(diffInSec);
-
-      const formattedHH = hh.toString().padStart(2, '0');
-      const formattedMM = mm.toString().padStart(2, '0');
-      const formattedSS = ss.toString().padStart(2, '0');
-
-      this.timerData.emit(`${formattedHH}:${formattedMM}:${formattedSS}`);
-    }, 1000);
-  }
-
-  public stopTimer() {
-    this.hiddenStartIcon = false;
-    this.timerData.emit('00:00:00');
-    this.icon.emit(this.hiddenStartIcon);
-    clearInterval(this.timerInterval);
-  }
+  // public stopTotalElapsedTime() {
+  //   clearInterval(this.totalElapsedTimeInterval);
+  //   this.calculateTime();
+  // }
 
   public convertTotalTravelTime() {
     this.convertedTotalTime =

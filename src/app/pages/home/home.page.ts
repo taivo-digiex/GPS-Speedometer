@@ -7,7 +7,6 @@ import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
-import { HereMapService } from 'src/app/services/here-map/here-map.service';
 
 SwiperCore.use([Autoplay, Pagination]);
 
@@ -29,20 +28,13 @@ export class HomePage implements OnInit, OnDestroy {
   public altitude: string;
   public avgSpeed: string;
   public distance: any;
-  public time: string;
   public totalTime: string;
-  public hiddenStartIcon = this.timerService.hiddenStartIcon;
   public isPortrait = this.platform.isPortrait();
   public isSwitchTrip = true;
-  public speedLimit: number;
-  public showSpeedLimit: boolean;
-
-  public settingsIcon = 'settings';
-  public timerIcon = 'timer';
-  public startIcon = 'play';
-  public stopIcon = 'stop';
-
   public checkIsPortraitInterval: any;
+
+  public timerIcon = 'timer';
+  public settingsIcon = 'settings';
 
   constructor(
     private insomnia: Insomnia,
@@ -51,8 +43,7 @@ export class HomePage implements OnInit, OnDestroy {
     private toastComponent: ToastComponent,
     private calculateService: CalculateService,
     private timerService: TimerService,
-    private geolocationService: GeolocationService,
-    private hereMapService: HereMapService
+    private geolocationService: GeolocationService
   ) {}
 
   public ngOnInit() {
@@ -78,18 +69,10 @@ export class HomePage implements OnInit, OnDestroy {
     );
   }
 
-  public stopTracking() {
-    this.geolocationService.stop();
-    this.insomnia.allowSleepAgain();
-  }
-
-  public startTimer() {
-    this.timerService.timer();
-  }
-
-  public stopTimer() {
-    this.timerService.stopTimer();
-  }
+  // public stopTracking() {
+  //   this.geolocationService.stop();
+  //   this.insomnia.allowSleepAgain();
+  // }
 
   public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
@@ -106,7 +89,6 @@ export class HomePage implements OnInit, OnDestroy {
   private initial() {
     this.checkIsPortraitInterval = setInterval(() => {
       this.isPortrait = this.platform.isPortrait();
-      this.showSpeedLimit = this.hereMapService.showSpeedLimit;
     }, 250);
 
     this.unitService.unitSystem.subscribe(() => {
@@ -124,18 +106,10 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.geolocationService.speedLimitData.subscribe(() => {
       this.geolocationService.convertUnit();
-      this.speedLimit =
-        this.calculateService.speedLimit > 0
-          ? this.calculateService.speedLimit
-          : null;
     });
 
     this.calculateService.calculateData.subscribe(() => {
       this.speedo = this.calculateService.speedo;
-      this.speedLimit =
-        this.calculateService.speedLimit > 0
-          ? this.calculateService.speedLimit
-          : null;
       this.topSpeed = this.calculateService.topSpeed;
       this.accuracy = this.calculateService.accuracy;
       this.altitude = this.calculateService.altitude;
@@ -147,14 +121,6 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.timerService.totalTime.subscribe((data) => {
       this.totalTime = data;
-    });
-
-    this.timerService.timerData.subscribe((data) => {
-      this.time = data;
-    });
-
-    this.timerService.icon.subscribe((data) => {
-      this.hiddenStartIcon = data;
     });
   }
 
@@ -175,12 +141,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
-    this.speedLimit =
-      this.calculateService.speedLimit > 0
-        ? this.calculateService.speedLimit
-        : null;
 
     this.totalTime = this.timerService.convertedTotalTime;
-    this.hiddenStartIcon = this.timerService.hiddenStartIcon;
   }
 }

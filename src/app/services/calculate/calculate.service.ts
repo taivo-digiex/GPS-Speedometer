@@ -20,7 +20,6 @@ export class CalculateService {
   public avgSpeed: string;
   public odo: number;
   public trip: string;
-  public speedLimit: number;
 
   private value = [...VALUE];
 
@@ -45,32 +44,25 @@ export class CalculateService {
     ];
 
     let trip = 0;
-    for (let i = 0; i < this.value.length; i++) {
-      trip = this.value[i].speed * this.value[i].time;
+    for (const val of this.value) {
+      trip = val.speed * val.time;
     }
 
     this.odoTripService.saveOdo(trip);
     this.odoTripService.saveTrip(trip);
   }
 
-  public convert(
-    speed: number,
-    rawAccuracy: number,
-    rawAltitude: number,
-    speedLimit: number
-  ) {
+  public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
     switch (this.unitService.unit) {
       case 'metric':
         {
           this.metricUnit(speed, rawAccuracy, rawAltitude);
-          this.metricSpeedLimit(speedLimit);
         }
         break;
 
       case 'imperial':
         {
           this.imperialUnit(speed, rawAccuracy, rawAltitude);
-          this.imperialSpeedLimit(speedLimit);
         }
         break;
     }
@@ -109,10 +101,6 @@ export class CalculateService {
           );
   }
 
-  private metricSpeedLimit(speedLimit: number) {
-    this.speedLimit = Math.trunc(speedLimit * 3.6);
-  }
-
   private imperialUnit(
     speed: number,
     rawAccuracy: number,
@@ -147,12 +135,6 @@ export class CalculateService {
               2.23693629,
             1
           );
-  }
-
-  private imperialSpeedLimit(speedLimit: number) {
-    if (speedLimit != null) {
-      this.speedLimit = Math.trunc(speedLimit * 2.2);
-    }
   }
 
   private toFixedNoRounding(value: number, n: number) {

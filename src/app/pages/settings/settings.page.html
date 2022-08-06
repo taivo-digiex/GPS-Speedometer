@@ -21,8 +21,8 @@
       <ion-label>{{ 'common.language' | translate }}</ion-label>
       <ion-select slot="end" (ionChange)="selectLng($event)" [value]="selectedLanguage"
         okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
-        <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
-          {{'lang.' + lng.value | translate }}
+        <ion-select-option *ngFor="let language of languages" value="{{ language.value }}">
+          {{language.label }}
         </ion-select-option>
       </ion-select>
     </ion-item>
@@ -34,7 +34,7 @@
       <ion-select slot="end" (ionChange)="changeUnit($event)" [value]="selectedUnit"
         okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
         <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
-          {{ 'unit.' + unit.value | translate }}
+          {{ unit.label }}
         </ion-select-option>
       </ion-select>
     </ion-item>

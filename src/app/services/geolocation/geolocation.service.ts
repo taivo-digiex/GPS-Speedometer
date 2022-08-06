@@ -47,8 +47,6 @@ export class GeolocationService {
           );
         }
       });
-
-    // this.timerService.calculateTime();
   }
 
   public convertUnit() {
@@ -62,7 +60,6 @@ export class GeolocationService {
   public getSpeedAndTime(speed: number, time: number) {
     this.timerService.saveTotalTime(Math.floor(time));
     this.calculateService.getValue(speed, time);
-    // this.timerService.stopTotalElapsedTime();
   }
 
   public stop() {

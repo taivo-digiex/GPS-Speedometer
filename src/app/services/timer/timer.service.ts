@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-const TT_KEY = 'total-time';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +9,7 @@ export class TimerService {
   @Output() timerData = new EventEmitter();
   @Output() icon = new EventEmitter();
   @Output() totalTime = new EventEmitter();
+
   public totalElapsedTimeInterval: any;
   public totalElapsedTime: number;
   public timerInterval: any;
@@ -18,32 +18,27 @@ export class TimerService {
   public lastTotalTime: number;
   public convertedTotalTime: string;
 
-  // private totalTimerInterval: any;
-
   constructor(private storage: Storage) {}
 
-  // public stopTotalElapsedTime() {
-  //   clearInterval(this.totalElapsedTimeInterval);
-  //   this.calculateTime();
-  // }
-
-  public convertTotalTravelTime() {
+  public async convertTotalTravelTime() {
+    const time = await this.storage
+      .get(AppConstant.STORAGE_KEYS.TOTAL_TIME)
+      .then()
+      .catch();
     this.convertedTotalTime =
-      Math.floor(this.currentTotalTime / 3600)
+      Math.floor(time / 3600)
         .toString()
         .padStart(2, '0') +
       ':' +
-      (Math.floor(this.currentTotalTime / 60) % 60)
-        .toString()
-        .padStart(2, '0') +
+      (Math.floor(time / 60) % 60).toString().padStart(2, '0') +
       ':' +
-      (this.currentTotalTime % 60).toString().padStart(2, '0');
+      (time % 60).toString().padStart(2, '0');
     this.totalTime.emit(this.convertedTotalTime);
   }
 
   public async getTotalTime() {
     await this.storage
-      .get(TT_KEY)
+      .get(AppConstant.STORAGE_KEYS.TOTAL_TIME)
       .then((val) => {
         if (val) {
           this.lastTotalTime = val;
@@ -52,32 +47,25 @@ export class TimerService {
           this.lastTotalTime = 0;
           this.currentTotalTime = 0;
         }
-        // this.saveTotalTime();
         this.convertTotalTravelTime();
       })
       .catch(() => {});
   }
 
   public async saveTotalTime(time: number) {
-    // this.totalTimerInterval = setInterval(async () => {
-    //   this.convertTotalTravelTime();
-    //   if (!isNaN(this.lastTotalTime)) {
-    //     this.currentTotalTime = this.lastTotalTime + 1;
-    //     this.lastTotalTime = this.currentTotalTime;
-    //     await this.storage.set(TT_KEY, this.currentTotalTime);
-    //   }
-    // }, 1000);
-    this.convertTotalTravelTime();
     if (!isNaN(this.lastTotalTime)) {
       this.currentTotalTime = this.lastTotalTime + time;
       this.lastTotalTime = this.currentTotalTime;
-      await this.storage.set(TT_KEY, this.currentTotalTime);
+      await this.storage.set(
+        AppConstant.STORAGE_KEYS.TOTAL_TIME,
+        this.currentTotalTime
+      );
     }
+    this.convertTotalTravelTime();
   }
 
   public async resetTotalTime() {
-    // clearInterval(this.totalTimerInterval);
-    await this.storage.remove(TT_KEY);
+    await this.storage.remove(AppConstant.STORAGE_KEYS.TOTAL_TIME);
     this.getTotalTime();
   }
 }

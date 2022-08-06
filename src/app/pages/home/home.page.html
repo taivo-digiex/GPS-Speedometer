@@ -24,19 +24,19 @@
     <div *ngIf="!isPortrait" class="landscape-info">
       <ion-card>
         <div class="details">
-          <!-- <ion-row class="ion-justify-content-between border-bottom">
+          <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
               <p>
                 <strong>
-                  {{ "common.total_time" | translate }}:
+                  {{ "common.avg_speed" | translate }}:
                 </strong>
               </p>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
+              <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
             </ion-col>
-          </ion-row> -->
+          </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
@@ -49,20 +49,6 @@
 
             <ion-col class="ion-text-right">
               <p>{{ topSpeed != null ? topSpeed : '-'}} {{ speedUnit }}</p>
-            </ion-col>
-          </ion-row>
-
-          <ion-row class="ion-justify-content-between border-bottom">
-            <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.avg_speed" | translate }}:
-                </strong>
-              </p>
-            </ion-col>
-
-            <ion-col class="ion-text-right">
-              <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
             </ion-col>
           </ion-row>
 
@@ -137,14 +123,14 @@
         <ion-card>
           <div class="details">
             <ion-row>
-              <!-- <ion-col class="col-border">
+              <ion-col>
                 <p>
                   <strong>
-                    {{ "common.total_time" | translate }}:
+                    {{ "common.avg_speed" | translate }}:
                   </strong>
                 </p>
-                <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
-              </ion-col> -->
+                <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
+              </ion-col>
 
               <ion-col class="col-border">
                 <p>
@@ -153,16 +139,6 @@
                   </strong>
                 </p>
                 <p>{{ topSpeed != null ? topSpeed : '-' }} {{ speedUnit }}</p>
-              </ion-col>
-
-
-              <ion-col>
-                <p>
-                  <strong>
-                    {{ "common.avg_speed" | translate }}:
-                  </strong>
-                </p>
-                <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
               </ion-col>
             </ion-row>
           </div>

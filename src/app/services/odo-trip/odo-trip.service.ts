@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-const ODO_KEY = 'odo';
-const TRIP_KEY = 'trip';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +23,7 @@ export class OdoTripService {
     if (!isNaN(currentOdo) && !isNaN(this.lastOdo)) {
       this.currentOdo = this.lastOdo + currentOdo;
       this.lastOdo = this.currentOdo;
-      await this.storage.set(ODO_KEY, this.currentOdo);
+      await this.storage.set(AppConstant.STORAGE_KEYS.ODO, this.currentOdo);
     }
   }
 
@@ -33,18 +31,18 @@ export class OdoTripService {
     if (!isNaN(currentTrip) && !isNaN(this.lastTrip)) {
       this.currentTrip = this.lastTrip + currentTrip;
       this.lastTrip = this.currentTrip;
-      await this.storage.set(TRIP_KEY, this.currentTrip);
+      await this.storage.set(AppConstant.STORAGE_KEYS.TRIP, this.currentTrip);
     }
   }
 
   public async clearTrip() {
-    await this.storage.remove(TRIP_KEY);
+    await this.storage.remove(AppConstant.STORAGE_KEYS.TRIP);
     this.getTrip();
   }
 
   private async getOdo() {
     await this.storage
-      .get(ODO_KEY)
+      .get(AppConstant.STORAGE_KEYS.ODO)
       .then((val) => {
         if (val) {
           this.lastOdo = 0;
@@ -61,7 +59,7 @@ export class OdoTripService {
 
   private async getTrip() {
     await this.storage
-      .get(TRIP_KEY)
+      .get(AppConstant.STORAGE_KEYS.TRIP)
       .then((val) => {
         if (val) {
           this.lastTrip = 0;

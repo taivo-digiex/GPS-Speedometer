@@ -1,5 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { speedTime } from 'src/app/common/models/speedTime.model';
+import AppConstant from 'src/app/utilities/app-constant';
+import AppUtil from 'src/app/utilities/app-util';
 import { OdoTripService } from '../odo-trip/odo-trip.service';
 import { TimerService } from '../timer/timer.service';
 import { TopSpeedService } from '../top-speed/top-speed.service';
@@ -31,7 +33,7 @@ export class CalculateService {
   ) {}
 
   public getValue(speed: number, time: number) {
-    if (speed == null || time == null) {
+    if (speed > 0 || time == null) {
       return;
     }
 
@@ -54,13 +56,13 @@ export class CalculateService {
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
     switch (this.unitService.unit) {
-      case 'metric':
+      case AppConstant.UNIT_SYSTEM.METRIC.UNIT:
         {
           this.metricUnit(speed, rawAccuracy, rawAltitude);
         }
         break;
 
-      case 'imperial':
+      case AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT:
         {
           this.imperialUnit(speed, rawAccuracy, rawAltitude);
         }
@@ -80,12 +82,12 @@ export class CalculateService {
     }
 
     if (rawAltitude != null) {
-      this.altitude = this.toFixedNoRounding(rawAltitude, 1);
+      this.altitude = AppUtil.toFixedNoRounding(rawAltitude, 1);
     }
 
     this.odo = Math.trunc(this.odoTripService.currentOdo / 1000);
 
-    this.trip = this.toFixedNoRounding(
+    this.trip = AppUtil.toFixedNoRounding(
       this.odoTripService.currentTrip / 1000,
       1
     );
@@ -93,7 +95,7 @@ export class CalculateService {
     this.avgSpeed =
       this.timerService.currentTotalTime === 0
         ? null
-        : this.toFixedNoRounding(
+        : AppUtil.toFixedNoRounding(
             (this.odoTripService.currentTrip /
               this.timerService.currentTotalTime) *
               3.6,
@@ -116,12 +118,12 @@ export class CalculateService {
     }
 
     if (rawAltitude != null) {
-      this.altitude = this.toFixedNoRounding(rawAltitude * 3.2808399, 1);
+      this.altitude = AppUtil.toFixedNoRounding(rawAltitude * 3.2808399, 1);
     }
 
     this.odo = Math.trunc(this.odoTripService.currentOdo * 0.000621371192);
 
-    this.trip = this.toFixedNoRounding(
+    this.trip = AppUtil.toFixedNoRounding(
       this.odoTripService.currentTrip * 0.000621371192,
       1
     );
@@ -129,23 +131,11 @@ export class CalculateService {
     this.avgSpeed =
       this.timerService.currentTotalTime === 0
         ? null
-        : this.toFixedNoRounding(
+        : AppUtil.toFixedNoRounding(
             (this.odoTripService.currentTrip /
               this.timerService.currentTotalTime) *
               2.23693629,
             1
           );
-  }
-
-  private toFixedNoRounding(value: number, n: number) {
-    const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + n + '})?', 'g');
-    const a = value.toString().match(reg)[0];
-    const dot = a.indexOf('.');
-    if (dot === -1) {
-      // integer, insert decimal dot and pad up zeros
-      return a + '.' + '0'.repeat(n);
-    }
-    const b = n - (a.length - dot) + 1;
-    return b > 0 ? a + '0'.repeat(b) : a;
   }
 }

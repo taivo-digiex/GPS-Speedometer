@@ -8,6 +8,9 @@ import { AlertComponent } from 'src/app/common/components/alert/alert.component'
 import { UnitService } from 'src/app/services/unit/unit.service';
 import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
+import AppUtil from 'src/app/utilities/app-util';
+import AppConstant from 'src/app/utilities/app-constant';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings',
@@ -36,7 +39,8 @@ export class SettingsPage implements OnInit {
     private alertComponent: AlertComponent,
     private unitService: UnitService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private translateService: TranslateService
   ) {}
 
   public ngOnInit() {
@@ -61,6 +65,8 @@ export class SettingsPage implements OnInit {
 
   public selectLng(ev: any) {
     this.languageService.setLanguage(ev.target.value);
+    this.languages = AppUtil.getLanguages(AppConstant, this.translateService);
+    this.units = AppUtil.getUnitSystem(AppConstant, this.translateService);
   }
 
   public back() {
@@ -79,12 +85,12 @@ export class SettingsPage implements OnInit {
   }
 
   private getLangSelected() {
-    this.languages = this.languageService.getLanguages();
+    this.languages = AppUtil.getLanguages(AppConstant, this.translateService);
     this.selectedLanguage = this.languageService.selected;
   }
 
   private getUnitSelected() {
-    this.units = this.unitService.getUnits();
+    this.units = AppUtil.getUnitSystem(AppConstant, this.translateService);
     this.selectedUnit = this.unitService.unit;
   }
 

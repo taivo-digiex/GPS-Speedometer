@@ -7,6 +7,7 @@ import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
+import AppConstant from 'src/app/utilities/app-constant';
 
 SwiperCore.use([Autoplay, Pagination]);
 
@@ -55,10 +56,14 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public changeUnit() {
-    if (this.unitService.unit === 'imperial') {
-      this.unitService.saveUnit('metric');
-    } else if (this.unitService.unit === 'metric') {
-      this.unitService.saveUnit('imperial');
+    switch (this.unitService.unit) {
+      case AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT:
+        this.unitService.saveUnit(AppConstant.UNIT_SYSTEM.METRIC.UNIT);
+        break;
+
+      case AppConstant.UNIT_SYSTEM.METRIC.UNIT:
+        this.unitService.saveUnit(AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT);
+        break;
     }
 
     this.toastComponent.presentToast(

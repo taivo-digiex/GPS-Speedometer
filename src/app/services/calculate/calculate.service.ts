@@ -5,6 +5,7 @@ import AppUtil from 'src/app/utilities/app-util';
 import { OdoTripService } from '../odo-trip/odo-trip.service';
 import { TimerService } from '../timer/timer.service';
 import { TopSpeedService } from '../top-speed/top-speed.service';
+import { Storage } from '@ionic/storage-angular';
 import { UnitService } from '../unit/unit.service';
 
 const VALUE: speedTime[] = [];
@@ -22,6 +23,7 @@ export class CalculateService {
   public avgSpeed: string;
   public odo: number;
   public trip: string;
+  public adjustSpeed: number;
 
   private value = [...VALUE];
 
@@ -29,11 +31,31 @@ export class CalculateService {
     private unitService: UnitService,
     private topSpeedService: TopSpeedService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private storage: Storage
   ) {}
 
+  public async getAdjustSpeed() {
+    await this.storage
+      .get(AppConstant.STORAGE_KEYS.ADJUST_SPEED)
+      .then((val) => {
+        if (val) {
+          this.adjustSpeed = val;
+        } else {
+          this.adjustSpeed = 0;
+          this.setAdjustSpeed(0);
+        }
+      })
+      .catch(() => {});
+  }
+
+  public async setAdjustSpeed(value: number) {
+    this.adjustSpeed = value / 3.6;
+    await this.storage.set(AppConstant.STORAGE_KEYS.ADJUST_SPEED, value / 3.6);
+  }
+
   public getValue(speed: number, time: number) {
-    if (speed > 0 || time == null) {
+    if (speed == null || time == null) {
       return;
     }
 
@@ -47,7 +69,11 @@ export class CalculateService {
 
     let trip = 0;
     for (const val of this.value) {
-      trip = val.speed * val.time;
+      if (speed > this.adjustSpeed) {
+        trip = (val.speed + this.adjustSpeed) * val.time;
+      } else {
+        trip = val.speed * val.time;
+      }
     }
 
     this.odoTripService.saveOdo(trip);
@@ -73,10 +99,15 @@ export class CalculateService {
 
   private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
     if (speed != null) {
-      this.speedo = Math.round(speed * 3.6);
+      if (speed > this.adjustSpeed) {
+        this.speedo = Math.round((speed + this.adjustSpeed) * 3.6);
+      } else {
+        this.speedo = Math.round(speed * 3.6);
+      }
     }
 
     this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+
     if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy);
     }
@@ -92,15 +123,13 @@ export class CalculateService {
       1
     );
 
-    this.avgSpeed =
-      this.timerService.currentTotalTime === 0
-        ? null
-        : AppUtil.toFixedNoRounding(
-            (this.odoTripService.currentTrip /
-              this.timerService.currentTotalTime) *
-              3.6,
-            1
-          );
+    if (this.timerService.currentTotalTime > 0) {
+      this.avgSpeed = AppUtil.toFixedNoRounding(
+        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
+          3.6,
+        1
+      );
+    }
   }
 
   private imperialUnit(
@@ -128,14 +157,12 @@ export class CalculateService {
       1
     );
 
-    this.avgSpeed =
-      this.timerService.currentTotalTime === 0
-        ? null
-        : AppUtil.toFixedNoRounding(
-            (this.odoTripService.currentTrip /
-              this.timerService.currentTotalTime) *
-              2.23693629,
-            1
-          );
+    if (this.timerService.currentTotalTime > 0) {
+      this.avgSpeed = AppUtil.toFixedNoRounding(
+        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
+          2.23693629,
+        1
+      );
+    }
   }
 }

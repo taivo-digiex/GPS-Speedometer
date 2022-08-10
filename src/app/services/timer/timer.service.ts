@@ -20,7 +20,7 @@ export class TimerService {
 
   constructor(private storage: Storage) {}
 
-  public async convertTotalTravelTime() {
+  private async convertTotalTravelTime() {
     const time = await this.storage
       .get(AppConstant.STORAGE_KEYS.TOTAL_TIME)
       .then()
@@ -39,13 +39,14 @@ export class TimerService {
   public async getTotalTime() {
     await this.storage
       .get(AppConstant.STORAGE_KEYS.TOTAL_TIME)
-      .then((val) => {
+      .then(async (val) => {
         if (val) {
           this.lastTotalTime = val;
           this.currentTotalTime = val;
         } else {
           this.lastTotalTime = 0;
           this.currentTotalTime = 0;
+          this.saveTotalTime(0);
         }
         this.convertTotalTravelTime();
       })
@@ -56,16 +57,16 @@ export class TimerService {
     if (!isNaN(this.lastTotalTime)) {
       this.currentTotalTime = this.lastTotalTime + time;
       this.lastTotalTime = this.currentTotalTime;
-      await this.storage.set(
-        AppConstant.STORAGE_KEYS.TOTAL_TIME,
-        this.currentTotalTime
-      );
+      await this.storage
+        .set(AppConstant.STORAGE_KEYS.TOTAL_TIME, this.currentTotalTime)
+        .then(() => {});
+      this.convertTotalTravelTime();
     }
-    this.convertTotalTravelTime();
   }
 
   public async resetTotalTime() {
-    await this.storage.remove(AppConstant.STORAGE_KEYS.TOTAL_TIME);
-    this.getTotalTime();
+    await this.storage.remove(AppConstant.STORAGE_KEYS.TOTAL_TIME).then(() => {
+      this.getTotalTime();
+    });
   }
 }

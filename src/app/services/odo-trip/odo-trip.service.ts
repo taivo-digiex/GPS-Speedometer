@@ -41,16 +41,14 @@ export class OdoTripService {
   }
 
   private async getOdo() {
+    this.currentOdo = 0;
     await this.storage
       .get(AppConstant.STORAGE_KEYS.ODO)
       .then((val) => {
         if (val) {
-          this.lastOdo = 0;
-          this.currentOdo = val;
-          this.saveOdo(val);
+          this.lastOdo = val;
         } else {
           this.lastOdo = 0;
-          this.currentOdo = 0;
           this.saveOdo(0);
         }
       })
@@ -58,16 +56,14 @@ export class OdoTripService {
   }
 
   private async getTrip() {
+    this.currentTrip = 0;
     await this.storage
       .get(AppConstant.STORAGE_KEYS.TRIP)
       .then((val) => {
         if (val) {
-          this.lastTrip = 0;
-          this.currentTrip = val;
-          this.saveTrip(val);
+          this.lastTrip = val;
         } else {
           this.lastTrip = 0;
-          this.currentTrip = 0;
           this.saveTrip(0);
         }
       })

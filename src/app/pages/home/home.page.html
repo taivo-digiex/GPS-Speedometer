@@ -13,15 +13,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div id="container">
+  <div class="container">
     <div class="speedo-div">
       <p>
-        <ion-text id="speedo">{{ speedo != null ? speedo : '-'}}</ion-text>
-        <ion-text id="unit" (click)="changeUnit()"> {{ speedUnit }}</ion-text>
+        <ion-text class="speedo">{{ speedo != null ? speedo : '-'}}</ion-text>
+        <ion-text class="unit" (click)="changeUnit()"> {{ speedUnit }}</ion-text>
       </p>
     </div>
 
-    <div *ngIf="!isPortrait" class="landscape-info">
+    <div class="landscape-info">
       <ion-card>
         <div class="details">
           <ion-row class="ion-justify-content-between border-bottom">
@@ -117,7 +117,7 @@
     </p>
   </div>
 
-  <div *ngIf="isPortrait" class="portrait-info">
+  <div class="portrait-info">
     <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true">
       <ng-template swiperSlide>
         <ion-card>

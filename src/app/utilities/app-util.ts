@@ -16,39 +16,35 @@ const AppUtil = {
     return b > 0 ? a + '0'.repeat(b) : a;
   },
 
-  getUnitSystem(appConstant: any, translateService: any): JsonValue[] {
+  getUnitSystem(appConstant: any): JsonValue[] {
     let results: JsonValue[] = [];
-    translateService
-      .get(['unit.metric', 'unit.imperial'])
-      .subscribe((trans: any) => {
-        results = [
-          {
-            label: trans['unit.metric'],
-            value: appConstant.UNIT_SYSTEM.METRIC.UNIT,
-          },
-          {
-            label: trans['unit.imperial'],
-            value: appConstant.UNIT_SYSTEM.IMPERIAL.UNIT,
-          },
-        ];
-      });
+
+    results = [
+      {
+        label: 'unit.metric',
+        value: appConstant.UNIT_SYSTEM.METRIC.UNIT,
+      },
+      {
+        label: 'unit.imperial',
+        value: appConstant.UNIT_SYSTEM.IMPERIAL.UNIT,
+      },
+    ];
     return results;
   },
 
-  getLanguages(appConstant: any, translateService: any): JsonValue[] {
+  getLanguages(appConstant: any): JsonValue[] {
     let results: JsonValue[] = [];
-    translateService.get(['lang.vi', 'lang.en']).subscribe((trans: any) => {
-      results = [
-        {
-          label: trans['lang.vi'],
-          value: appConstant.LANGUAGE.VI,
-        },
-        {
-          label: trans['lang.en'],
-          value: appConstant.LANGUAGE.EN,
-        },
-      ];
-    });
+
+    results = [
+      {
+        label: 'lang.vi',
+        value: appConstant.LANGUAGE.VI,
+      },
+      {
+        label: 'lang.en',
+        value: appConstant.LANGUAGE.EN,
+      },
+    ];
     return results;
   },
 };

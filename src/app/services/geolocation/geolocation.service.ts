@@ -5,19 +5,21 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { CalculateService } from '../calculate/calculate.service';
 import { TimerService } from '../timer/timer.service';
+import AppConstant from 'src/app/utilities/app-constant';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeolocationService {
   @Output() geolocationData = new EventEmitter();
-  @Output() speedLimitData = new EventEmitter();
 
   public speed: number;
   public rawAccuracy: number;
   public rawAltitude: number;
   public lat: number;
   public lon: number;
+  public enableHighAccuracy: boolean;
 
   private lastTimestamp: number;
 
@@ -28,12 +30,13 @@ export class GeolocationService {
     private toastComponent: ToastComponent,
     private topSpeedService: TopSpeedService,
     private calculateService: CalculateService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private storage: Storage
   ) {}
 
   public startGeolocation() {
     this.geolocation
-      .watchPosition({ enableHighAccuracy: true })
+      .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((res) => {
         if ('coords' in res) {
@@ -85,5 +88,32 @@ export class GeolocationService {
     this.getSpeedAndTime(this.speed, time);
     this.topSpeedService.saveTopSpeed(this.speed);
     this.geolocationData.emit();
+  }
+
+  public async getEnableHighAccuracy() {
+    await this.storage
+      .get(AppConstant.STORAGE_KEYS.ENABLE_HIGH_ACCURACY)
+      .then((val) => {
+        if (val) {
+          this.enableHighAccuracy = val === 'true';
+        } else {
+          this.enableHighAccuracy = true;
+          this.setEnableHighAccuracy('true');
+        }
+      })
+      .then(() => {
+        this.startGeolocation();
+      })
+      .catch(() => {});
+  }
+
+  public async setEnableHighAccuracy(enable: string) {
+    await this.storage
+      .set(AppConstant.STORAGE_KEYS.ENABLE_HIGH_ACCURACY, enable)
+      .then(() => {
+        this.stop();
+        this.enableHighAccuracy = enable === 'true';
+        this.startGeolocation();
+      });
   }
 }

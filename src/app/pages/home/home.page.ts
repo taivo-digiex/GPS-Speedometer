@@ -8,6 +8,7 @@ import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
 import AppConstant from 'src/app/utilities/app-constant';
+import { Subject, takeUntil } from 'rxjs';
 
 SwiperCore.use([Autoplay, Pagination]);
 
@@ -18,6 +19,7 @@ SwiperCore.use([Autoplay, Pagination]);
   encapsulation: ViewEncapsulation.None,
 })
 export class HomePage implements OnInit, OnDestroy {
+  private onDestroy$: Subject<void> = new Subject<void>();
   public lat: number;
   public lon: number;
   public speedo: number;
@@ -30,11 +32,9 @@ export class HomePage implements OnInit, OnDestroy {
   public avgSpeed: string;
   public distance: any;
   public totalTime: string;
-  public isPortrait = this.platform.isPortrait();
   public isSwitchTrip = true;
-  public checkIsPortraitInterval: any;
 
-  public timerIcon = 'timer';
+  public timerIcon = 'time';
   public settingsIcon = 'settings';
 
   constructor(
@@ -48,9 +48,9 @@ export class HomePage implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
+    this.convertUnit();
     this.platform.ready().then(() => {
       this.insomnia.keepAwake();
-      this.convertUnit();
       this.initial();
     });
   }
@@ -58,20 +58,31 @@ export class HomePage implements OnInit, OnDestroy {
   public changeUnit() {
     switch (this.unitService.unit) {
       case AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT:
-        this.unitService.saveUnit(AppConstant.UNIT_SYSTEM.METRIC.UNIT);
+        this.unitService
+          .saveUnit(AppConstant.UNIT_SYSTEM.METRIC.UNIT)
+          .then(() => {
+            this.toastComponent.presentToast(
+              'toast.unit_change.' + AppConstant.UNIT_SYSTEM.METRIC.UNIT,
+              null,
+              500,
+              null
+            );
+          });
         break;
 
       case AppConstant.UNIT_SYSTEM.METRIC.UNIT:
-        this.unitService.saveUnit(AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT);
+        this.unitService
+          .saveUnit(AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT)
+          .then(() => {
+            this.toastComponent.presentToast(
+              'toast.unit_change.' + AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT,
+              null,
+              500,
+              null
+            );
+          });
         break;
     }
-
-    this.toastComponent.presentToast(
-      'toast.unit_change.' + this.unitService.unit,
-      null,
-      500,
-      null
-    );
   }
 
   // public stopTracking() {
@@ -81,7 +92,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
-    clearInterval(this.checkIsPortraitInterval);
+    this.onDestroy$.next();
   }
 
   public switchTrip() {
@@ -92,41 +103,41 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private initial() {
-    this.checkIsPortraitInterval = setInterval(() => {
-      this.isPortrait = this.platform.isPortrait();
-    }, 250);
+    this.unitService.unitSystem
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.geolocationService.convertUnit();
+        this.speedUnit = this.unitService.speedUnit;
+        this.distanceUnit = this.unitService.distanceUnit;
+        this.lenghtUnit = this.unitService.lenghtUnit;
+      });
 
-    this.unitService.unitSystem.subscribe(() => {
-      this.geolocationService.convertUnit();
-      this.speedUnit = this.unitService.speedUnit;
-      this.distanceUnit = this.unitService.distanceUnit;
-      this.lenghtUnit = this.unitService.lenghtUnit;
-    });
+    this.geolocationService.geolocationData
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.geolocationService.convertUnit();
+        this.lat = this.geolocationService.lat;
+        this.lon = this.geolocationService.lon;
+      });
 
-    this.geolocationService.geolocationData.subscribe(() => {
-      this.geolocationService.convertUnit();
-      this.lat = this.geolocationService.lat;
-      this.lon = this.geolocationService.lon;
-    });
+    this.calculateService.calculateData
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.speedo = this.calculateService.speedo;
+        this.topSpeed = this.calculateService.topSpeed;
+        this.accuracy = this.calculateService.accuracy;
+        this.altitude = this.calculateService.altitude;
+        this.distance = this.isSwitchTrip
+          ? this.calculateService.trip
+          : this.calculateService.odo;
+        this.avgSpeed = this.calculateService.avgSpeed;
+      });
 
-    this.geolocationService.speedLimitData.subscribe(() => {
-      this.geolocationService.convertUnit();
-    });
-
-    this.calculateService.calculateData.subscribe(() => {
-      this.speedo = this.calculateService.speedo;
-      this.topSpeed = this.calculateService.topSpeed;
-      this.accuracy = this.calculateService.accuracy;
-      this.altitude = this.calculateService.altitude;
-      this.distance = this.isSwitchTrip
-        ? this.calculateService.trip
-        : this.calculateService.odo;
-      this.avgSpeed = this.calculateService.avgSpeed;
-    });
-
-    this.timerService.totalTime.subscribe((data) => {
-      this.totalTime = data;
-    });
+    this.timerService.totalTime
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => {
+        this.totalTime = data;
+      });
   }
 
   private convertUnit() {

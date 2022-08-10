@@ -17,7 +17,8 @@ export class UnitService {
   public async getUnit() {
     await this.storage.get(AppConstant.STORAGE_KEYS.UNIT).then((val) => {
       if (val) {
-        this.saveUnit(val);
+        this.unit = val;
+        this.convertUnit();
       } else {
         this.saveUnit(AppConstant.UNIT_SYSTEM.METRIC.UNIT);
       }
@@ -35,7 +36,7 @@ export class UnitService {
       case AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT:
         this.speedUnit = AppConstant.UNIT_SYSTEM.IMPERIAL.SPEED_UNIT;
         this.distanceUnit = AppConstant.UNIT_SYSTEM.IMPERIAL.MILE_UNIT;
-        this.lenghtUnit = 'ft';
+        this.lenghtUnit = AppConstant.UNIT_SYSTEM.IMPERIAL.FEET_UNIT;
         break;
 
       case AppConstant.UNIT_SYSTEM.METRIC.UNIT:

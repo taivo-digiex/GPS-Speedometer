@@ -9,6 +9,9 @@ const AppConstant = Object.freeze({
     TRIP: 'trip',
     LANGUAGE: 'language',
     TOTAL_TIME: 'total-time',
+    TOP_SPEED: 'top-speed',
+    ADJUST_SPEED: 'adjust-speed',
+    ENABLE_HIGH_ACCURACY: 'enable-high-accuracy',
   },
 
   UNIT_SYSTEM: {

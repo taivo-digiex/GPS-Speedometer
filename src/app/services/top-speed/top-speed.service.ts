@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-const TS_KEY = 'top-speed';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +12,10 @@ export class TopSpeedService {
 
   public async getTopSpeed() {
     await this.storage
-      .get(TS_KEY)
+      .get(AppConstant.STORAGE_KEYS.TOP_SPEED)
       .then((val) => {
         if (val) {
           this.topSpeed = val;
-          this.saveTopSpeed(val);
         } else {
           this.topSpeed = 0;
           this.saveTopSpeed(0);
@@ -33,12 +31,12 @@ export class TopSpeedService {
 
     if (!isNaN(topSpeed)) {
       this.topSpeed = topSpeed;
-      await this.storage.set(TS_KEY, topSpeed);
+      await this.storage.set(AppConstant.STORAGE_KEYS.TOP_SPEED, topSpeed);
     }
   }
 
   public async clearTopSpeed() {
-    await this.storage.remove(TS_KEY);
+    await this.storage.remove(AppConstant.STORAGE_KEYS.TOP_SPEED);
     this.getTopSpeed();
   }
 }

@@ -18,8 +18,7 @@ export class LanguageService {
   public async setInitialAppLanguage() {
     let language = this.translateService.getBrowserLang();
     const checkLng = AppUtil.getLanguages(
-      AppConstant,
-      this.translateService
+      AppConstant
     ).find(function (e) {
       return e.value == language;
     });

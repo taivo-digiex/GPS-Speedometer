@@ -5,12 +5,14 @@ import { AppUpdateModel } from 'src/app/common/models/update.model';
 import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateService {
   public versionNumber: string;
+
   private downloadLatest: string;
 
   constructor(
@@ -23,7 +25,7 @@ export class UpdateService {
     if ((await Network.getStatus()).connected) {
       this.http
         .get(
-          'https://api.github.com/repos/vdt2210/GPS-Speedometer/releases/latest'
+          `${AppConstant.DEFAULT_URLS.GITHUB_API_URL}/repos/vdt2210/GPS-Speedometer/releases/latest`
         )
         .subscribe(async (info: AppUpdateModel) => {
           try {
@@ -41,7 +43,6 @@ export class UpdateService {
                 null
               );
             }
-            console.log(serverVersion);
 
             if (
               (serverVersion[0] > splittedVersion[0] ||
@@ -50,19 +51,19 @@ export class UpdateService {
               info
             ) {
               this.downloadLatest = info.assets[0].browser_download_url;
-              await this.alertComponent.presentAlert(
+              await this.alertComponent.alertWithButtons(
                 'alert.header.h2',
                 info.tag_name,
                 info.body,
                 null,
                 'common.later',
                 'common.download',
-                (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
+                null,
                 this,
                 this.downloadNewAppVersion
               );
             } else if (isManual) {
-              await this.alertComponent.presentAlertOneBtn(
+              await this.alertComponent.alertWithButton(
                 'alert.header.h3',
                 this.versionNumber,
                 'alert.msg.m2',
@@ -85,7 +86,7 @@ export class UpdateService {
         });
     } else {
       if (isManual) {
-        await this.alertComponent.presentAlertOneBtn(
+        await this.alertComponent.alertWithButton(
           'alert.header.h4',
           null,
           'alert.msg.m3',

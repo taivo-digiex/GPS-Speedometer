@@ -7,6 +7,8 @@ import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
+import AppConstant from 'src/app/utilities/app-constant';
+import { Subject, takeUntil } from 'rxjs';
 
 SwiperCore.use([Autoplay, Pagination]);
 
@@ -17,6 +19,7 @@ SwiperCore.use([Autoplay, Pagination]);
   encapsulation: ViewEncapsulation.None,
 })
 export class HomePage implements OnInit, OnDestroy {
+  private onDestroy$: Subject<void> = new Subject<void>();
   public lat: number;
   public lon: number;
   public speedo: number;
@@ -27,19 +30,13 @@ export class HomePage implements OnInit, OnDestroy {
   public accuracy: number;
   public altitude: string;
   public avgSpeed: string;
-  public distance: any;
-  public time: string;
+  public trip: string;
+  public odo: number;
   public totalTime: string;
-  public hiddenStartIcon = this.timerService.hiddenStartIcon;
-  public isPortrait = this.platform.isPortrait();
   public isSwitchTrip = true;
 
+  public timerIcon = 'time';
   public settingsIcon = 'settings';
-  public timerIcon = 'timer';
-  public startIcon = 'play';
-  public stopIcon = 'stop';
-
-  public checkIsPortraitInterval: any;
 
   constructor(
     private insomnia: Insomnia,
@@ -52,93 +49,92 @@ export class HomePage implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
+    this.convertUnit();
     this.platform.ready().then(() => {
       this.insomnia.keepAwake();
-      this.convertUnit();
       this.initial();
     });
   }
 
   public changeUnit() {
-    if (this.unitService.unit === 'imperial') {
-      this.unitService.saveUnit('metric');
-    } else if (this.unitService.unit === 'metric') {
-      this.unitService.saveUnit('imperial');
+    switch (this.unitService.unit) {
+      case AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT:
+        this.unitService
+          .saveUnit(AppConstant.UNIT_SYSTEM.METRIC.UNIT)
+          .then(() => {
+            this.toastComponent.presentToast(
+              'toast.unit_change.' + AppConstant.UNIT_SYSTEM.METRIC.UNIT,
+              null,
+              500,
+              null
+            );
+          });
+        break;
+
+      case AppConstant.UNIT_SYSTEM.METRIC.UNIT:
+        this.unitService
+          .saveUnit(AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT)
+          .then(() => {
+            this.toastComponent.presentToast(
+              'toast.unit_change.' + AppConstant.UNIT_SYSTEM.IMPERIAL.UNIT,
+              null,
+              500,
+              null
+            );
+          });
+        break;
     }
-
-    this.toastComponent.presentToast(
-      'toast.unit_change.' + this.unitService.unit,
-      null,
-      500,
-      null
-    );
   }
 
-  public stopTracking() {
-    this.geolocationService.stop();
-    this.insomnia.allowSleepAgain();
-  }
-
-  public startTimer() {
-    this.timerService.timer();
-  }
-
-  public stopTimer() {
-    this.timerService.stopTimer();
-  }
+  // public stopTracking() {
+  //   this.geolocationService.stop();
+  //   this.insomnia.allowSleepAgain();
+  // }
 
   public ngOnDestroy() {
     this.insomnia.allowSleepAgain();
-    clearInterval(this.checkIsPortraitInterval);
+    this.onDestroy$.next();
   }
 
   public switchTrip() {
     this.isSwitchTrip = !this.isSwitchTrip;
-    this.distance = this.isSwitchTrip
-      ? this.calculateService.trip
-      : this.calculateService.odo;
   }
 
   private initial() {
-    this.checkIsPortraitInterval = setInterval(() => {
-      this.isPortrait = this.platform.isPortrait();
-    }, 250);
+    this.unitService.unitSystem
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.geolocationService.convertUnit();
+        this.speedUnit = this.unitService.speedUnit;
+        this.distanceUnit = this.unitService.distanceUnit;
+        this.lenghtUnit = this.unitService.lenghtUnit;
+      });
 
-    this.unitService.unitSystem.subscribe((data) => {
-      this.geolocationService.convertUnit();
-      this.speedUnit = this.unitService.speedUnit;
-      this.distanceUnit = this.unitService.distanceUnit;
-      this.lenghtUnit = this.unitService.lenghtUnit;
-    });
+    this.geolocationService.geolocationData
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.geolocationService.convertUnit();
+        this.lat = this.geolocationService.lat;
+        this.lon = this.geolocationService.lon;
+      });
 
-    this.geolocationService.geolocationData.subscribe((data) => {
-      this.geolocationService.convertUnit();
-      this.lat = this.geolocationService.lat;
-      this.lon = this.geolocationService.lon;
-    });
+    this.calculateService.calculateData
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.speedo = this.calculateService.speedo;
+        this.topSpeed = this.calculateService.topSpeed;
+        this.accuracy = this.calculateService.accuracy;
+        this.altitude = this.calculateService.altitude;
+        this.trip = this.calculateService.trip;
+        this.odo = this.calculateService.odo;
+        this.avgSpeed = this.calculateService.avgSpeed;
+      });
 
-    this.calculateService.calculateData.subscribe((data) => {
-      this.speedo = this.calculateService.speedo;
-      this.topSpeed = this.calculateService.topSpeed;
-      this.accuracy = this.calculateService.accuracy;
-      this.altitude = this.calculateService.altitude;
-      this.distance = this.isSwitchTrip
-        ? this.calculateService.trip
-        : this.calculateService.odo;
-      this.avgSpeed = this.calculateService.avgSpeed;
-    });
-
-    this.timerService.totalTime.subscribe((data) => {
-      this.totalTime = data;
-    });
-
-    this.timerService.timerData.subscribe((data) => {
-      this.time = data;
-    });
-
-    this.timerService.icon.subscribe((data) => {
-      this.hiddenStartIcon = data;
-    });
+    this.timerService.totalTimeEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => {
+        this.totalTime = data;
+      });
   }
 
   private convertUnit() {
@@ -152,14 +148,12 @@ export class HomePage implements OnInit, OnDestroy {
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
-    this.distance = this.isSwitchTrip
-      ? this.calculateService.trip
-      : this.calculateService.odo;
+    this.trip = this.calculateService.trip;
+    this.odo = this.calculateService.odo;
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
 
     this.totalTime = this.timerService.convertedTotalTime;
-    this.hiddenStartIcon = this.timerService.hiddenStartIcon;
   }
 }

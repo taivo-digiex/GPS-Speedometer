@@ -30,7 +30,8 @@ export class HomePage implements OnInit, OnDestroy {
   public accuracy: number;
   public altitude: string;
   public avgSpeed: string;
-  public distance: any;
+  public trip: string;
+  public odo: number;
   public totalTime: string;
   public isSwitchTrip = true;
 
@@ -97,9 +98,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   public switchTrip() {
     this.isSwitchTrip = !this.isSwitchTrip;
-    this.distance = this.isSwitchTrip
-      ? this.calculateService.trip
-      : this.calculateService.odo;
   }
 
   private initial() {
@@ -127,13 +125,12 @@ export class HomePage implements OnInit, OnDestroy {
         this.topSpeed = this.calculateService.topSpeed;
         this.accuracy = this.calculateService.accuracy;
         this.altitude = this.calculateService.altitude;
-        this.distance = this.isSwitchTrip
-          ? this.calculateService.trip
-          : this.calculateService.odo;
+        this.trip = this.calculateService.trip;
+        this.odo = this.calculateService.odo;
         this.avgSpeed = this.calculateService.avgSpeed;
       });
 
-    this.timerService.totalTime
+    this.timerService.totalTimeEmit
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data) => {
         this.totalTime = data;
@@ -151,9 +148,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
-    this.distance = this.isSwitchTrip
-      ? this.calculateService.trip
-      : this.calculateService.odo;
+    this.trip = this.calculateService.trip;
+    this.odo = this.calculateService.odo;
     this.avgSpeed = this.calculateService.avgSpeed;
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;

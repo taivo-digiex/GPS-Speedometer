@@ -8,14 +8,14 @@ import AppConstant from 'src/app/utilities/app-constant';
 export class TimerService {
   @Output() timerData = new EventEmitter();
   @Output() icon = new EventEmitter();
-  @Output() totalTime = new EventEmitter();
+  @Output() totalTimeEmit = new EventEmitter();
 
   public totalElapsedTimeInterval: any;
   public totalElapsedTime: number;
   public timerInterval: any;
   public hiddenStartIcon = false;
-  public currentTotalTime: number;
-  public lastTotalTime: number;
+  public totalTime: number;
+  public avgSpeedTotalTime: number;
   public convertedTotalTime: string;
 
   constructor(private storage: Storage) {}
@@ -33,7 +33,7 @@ export class TimerService {
       (Math.floor(time / 60) % 60).toString().padStart(2, '0') +
       ':' +
       (time % 60).toString().padStart(2, '0');
-    this.totalTime.emit(this.convertedTotalTime);
+    this.totalTimeEmit.emit(this.convertedTotalTime);
   }
 
   public async getTotalTime() {
@@ -41,11 +41,9 @@ export class TimerService {
       .get(AppConstant.STORAGE_KEYS.TOTAL_TIME)
       .then(async (val) => {
         if (val) {
-          this.lastTotalTime = val;
-          this.currentTotalTime = val;
+          this.totalTime = val;
         } else {
-          this.lastTotalTime = 0;
-          this.currentTotalTime = 0;
+          this.totalTime = 0;
           this.saveTotalTime(0);
         }
         this.convertTotalTravelTime();
@@ -53,20 +51,50 @@ export class TimerService {
       .catch(() => {});
   }
 
+  public async getAvgSpeedTotalTime() {
+    await this.storage
+      .get(AppConstant.STORAGE_KEYS.AVG_SPEED_TOTAL_TIME)
+      .then(async (val) => {
+        if (val) {
+          this.avgSpeedTotalTime = val;
+        } else {
+          this.avgSpeedTotalTime = 0;
+          this.saveAvgSpeedTotalTime(0);
+        }
+      })
+      .catch(() => {});
+  }
+
   public async saveTotalTime(time: number) {
-    if (!isNaN(this.lastTotalTime)) {
-      this.currentTotalTime = this.lastTotalTime + time;
-      this.lastTotalTime = this.currentTotalTime;
+    if (!isNaN(this.totalTime)) {
+      this.totalTime = this.totalTime + time;
       await this.storage
-        .set(AppConstant.STORAGE_KEYS.TOTAL_TIME, this.currentTotalTime)
-        .then(() => {});
-      this.convertTotalTravelTime();
+        .set(AppConstant.STORAGE_KEYS.TOTAL_TIME, this.totalTime)
+        .then(() => this.convertTotalTravelTime());
+    }
+  }
+
+  public async saveAvgSpeedTotalTime(time: number) {
+    if (!isNaN(this.avgSpeedTotalTime)) {
+      this.avgSpeedTotalTime = this.avgSpeedTotalTime + time;
+      await this.storage
+        .set(
+          AppConstant.STORAGE_KEYS.AVG_SPEED_TOTAL_TIME,
+          this.avgSpeedTotalTime
+        )
+        .then(() => this.convertTotalTravelTime());
     }
   }
 
   public async resetTotalTime() {
-    await this.storage.remove(AppConstant.STORAGE_KEYS.TOTAL_TIME).then(() => {
-      this.getTotalTime();
-    });
+    await this.storage
+      .remove(AppConstant.STORAGE_KEYS.TOTAL_TIME)
+      .then(() => this.getTotalTime());
+  }
+
+  public async resetAvgSpeedTotalTime() {
+    await this.storage
+      .remove(AppConstant.STORAGE_KEYS.AVG_SPEED_TOTAL_TIME)
+      .then(() => this.getAvgSpeedTotalTime());
   }
 }

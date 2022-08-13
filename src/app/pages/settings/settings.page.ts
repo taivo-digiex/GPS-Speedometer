@@ -107,6 +107,14 @@ export class SettingsPage implements OnInit {
               this.isCheckBoxChecked(value.checked);
             },
           },
+          {
+            type: 'checkbox',
+            label: 'common.avg_speed',
+            value: 'avgSpeed',
+            handler: (value) => {
+              this.isCheckBoxChecked(value.checked);
+            },
+          },
         ]
       )
       .then(() => {
@@ -157,6 +165,10 @@ export class SettingsPage implements OnInit {
 
       if (value.includes('tripMeter')) {
         this.odoTripService.clearTrip();
+      }
+
+      if (value.includes('avgSpeed')) {
+        this.odoTripService.clearAvgSpeedTrip();
       }
     } catch (e) {
       this.toastComponent.presentToast(

@@ -62,6 +62,7 @@ export class GeolocationService {
 
   public getSpeedAndTime(speed: number, time: number) {
     this.timerService.saveTotalTime(Math.floor(time));
+    this.timerService.saveAvgSpeedTotalTime(Math.floor(time));
     this.calculateService.getValue(speed, time);
   }
 

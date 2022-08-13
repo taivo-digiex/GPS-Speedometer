@@ -112,7 +112,8 @@
       <ion-text class="distance-text" (click)="switchTrip()">
         {{ !isSwitchTrip ? ('common.total' | translate) : ('common.trip' | translate) }}
       </ion-text>
-      <ion-text class="distance-number">{{ distance != null ? distance : '-.-' }}</ion-text>
+      <ion-text *ngIf="isSwitchTrip" class="distance-number">{{ trip != null ? trip : '-.-' }}</ion-text>
+      <ion-text *ngIf="!isSwitchTrip" class="distance-number">{{ odo != null ? odo : '-' }}</ion-text>
       <ion-text>{{ distanceUnit }}</ion-text>
     </p>
   </div>

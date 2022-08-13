@@ -78,6 +78,7 @@ export class CalculateService {
 
     this.odoTripService.saveOdo(trip);
     this.odoTripService.saveTrip(trip);
+    this.odoTripService.saveAvgSpeedTrip(trip);
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
@@ -106,7 +107,9 @@ export class CalculateService {
       }
     }
 
-    this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+    if (!isNaN(this.topSpeedService.topSpeed)) {
+      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+    }
 
     if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy);
@@ -116,16 +119,18 @@ export class CalculateService {
       this.altitude = AppUtil.toFixedNoRounding(rawAltitude, 1);
     }
 
-    this.odo = Math.trunc(this.odoTripService.currentOdo / 1000);
+    if (!isNaN(this.odoTripService.odo)) {
+      this.odo = Math.trunc(this.odoTripService.odo / 1000);
+    }
 
-    this.trip = AppUtil.toFixedNoRounding(
-      this.odoTripService.currentTrip / 1000,
-      1
-    );
+    if (!isNaN(this.odoTripService.trip)) {
+      this.trip = AppUtil.toFixedNoRounding(this.odoTripService.trip / 1000, 1);
+    }
 
-    if (this.timerService.currentTotalTime > 0) {
+    if (this.timerService.avgSpeedTotalTime > 0) {
       this.avgSpeed = AppUtil.toFixedNoRounding(
-        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
+        (this.odoTripService.avgSpeedTrip /
+          this.timerService.avgSpeedTotalTime) *
           3.6,
         1
       );
@@ -141,7 +146,10 @@ export class CalculateService {
       this.speedo = Math.round(speed * 2.23693629);
     }
 
-    this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
+    if (!isNaN(this.topSpeedService.topSpeed)) {
+      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
+    }
+
     if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy * 3.2808399);
     }
@@ -150,16 +158,21 @@ export class CalculateService {
       this.altitude = AppUtil.toFixedNoRounding(rawAltitude * 3.2808399, 1);
     }
 
-    this.odo = Math.trunc(this.odoTripService.currentOdo * 0.000621371192);
+    if (!isNaN(this.odoTripService.odo)) {
+      this.odo = Math.trunc(this.odoTripService.odo * 0.000621371192);
+    }
 
-    this.trip = AppUtil.toFixedNoRounding(
-      this.odoTripService.currentTrip * 0.000621371192,
-      1
-    );
+    if (!isNaN(this.odoTripService.trip)) {
+      this.trip = AppUtil.toFixedNoRounding(
+        this.odoTripService.trip * 0.000621371192,
+        1
+      );
+    }
 
-    if (this.timerService.currentTotalTime > 0) {
+    if (this.timerService.avgSpeedTotalTime > 0) {
       this.avgSpeed = AppUtil.toFixedNoRounding(
-        (this.odoTripService.currentTrip / this.timerService.currentTotalTime) *
+        (this.odoTripService.avgSpeedTrip /
+          this.timerService.avgSpeedTotalTime) *
           2.23693629,
         1
       );

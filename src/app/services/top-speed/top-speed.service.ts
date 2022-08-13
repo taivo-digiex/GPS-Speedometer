@@ -25,18 +25,17 @@ export class TopSpeedService {
   }
 
   public async saveTopSpeed(speed: number) {
-    const topSpeedArr = [];
-    topSpeedArr.push(speed);
-    const topSpeed = Math.max(this.topSpeed, ...topSpeedArr);
-
-    if (!isNaN(topSpeed)) {
-      this.topSpeed = topSpeed;
-      await this.storage.set(AppConstant.STORAGE_KEYS.TOP_SPEED, topSpeed);
+    if (speed == null) {
+      return;
     }
+
+    this.topSpeed = Math.max(this.topSpeed, ...[speed]);
+    await this.storage.set(AppConstant.STORAGE_KEYS.TOP_SPEED, this.topSpeed);
   }
 
   public async clearTopSpeed() {
-    await this.storage.remove(AppConstant.STORAGE_KEYS.TOP_SPEED);
-    this.getTopSpeed();
+    await this.storage
+      .remove(AppConstant.STORAGE_KEYS.TOP_SPEED)
+      .then(() => this.getTopSpeed());
   }
 }

@@ -46,6 +46,7 @@ export class AppComponent {
     this.unitService.getUnit();
     this.geolocationService.getEnableHighAccuracy();
     this.timerService.getTotalTime();
+    this.timerService.getAvgSpeedTotalTime();
     this.odoTripService.getOdoTrip();
     this.topSpeedService.getTopSpeed();
     this.calculateService.getAdjustSpeed();

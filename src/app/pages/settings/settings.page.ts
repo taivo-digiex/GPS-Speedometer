@@ -55,14 +55,6 @@ export class SettingsPage implements OnInit {
     this.units = AppUtil.getUnitSystem(AppConstant);
   }
 
-  public ngDoCheck() {
-    this.selectedLanguage = this.languageService.selected;
-    this.selectedUnit = this.unitService.unit;
-    this.adjustSpeed = this.calculateService.adjustSpeed * 3.6;
-    this.appVersion = this.updateService.versionNumber;
-    this.enableHighAccuracy = this.geolocationService.enableHighAccuracy;
-  }
-
   public async confirmClear() {
     await this.alertComponent
       .alertWithInput(
@@ -169,6 +161,7 @@ export class SettingsPage implements OnInit {
 
       if (value.includes('avgSpeed')) {
         this.odoTripService.clearAvgSpeedTrip();
+        this.timerService.resetAvgSpeedTotalTime();
       }
     } catch (e) {
       this.toastComponent.presentToast(

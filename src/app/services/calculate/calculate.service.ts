@@ -50,8 +50,8 @@ export class CalculateService {
   }
 
   public async setAdjustSpeed(value: number) {
-    this.adjustSpeed = value / 3.6;
-    await this.storage.set(AppConstant.STORAGE_KEYS.ADJUST_SPEED, value / 3.6);
+    this.adjustSpeed = value;
+    await this.storage.set(AppConstant.STORAGE_KEYS.ADJUST_SPEED, value);
   }
 
   public getValue(speed: number, time: number) {
@@ -69,11 +69,7 @@ export class CalculateService {
 
     let trip = 0;
     for (const val of this.value) {
-      if (speed > this.adjustSpeed) {
-        trip = (val.speed + this.adjustSpeed) * val.time;
-      } else {
-        trip = val.speed * val.time;
-      }
+      trip = (val.speed + this.adjustSpeed / 100) * val.time;
     }
 
     this.odoTripService.saveOdo(trip);
@@ -82,6 +78,10 @@ export class CalculateService {
   }
 
   public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
+    if (speed != null) {
+      speed = speed + this.adjustSpeed / 100;
+    }
+
     switch (this.unitService.unit) {
       case AppConstant.UNIT_SYSTEM.METRIC.UNIT:
         {
@@ -100,11 +100,7 @@ export class CalculateService {
 
   private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
     if (speed != null) {
-      if (speed > this.adjustSpeed) {
-        this.speedo = Math.round((speed + this.adjustSpeed) * 3.6);
-      } else {
-        this.speedo = Math.round(speed * 3.6);
-      }
+      this.speedo = Math.round(speed * 3.6);
     }
 
     if (!isNaN(this.topSpeedService.topSpeed)) {
@@ -127,7 +123,10 @@ export class CalculateService {
       this.trip = AppUtil.toFixedNoRounding(this.odoTripService.trip / 1000, 1);
     }
 
-    if (this.timerService.avgSpeedTotalTime > 0) {
+    if (
+      !isNaN(this.odoTripService.avgSpeedTrip) &&
+      this.timerService.avgSpeedTotalTime > 0
+    ) {
       this.avgSpeed = AppUtil.toFixedNoRounding(
         (this.odoTripService.avgSpeedTrip /
           this.timerService.avgSpeedTotalTime) *
@@ -169,7 +168,10 @@ export class CalculateService {
       );
     }
 
-    if (this.timerService.avgSpeedTotalTime > 0) {
+    if (
+      !isNaN(this.odoTripService.avgSpeedTrip) &&
+      this.timerService.avgSpeedTotalTime > 0
+    ) {
       this.avgSpeed = AppUtil.toFixedNoRounding(
         (this.odoTripService.avgSpeedTrip /
           this.timerService.avgSpeedTotalTime) *

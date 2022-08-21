@@ -11,6 +11,7 @@ import { OdoTripService } from './services/odo-trip/odo-trip.service';
 import { TimerService } from './services/timer/timer.service';
 import { Router } from '@angular/router';
 import { CalculateService } from './services/calculate/calculate.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -34,22 +35,26 @@ export class AppComponent {
     private calculateService: CalculateService
   ) {
     this.platform.ready().then(async () => {
-      await this.createStorage();
+      this.getValueFromStorage().then(() => {
+        this.geolocationService.startGeolocation();
+      });
       this.hardwareBackBtn();
       this.updateService.checkForUpdate(false);
     });
   }
 
-  private async createStorage() {
+  private async getValueFromStorage() {
     await this.storage.create();
+
+    this.geolocationService.getEnableHighAccuracy();
     this.languageService.setInitialAppLanguage();
     this.unitService.getUnit();
-    this.geolocationService.getEnableHighAccuracy();
+    this.calculateService.getAdjustSpeed();
     this.timerService.getTotalTime();
     this.timerService.getAvgSpeedTotalTime();
     this.odoTripService.getOdoTrip();
     this.topSpeedService.getTopSpeed();
-    this.calculateService.getAdjustSpeed();
+    return;
   }
 
   private hardwareBackBtn() {

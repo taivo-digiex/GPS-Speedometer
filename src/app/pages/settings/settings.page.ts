@@ -8,11 +8,6 @@ import { AlertComponent } from 'src/app/common/components/alert/alert.component'
 import { UnitService } from 'src/app/services/unit/unit.service';
 import { OdoTripService } from 'src/app/services/odo-trip/odo-trip.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
-import AppUtil from 'src/app/utilities/app-util';
-import AppConstant from 'src/app/utilities/app-constant';
-import { RangeValue } from '@ionic/core';
-import { CalculateService } from 'src/app/services/calculate/calculate.service';
-import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,21 +15,16 @@ import { GeolocationService } from 'src/app/services/geolocation/geolocation.ser
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  public languages: any[] = [];
-  public units: any[] = [];
+  public languages = [];
+  public units = [];
   public selectedLanguage: string;
   public selectedUnit: string;
   public appVersion: string;
-  public isCheckingForUpdate: boolean;
-  public showAdjustSpeedRange: boolean = false;
-  public adjustSpeed: RangeValue = 0;
-  public enableHighAccuracy: boolean;
 
   public langIcon = 'language';
   public unitIcon = 'speedometer';
   public trashIcon = 'trash';
   public downloadIcon = 'download';
-  public highAccuracyIcon = 'locate';
 
   constructor(
     private location: Location,
@@ -45,93 +35,27 @@ export class SettingsPage implements OnInit {
     private alertComponent: AlertComponent,
     private unitService: UnitService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService,
-    private calculateService: CalculateService,
-    private geolocationService: GeolocationService
+    private timerService: TimerService
   ) {}
 
   public ngOnInit() {
-    this.languages = AppUtil.getLanguages(AppConstant);
-    this.units = AppUtil.getUnitSystem(AppConstant);
-  }
-
-  public ngDoCheck() {
-    this.selectedLanguage = this.languageService.selected;
-    this.selectedUnit = this.unitService.unit;
-    this.adjustSpeed = this.calculateService.adjustSpeed * 3.6;
+    this.getLangSelected();
+    this.getUnitSelected();
     this.appVersion = this.updateService.versionNumber;
-    this.enableHighAccuracy = this.geolocationService.enableHighAccuracy;
   }
 
   public async confirmClear() {
-    await this.alertComponent
-      .alertWithInput(
-        {
-          header: 'alert.header.h1',
-          message: 'alert.msg.m1',
-          buttons: [
-            {
-              text: 'button.cancel',
-              role: 'cancel',
-            },
-            {
-              text: 'button.confirm',
-              handler: (value) => {
-                this.clearData(value);
-              },
-            },
-          ],
-        },
-        [
-          {
-            type: 'checkbox',
-            label: 'common.top_speed',
-            value: 'topSpeed',
-            handler: (value) => {
-              this.isCheckBoxChecked(value.checked);
-            },
-          },
-          {
-            type: 'checkbox',
-            label: 'common.trip_meter',
-            value: 'tripMeter',
-            handler: (value) => {
-              this.isCheckBoxChecked(value.checked);
-            },
-          },
-          {
-            type: 'checkbox',
-            label: 'common.travel_time',
-            value: 'travelTime',
-            handler: (value) => {
-              this.isCheckBoxChecked(value.checked);
-            },
-          },
-          {
-            type: 'checkbox',
-            label: 'common.avg_speed',
-            value: 'avgSpeed',
-            handler: (value) => {
-              this.isCheckBoxChecked(value.checked);
-            },
-          },
-        ]
-      )
-      .then(() => {
-        this.isCheckBoxChecked(false);
-      });
-  }
-
-  private isCheckBoxChecked(value: boolean) {
-    if (value) {
-      document
-        .querySelector('ion-alert div.alert-button-group button:nth-of-type(2)')
-        .removeAttribute('disabled');
-    } else {
-      document
-        .querySelector('ion-alert div.alert-button-group button:nth-of-type(2)')
-        .setAttribute('disabled', 'true');
-    }
+    await this.alertComponent.presentAlert(
+      'alert.header.h1',
+      null,
+      'alert.msg.m1',
+      null,
+      'button.cancel',
+      'button.confirm',
+      null,
+      this,
+      this.clearData
+    );
   }
 
   public selectLng(ev: any) {
@@ -143,33 +67,36 @@ export class SettingsPage implements OnInit {
   }
 
   public checkForUpdate() {
-    this.isCheckingForUpdate = true;
-    this.updateService.checkForUpdate(true).then(() => {
-      this.isCheckingForUpdate = false;
-    });
+    this.updateService.checkForUpdate(true);
   }
 
   public changeUnit(ev: any) {
     this.unitService.saveUnit(ev.target.value);
   }
 
-  public async clearData(value: string[]) {
+  private getLangSelected() {
+    this.languages = this.languageService.getLanguages();
+    this.selectedLanguage = this.languageService.selected;
+  }
+
+  private getUnitSelected() {
+    this.units = this.unitService.getUnits();
+    this.selectedUnit = this.unitService.unit;
+  }
+
+  private async clearData() {
     try {
-      if (value.includes('topSpeed')) {
-        this.topSpeedService.clearTopSpeed();
-      }
-
-      if (value.includes('travelTime')) {
-        this.timerService.resetTotalTime();
-      }
-
-      if (value.includes('tripMeter')) {
-        this.odoTripService.clearTrip();
-      }
-
-      if (value.includes('avgSpeed')) {
-        this.odoTripService.clearAvgSpeedTrip();
-      }
+      await Promise.all([
+        this.topSpeedService.clearTopSpeed(),
+        this.timerService.resetTotalTime(),
+        this.odoTripService.clearTrip(),
+      ]);
+      this.toastComponent.presentToast(
+        'toast.clear_success',
+        null,
+        1000,
+        'success'
+      );
     } catch (e) {
       this.toastComponent.presentToast(
         'toast.clear_failed: ' + e,
@@ -177,21 +104,6 @@ export class SettingsPage implements OnInit {
         1000,
         'danger'
       );
-    } finally {
-      this.toastComponent.presentToast(
-        'toast.clear_success',
-        null,
-        1000,
-        'success'
-      );
     }
-  }
-
-  public onAdjustSpeedChange(ev: any) {
-    this.calculateService.setAdjustSpeed(ev.detail.value);
-  }
-
-  public changeEnableHighAccuracy(ev: any) {
-    this.geolocationService.setEnableHighAccuracy(ev.detail.checked.toString());
   }
 }

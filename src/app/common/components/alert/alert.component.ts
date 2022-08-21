@@ -1,42 +1,6 @@
 import { Component } from '@angular/core';
-import { AlertButton, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Mode } from 'fs';
-
-interface AlertOptions {
-  header?: string;
-  headerValue?: string | number;
-  subHeader?: string;
-  message?: string;
-  messageValue?: string | number;
-  cssClass?: string | string[];
-  inputs?: AlertInput[];
-  buttons?: AlertButton[] | string[];
-  backdropDismiss?: boolean;
-  translucent?: boolean;
-  animated?: boolean;
-  htmlAttributes?: { [key: string]: any };
-  mode?: Mode;
-  keyboardClose?: boolean;
-  id?: string;
-}
-
-interface AlertInput {
-  type?: 'checkbox' | 'radio' | 'textarea';
-  name?: string;
-  placeholder?: string;
-  value?: any;
-  label?: string;
-  checked?: boolean;
-  disabled?: boolean;
-  id?: string;
-  handler?: (input: AlertInput) => void;
-  min?: string | number;
-  max?: string | number;
-  cssClass?: string | string[];
-  attributes?: { [key: string]: any };
-  tabindex?: number;
-}
 
 @Component({
   selector: 'app-alert',
@@ -48,7 +12,7 @@ export class AlertComponent {
     private translateService: TranslateService
   ) {}
 
-  public async alertWithButtons(
+  public async presentAlert(
     header: string,
     headervalue: any,
     msg: string,
@@ -77,7 +41,7 @@ export class AlertComponent {
     await alert.present();
   }
 
-  public async alertWithButton(
+  public async presentAlertOneBtn(
     header: string,
     headervalue: any,
     msg: string,
@@ -93,25 +57,6 @@ export class AlertComponent {
           role: 'confirm',
         },
       ],
-    });
-
-    await alert.present();
-  }
-
-  public async alertWithInput(content: AlertOptions, inputs: AlertInput[]) {
-    const alert = await this.alertController.create({
-      header: this.translateService.instant(content.header, {
-        value: content.headerValue,
-      }),
-      message: this.translateService.instant(content.message, {
-        value: content.messageValue,
-      }),
-      buttons: content.buttons.map((el) => {
-        return { ...el, text: this.translateService.instant(el.text) };
-      }),
-      inputs: inputs.map((el) => {
-        return { ...el, label: this.translateService.instant(el.label) };
-      }),
     });
 
     await alert.present();

@@ -35,12 +35,6 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ],
-        "@angular-eslint/template/eqeqeq": [
-          "error",
-          {
-            "allowNullOrUndefined": true
-          }
         ]
       }
     },

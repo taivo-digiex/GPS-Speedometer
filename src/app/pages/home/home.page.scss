@@ -1,4 +1,4 @@
-.container {
+#container {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -9,12 +9,12 @@
   right: 0;
 }
 
-.speedo {
+#speedo {
   font-family: "Number";
   font-size: 150px;
 }
 
-.unit {
+#unit {
   font-size: 25px;
   font-style: italic;
 }
@@ -67,20 +67,16 @@
 }
 
 @media (orientation: portrait) {
-  .landscape-info {
-    display: none;
-  }
-
-  .container {
+  #container {
     text-align: center;
   }
 
   @media only screen and (max-width: 380px) {
-    .speedo {
+    #speedo {
       font-size: 100px !important;
     }
 
-    .unit {
+    #unit {
       font-size: 20px !important;
     }
 
@@ -96,11 +92,7 @@
 }
 
 @media (orientation: landscape) {
-  .portrait-info {
-    display: none;
-  }
-
-  .container {
+  #container {
     display: flex;
     gap: 25px;
     text-align: end;
@@ -113,7 +105,7 @@
   }
 
   .landscape-info ion-card {
-    box-shadow: 0 0 10px 0 var(--ion-background-color-white);
+    box-shadow: 0 0 10px 0 #ffffff;
     text-align: center;
   }
 
@@ -126,11 +118,11 @@
   }
 
   @media only screen and (max-width: 700px) {
-    .speedo {
+    #speedo {
       font-size: 100px !important;
     }
 
-    .unit {
+    #unit {
       font-size: 20px !important;
     }
 

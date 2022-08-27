@@ -12,22 +12,19 @@
 #speedo {
   font-family: "Number";
   font-size: 150px;
+  height: 150px;
 }
 
 #unit {
   font-size: 25px;
-  font-style: italic;
 }
 
 .distance {
   font-size: 25px;
   font-style: italic;
-
-  p {
-    width: fit-content;
-    margin: auto;
-    color: var(--ion-text-color);
-  }
+  width: fit-content;
+  margin: auto;
+  color: var(--ion-text-color);
 
   .distance-number {
     font-family: "Number";
@@ -48,12 +45,8 @@
 .details {
   color: var(--ion-text-color);
 
-  p {
-    margin: auto;
-  }
-
   .col-border {
-    border-right: 1px solid var(--ion-color-step-200);
+    border-right: 2px solid var(--ion-color-step-150);
   }
 }
 
@@ -78,6 +71,7 @@
   @media only screen and (max-width: 380px) {
     #speedo {
       font-size: 100px !important;
+      height: 100px !important;
     }
 
     #unit {
@@ -130,6 +124,7 @@
   @media only screen and (max-width: 700px) {
     #speedo {
       font-size: 100px !important;
+      height: 100px !important;
     }
 
     #unit {

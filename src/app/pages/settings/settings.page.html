@@ -76,7 +76,7 @@
     </ion-col>
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
-      <ion-card button class="custom-card ion-text-center" id="open-speed-adjustment-modal">
+      <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
         <ion-card-content class="custom-card-content ion-text-center">
           <ion-icon size="large" class="cus-icon" ios="speedometer-outline" md="speedometer-sharp">
           </ion-icon>
@@ -145,7 +145,8 @@
   </ion-toolbar>
 </ion-footer>
 
-<ion-modal trigger="open-speed-adjustment-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+<ion-modal trigger="open-correction-speed-modal" mode="ios" [initialBreakpoint]="0.25"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]">
   <ng-template>
     <ion-content>
       <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"

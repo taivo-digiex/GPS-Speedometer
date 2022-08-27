@@ -14,7 +14,7 @@ export class LanguageService {
 
   public async setInitialAppLanguage() {
     let language = this.translate.getBrowserLang();
-    const checkLng = this.getLanguages().find(function (e) {
+    const checkLng = this.getLanguages().find((e) => {
       return e.value == language;
     });
     if (checkLng == undefined) {
@@ -28,7 +28,7 @@ export class LanguageService {
       await this.storage.get(LNG_KEY).then((val) => {
         if (val) {
           this.selected = val;
-          this.setLanguage(val);
+          this.translate.use(val);
         } else {
           this.selected = language;
           this.setLanguage(language);
@@ -41,9 +41,8 @@ export class LanguageService {
     return [{ value: 'en' }, { value: 'vi' }];
   }
 
-  public async setLanguage(lng) {
-    this.translate.use(lng);
+  public async setLanguage(lng: string) {
     this.selected = lng;
-    await this.storage.set(LNG_KEY, lng);
+    await this.storage.set(LNG_KEY, lng).then(() => this.translate.use(lng));
   }
 }

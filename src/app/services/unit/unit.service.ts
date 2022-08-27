@@ -19,9 +19,8 @@ export class UnitService {
     await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
         this.unit = val;
-        this.saveUnit(val);
+        this.convertUnit();
       } else {
-        this.unit = 'metric';
         this.saveUnit('metric');
       }
     });
@@ -29,8 +28,7 @@ export class UnitService {
 
   public async saveUnit(unit: string) {
     this.unit = unit;
-    await this.storage.set(UNIT_KEY, unit);
-    this.convertUnit();
+    await this.storage.set(UNIT_KEY, unit).then(() => this.convertUnit());
   }
 
   public convertUnit() {

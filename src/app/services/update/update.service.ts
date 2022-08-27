@@ -50,7 +50,7 @@ export class UpdateService {
               info
             ) {
               this.downloadLatest = info.assets[0].browser_download_url;
-              await this.alertComponent.presentAlert(
+              await this.alertComponent.alertWithButtons(
                 'alert.header.h2',
                 info.tag_name,
                 info.body,
@@ -62,7 +62,7 @@ export class UpdateService {
                 this.downloadNewAppVersion
               );
             } else if (isManual) {
-              await this.alertComponent.presentAlertOneBtn(
+              await this.alertComponent.alertWithButton(
                 'alert.header.h3',
                 this.versionNumber,
                 'alert.msg.m2',
@@ -85,7 +85,7 @@ export class UpdateService {
         });
     } else {
       if (isManual) {
-        await this.alertComponent.presentAlertOneBtn(
+        await this.alertComponent.alertWithButton(
           'alert.header.h4',
           null,
           'alert.msg.m3',

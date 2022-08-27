@@ -10,6 +10,8 @@ import { GeolocationService } from './services/geolocation/geolocation.service';
 import { UpdateService } from './services/update/update.service';
 import { OdoTripService } from './services/odo-trip/odo-trip.service';
 import { TimerService } from './services/timer/timer.service';
+import { CalculateService } from './services/calculate/calculate.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -29,12 +31,13 @@ export class AppComponent {
     private geolocationService: GeolocationService,
     private updateService: UpdateService,
     private odoTripService: OdoTripService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private calculateService: CalculateService
   ) {
     this.platform.ready().then(async () => {
       await this.createStorage();
+      // this.geolocationService.startGeolocation();
       this.hardwareBackBtn();
-      this.geolocationService.startGeolocation();
       this.updateService.checkForUpdate(false);
     });
   }
@@ -42,16 +45,20 @@ export class AppComponent {
   private async createStorage() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
+    this.geolocationService.getEnableHighAccuracy();
     this.unitService.getUnit();
     this.timerService.getTotalTime();
     this.odoTripService.getOdoTrip();
     this.topSpeedService.getTopSpeed();
+    this.timerService.getAverageSpeedTotalTime();
+    this.calculateService.getSpeedCorrection();
   }
 
   private hardwareBackBtn() {
     this.platform.backButton.subscribeWithPriority(10, () => {
       const url = this.router.url;
       if (!this.routerOutlet.canGoBack() && url === '/home') {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
         navigator['app'].exitApp();
       } else {
         this.location.back();

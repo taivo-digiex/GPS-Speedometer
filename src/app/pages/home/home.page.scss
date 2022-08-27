@@ -67,6 +67,10 @@
 }
 
 @media (orientation: portrait) {
+  .landscape-info {
+    display: none;
+  }
+
   #container {
     text-align: center;
   }
@@ -92,6 +96,10 @@
 }
 
 @media (orientation: landscape) {
+  .portrait-info {
+    display: none;
+  }
+
   #container {
     display: flex;
     gap: 25px;
@@ -105,8 +113,10 @@
   }
 
   .landscape-info ion-card {
-    box-shadow: 0 0 10px 0 #ffffff;
+    // box-shadow: 0 0 10px 0 var(--ion-background-color-white);
     text-align: center;
+    box-shadow: 0 0 15px 0 var(--ion-background-color-white);
+    border: 1px solid var(--ion-background-color-white);
   }
 
   .details {

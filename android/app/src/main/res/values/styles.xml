@@ -9,15 +9,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--    <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar">-->
+    <!--        &lt;!&ndash; <item name="android:background">@drawable/splash</item> &ndash;&gt;-->
+    <!--        <item name="windowActionBar">false</item>-->
+    <!--    </style>-->
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="background">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
-    <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar">
-        <!-- <item name="android:background">@drawable/splash</item> -->
-        <item name="windowActionBar">false</item>
-    </style>
+    <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar"></style>
 
 </resources>

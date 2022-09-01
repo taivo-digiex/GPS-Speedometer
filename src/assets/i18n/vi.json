@@ -6,7 +6,7 @@
   "common": {
     "about": "Thông tin",
     "language": "Ngôn ngữ",
-    "version": "Phiên bản: {{value}}",
+    "version": "Phiên bản {{value}}",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
     "top_speed": "Tốc độ cao nhất",
@@ -26,8 +26,7 @@
     "trip_meter": "Đồng hồ đo hành trình",
     "travel_time": "Thời gian di chuyển",
     "high_accuracy": "Độ chính xác cao",
-    "speed_correction": "Hiệu chỉnh tốc độ +{{value}}%",
-    "theme_color": "Màu chủ đề"
+    "speed_correction": "Hiệu chỉnh tốc độ +{{value}}%"
   },
 
   "unit": {

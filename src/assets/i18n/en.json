@@ -6,7 +6,7 @@
   "common": {
     "about": "About",
     "language": "Languages",
-    "version": "Version: {{value}}",
+    "version": "Version {{value}}",
     "longtitude": "Longitude",
     "latitude": "Latitude",
     "top_speed": "Top speed",
@@ -26,8 +26,7 @@
     "trip_meter": "Trip meter",
     "travel_time": "Travel time",
     "high_accuracy": "High accuracy",
-    "speed_correction": "Speed correction +{{value}}%",
-    "theme_color": "Theme color"
+    "speed_correction": "Speed correction +{{value}}%"
   },
 
   "unit": {

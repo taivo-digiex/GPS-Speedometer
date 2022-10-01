@@ -73,6 +73,7 @@ export class AlertComponent {
           handler: action.bind(context),
         },
       ],
+      mode: 'ios',
     });
     await alert.present();
   }
@@ -93,6 +94,7 @@ export class AlertComponent {
           role: 'confirm',
         },
       ],
+      mode: 'ios',
     });
 
     await alert.present();
@@ -114,6 +116,7 @@ export class AlertComponent {
         ...el,
         label: this.translateService.instant(el.label),
       })),
+      mode: 'ios',
     });
 
     await alert.present();

@@ -29,12 +29,6 @@ export class SettingsPage implements OnInit {
   public enableHighAccuracy: boolean =
     this.geolocationService.enableHighAccuracy;
 
-  public langIcon = 'language';
-  public unitIcon = 'speedometer';
-  public trashIcon = 'trash';
-  public downloadIcon = 'download';
-  public highAccuracyIcon = 'locate';
-
   constructor(
     private location: Location,
     private languageService: LanguageService,
@@ -114,6 +108,8 @@ export class SettingsPage implements OnInit {
   }
 
   private isCheckBoxChecked(value: boolean) {
+    //TODO create array object contain all checkboxes
+
     if (value) {
       document
         .querySelector('ion-alert div.alert-button-group button:nth-of-type(2)')
@@ -162,13 +158,13 @@ export class SettingsPage implements OnInit {
   }
 
   private getLangSelected() {
-    this.selectedLanguage = this.languageService.selected;
     this.languages = this.languageService.getLanguages();
+    this.selectedLanguage = this.languageService.selected;
   }
 
   private getUnitSelected() {
-    this.selectedUnit = this.unitService.unit;
     this.units = this.unitService.getUnits();
+    this.selectedUnit = this.unitService.unit;
   }
 
   public async clearData(value: string[]) {

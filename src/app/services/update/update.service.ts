@@ -11,6 +11,7 @@ import { ToastComponent } from 'src/app/common/components/toast/toast.component'
 })
 export class UpdateService {
   public versionNumber: string;
+  public isCheckingForUpdate: boolean = false;
   private downloadLatest: string;
 
   constructor(
@@ -20,6 +21,9 @@ export class UpdateService {
   ) {}
 
   public async checkForUpdate(isManual: boolean) {
+    this.isCheckingForUpdate = true;
+    this.versionNumber = (await App.getInfo()).version;
+
     if ((await Network.getStatus()).connected) {
       this.http
         .get(
@@ -27,7 +31,6 @@ export class UpdateService {
         )
         .subscribe(async (info: AppUpdateModel) => {
           try {
-            this.versionNumber = (await App.getInfo()).version;
             const splittedVersion = this.versionNumber
               .split(/[.-]/)
               .filter(Number);
@@ -41,7 +44,6 @@ export class UpdateService {
                 null
               );
             }
-            console.log(serverVersion);
 
             if (
               (serverVersion[0] > splittedVersion[0] ||
@@ -74,6 +76,8 @@ export class UpdateService {
             if (isManual) {
               this.toastComponent.dismissToast();
             }
+
+            this.isCheckingForUpdate = false;
           } catch (e) {
             this.toastComponent.presentToast(
               'toast.checkForUpdateFailed',
@@ -81,9 +85,12 @@ export class UpdateService {
               2000,
               'warning'
             );
+            this.isCheckingForUpdate = false;
           }
         });
     } else {
+      this.isCheckingForUpdate = false;
+
       if (isManual) {
         await this.alertComponent.alertWithButton(
           'alert.header.h4',

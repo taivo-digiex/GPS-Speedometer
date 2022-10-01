@@ -34,9 +34,6 @@ export class HomePage implements OnInit, OnDestroy {
   public isPortrait = this.platform.isPortrait();
   public checkIsPortraitInterval: any;
 
-  public timerIcon = 'time';
-  public settingsIcon = 'settings';
-
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -104,17 +101,57 @@ export class HomePage implements OnInit, OnDestroy {
         this.lon = this.geolocationService.lon;
       });
 
-    this.calculateService.calculateData
+    this.calculateService.speedoEmit
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.speedo = this.calculateService.speedo;
-        this.topSpeed = this.calculateService.topSpeed;
-        this.accuracy = this.calculateService.accuracy;
-        this.altitude = this.calculateService.altitude;
-        this.trip = this.calculateService.trip;
-        this.odo = this.calculateService.odo;
-        this.averageSpeed = this.calculateService.averageSpeed;
+      .subscribe((speed) => (this.speedo = speed));
+
+    this.calculateService.topSpeedEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((topSpeed) => {
+        this.topSpeed = topSpeed;
       });
+
+    this.calculateService.accuracyEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((accuracy) => {
+        this.accuracy = accuracy;
+      });
+
+    this.calculateService.altitudeEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((altitude) => {
+        this.altitude = altitude;
+      });
+
+    this.calculateService.tripEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((trip) => {
+        this.trip = trip;
+      });
+
+    this.calculateService.odoEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((odo) => {
+        this.odo = odo;
+      });
+
+    this.calculateService.averageSpeedEmit
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((averageSpeed) => {
+        this.averageSpeed = averageSpeed;
+      });
+
+    // this.calculateService.calculateData
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe(() => {
+    // this.speedo = this.calculateService.speedo;
+    // this.topSpeed = this.calculateService.topSpeed;
+    // this.accuracy = this.calculateService.accuracy;
+    //   this.altitude = this.calculateService.altitude;
+    //   this.trip = this.calculateService.trip;
+    //   this.odo = this.calculateService.odo;
+    //   this.averageSpeed = this.calculateService.averageSpeed;
+    // });
 
     this.timerService.totalTimeEmit
       .pipe(takeUntil(this.onDestroy$))

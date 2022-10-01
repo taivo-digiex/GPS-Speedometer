@@ -10,6 +10,7 @@
     android:theme="@style/AppTheme">
 
     <activity
+            android:exported="true"
       android:name="com.vdt.gpsspeedometer.MainActivity"
       android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
       android:label="@string/title_activity_main"
@@ -40,5 +41,5 @@
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-  <uses-feature android:name="android.hardware.location.gps" />
+  <uses-feature android:name="android.hardware.location.gps" android:required="true" />
 </manifest>

@@ -13,7 +13,14 @@ const ADJUST_SPEED = 'speedCorrection';
   providedIn: 'root',
 })
 export class CalculateService {
-  @Output() calculateData = new EventEmitter();
+  // @Output() calculateData = new EventEmitter();
+  @Output() speedoEmit = new EventEmitter();
+  @Output() topSpeedEmit = new EventEmitter();
+  @Output() accuracyEmit = new EventEmitter();
+  @Output() altitudeEmit = new EventEmitter();
+  @Output() tripEmit = new EventEmitter();
+  @Output() odoEmit = new EventEmitter();
+  @Output() averageSpeedEmit = new EventEmitter();
 
   public speedo: number;
   public topSpeed: number;
@@ -91,34 +98,40 @@ export class CalculateService {
         break;
       default: {
         this.metricUnit(speed, rawAccuracy, rawAltitude);
+        break;
       }
     }
-    this.calculateData.emit();
   }
 
   private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
     if (speed != null) {
       this.speedo = Math.round(speed * 3.6);
+      this.speedoEmit.emit(this.speedo);
     }
 
     if (!isNaN(this.topSpeedService.topSpeed)) {
       this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+      this.topSpeedEmit.emit(this.topSpeed);
     }
 
     if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy);
+      this.accuracyEmit.emit(this.accuracy);
     }
 
     if (rawAltitude != null) {
       this.altitude = this.toFixedNoRounding(rawAltitude, 1);
+      this.altitudeEmit.emit(this.altitude);
     }
 
     if (!isNaN(this.odoTripService.odo)) {
       this.odo = Math.trunc(this.odoTripService.odo / 1000);
+      this.odoEmit.emit(this.odo);
     }
 
     if (!isNaN(this.odoTripService.trip)) {
       this.trip = this.toFixedNoRounding(this.odoTripService.trip / 1000, 1);
+      this.tripEmit.emit(this.trip);
     }
 
     if (
@@ -131,6 +144,7 @@ export class CalculateService {
           3.6,
         1
       );
+      this.averageSpeedEmit.emit(this.averageSpeed);
     }
   }
 
@@ -141,22 +155,27 @@ export class CalculateService {
   ) {
     if (speed != null) {
       this.speedo = Math.round(speed * 2.23693629);
+      this.speedoEmit.emit(this.speedo);
     }
 
     if (!isNaN(this.topSpeedService.topSpeed)) {
       this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
+      this.topSpeedEmit.emit(this.topSpeed);
     }
 
     if (rawAccuracy != null) {
       this.accuracy = Math.round(rawAccuracy * 3.2808399);
+      this.accuracyEmit.emit(this.accuracy);
     }
 
     if (rawAltitude != null) {
       this.altitude = this.toFixedNoRounding(rawAltitude * 3.2808399, 1);
+      this.altitudeEmit.emit(this.altitude);
     }
 
     if (!isNaN(this.odoTripService.odo)) {
       this.odo = Math.trunc(this.odoTripService.odo * 0.000621371192);
+      this.odoEmit.emit(this.odo);
     }
 
     if (!isNaN(this.odoTripService.trip)) {
@@ -164,6 +183,7 @@ export class CalculateService {
         this.odoTripService.trip * 0.000621371192,
         1
       );
+      this.tripEmit.emit(this.trip);
     }
 
     if (
@@ -176,6 +196,7 @@ export class CalculateService {
           2.23693629,
         1
       );
+      this.averageSpeedEmit.emit(this.averageSpeed);
     }
   }
 

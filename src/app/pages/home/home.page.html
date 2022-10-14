@@ -104,15 +104,15 @@
 <ion-footer class="ion-no-border ion-text-center">
   <span class="distance">
     <ion-text class="distance-text" (click)="switchTrip()">
-      {{ !isSwitchTrip ? ('common.total' | translate) : ('common.trip' | translate) }}
+      {{ isSwitchTrip ? ('common.trip' | translate) : ('common.total' | translate) }}
     </ion-text>
-    <ion-text *ngIf="isSwitchTrip" class="distance-number">{{ trip != null ? trip : '-.-' }}</ion-text>
-    <ion-text *ngIf="!isSwitchTrip" class="distance-number">{{ odo != null ? odo : '-' }}</ion-text>
-    <ion-text>{{ distanceUnit }}</ion-text>
+    <ion-text>
+      {{ isSwitchTrip ? (trip != null ? trip : '-.-') : (odo != null ? odo : '-') }} {{ distanceUnit }}
+    </ion-text>
   </span>
 
   <div *ngIf="isPortrait" class="portrait-info">
-    <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true">
+    <swiper [autoplay]="{delay: 10000, disableOnInteraction: false}" [loop]="true">
       <ng-template swiperSlide>
         <ion-card>
           <div class="details">

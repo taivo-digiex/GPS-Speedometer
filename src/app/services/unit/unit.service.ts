@@ -8,6 +8,7 @@ const UNIT_KEY = 'unit';
 })
 export class UnitService {
   @Output() unitSystem = new EventEmitter();
+
   public unit: string;
   public lenghtUnit: string;
   public speedUnit: string;
@@ -45,7 +46,13 @@ export class UnitService {
         this.lenghtUnit = 'm';
         break;
     }
-    this.unitSystem.emit();
+
+    this.unitSystem.emit({
+      unit: this.unit,
+      speedUnit: this.speedUnit,
+      distanceUnit: this.distanceUnit,
+      lenghtUnit: this.lenghtUnit,
+    });
   }
 
   public getUnits() {

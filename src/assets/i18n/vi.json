@@ -66,9 +66,9 @@
 
   "alert": {
     "header": {
-      "h1": "Xóa dữ liệu.",
-      "h2": "Có bản cập nhật mới {{value}}.",
-      "h3": "Bạn đang ở phiên bản mới nhất {{value}}.",
+      "h1": "Xóa dữ liệu",
+      "h2": "Có bản cập nhật mới {{value}}",
+      "h3": "Bạn đang ở phiên bản mới nhất {{value}}",
       "h4": "Không có mạng!"
     },
     "msg": {

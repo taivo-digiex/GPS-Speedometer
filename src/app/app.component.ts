@@ -52,6 +52,8 @@ export class AppComponent {
     this.topSpeedService.getTopSpeed();
     this.timerService.getAverageSpeedTotalTime();
     this.calculateService.getSpeedCorrection();
+    this.calculateService.getValue();
+    this.calculateService.changeUnit();
   }
 
   private hardwareBackBtn() {

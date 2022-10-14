@@ -30,7 +30,6 @@ export class GeolocationService {
     private geolocation: Geolocation,
     private toastComponent: ToastComponent,
     private topSpeedService: TopSpeedService,
-    private calculateService: CalculateService,
     private timerService: TimerService,
     private storage: Storage
   ) {}
@@ -53,18 +52,9 @@ export class GeolocationService {
       });
   }
 
-  public convertUnit() {
-    this.calculateService.convert(
-      this.speed,
-      this.rawAccuracy,
-      this.rawAltitude
-    );
-  }
-
-  public getSpeedAndTime(speed: number, time: number) {
+  public getSpeedAndTime(time: number) {
     this.timerService.saveTotalTime(Math.floor(time));
     this.timerService.saveAverageSpeedTotalTime(Math.floor(time));
-    this.calculateService.getValue(speed, time);
   }
 
   public stop() {
@@ -111,8 +101,16 @@ export class GeolocationService {
     }
     this.lastTimestamp = res.timestamp;
 
-    this.getSpeedAndTime(this.speed, time);
+    this.getSpeedAndTime(time);
     this.topSpeedService.saveTopSpeed(this.speed);
-    this.geolocationData.emit();
+
+    this.geolocationData.emit({
+      speed: this.speed,
+      rawAccuracy: this.rawAccuracy,
+      rawAltitude: this.rawAltitude,
+      lat: this.lat,
+      lon: this.lon,
+      time: time,
+    });
   }
 }

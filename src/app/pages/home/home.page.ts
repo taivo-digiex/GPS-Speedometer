@@ -5,10 +5,10 @@ import { UnitService } from '../../services/unit/unit.service';
 import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
-import SwiperCore, { Autoplay, Pagination } from 'swiper';
+import SwiperCore, { Autoplay } from 'swiper';
 import { Subject, takeUntil } from 'rxjs';
 
-SwiperCore.use([Autoplay, Pagination]);
+SwiperCore.use([Autoplay]);
 
 @Component({
   selector: 'app-home',
@@ -86,72 +86,30 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.unitService.unitSystem
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.geolocationService.convertUnit();
-        this.speedUnit = this.unitService.speedUnit;
-        this.distanceUnit = this.unitService.distanceUnit;
-        this.lenghtUnit = this.unitService.lenghtUnit;
+      .subscribe((res) => {
+        this.speedUnit = res.speedUnit;
+        this.distanceUnit = res.distanceUnit;
+        this.lenghtUnit = res.lenghtUnit;
       });
 
     this.geolocationService.geolocationData
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.geolocationService.convertUnit();
-        this.lat = this.geolocationService.lat;
-        this.lon = this.geolocationService.lon;
+      .subscribe((res) => {
+        this.lat = res.lat;
+        this.lon = res.lon;
       });
 
-    this.calculateService.speedoEmit
+    this.calculateService.calculateData
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((speed) => (this.speedo = speed));
-
-    this.calculateService.topSpeedEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((topSpeed) => {
-        this.topSpeed = topSpeed;
+      .subscribe((res) => {
+        this.speedo = res.speedo;
+        this.topSpeed = res.topSpeed;
+        this.accuracy = res.accuracy;
+        this.altitude = res.altitude;
+        this.trip = res.trip;
+        this.odo = res.odo;
+        this.averageSpeed = res.averageSpeed;
       });
-
-    this.calculateService.accuracyEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((accuracy) => {
-        this.accuracy = accuracy;
-      });
-
-    this.calculateService.altitudeEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((altitude) => {
-        this.altitude = altitude;
-      });
-
-    this.calculateService.tripEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((trip) => {
-        this.trip = trip;
-      });
-
-    this.calculateService.odoEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((odo) => {
-        this.odo = odo;
-      });
-
-    this.calculateService.averageSpeedEmit
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((averageSpeed) => {
-        this.averageSpeed = averageSpeed;
-      });
-
-    // this.calculateService.calculateData
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe(() => {
-    // this.speedo = this.calculateService.speedo;
-    // this.topSpeed = this.calculateService.topSpeed;
-    // this.accuracy = this.calculateService.accuracy;
-    //   this.altitude = this.calculateService.altitude;
-    //   this.trip = this.calculateService.trip;
-    //   this.odo = this.calculateService.odo;
-    //   this.averageSpeed = this.calculateService.averageSpeed;
-    // });
 
     this.timerService.totalTimeEmit
       .pipe(takeUntil(this.onDestroy$))

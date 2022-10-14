@@ -11,8 +11,7 @@
 
 #speedo {
   font-family: "Number";
-  font-size: 150px;
-  height: 150px;
+  font-size: 120px;
 }
 
 #unit {
@@ -21,19 +20,12 @@
 
 .distance {
   font-size: 25px;
-  font-style: italic;
   width: fit-content;
   margin: auto;
   color: var(--ion-text-color);
 
-  .distance-number {
-    font-family: "Number";
-    font-style: normal;
-  }
-
   .distance-text {
     font-size: 16px;
-    font-style: normal;
     margin-right: 10px;
   }
 }
@@ -68,10 +60,13 @@
     text-align: center;
   }
 
+  #speedo {
+    transform: scale(1) rotate(0deg) translate(-1rem, 0px) skew(12deg, 0deg);
+  }
+
   @media only screen and (max-width: 380px) {
     #speedo {
       font-size: 100px !important;
-      height: 100px !important;
     }
 
     #unit {
@@ -100,6 +95,10 @@
     text-align: end;
   }
 
+  #speedo {
+    transform: scale(1) rotate(0deg) translate(-0.5rem, 0px) skew(12deg, 0deg);
+  }
+
   .speedo-div,
   .landscape-info {
     margin: auto;
@@ -107,7 +106,6 @@
   }
 
   .landscape-info ion-card {
-    // box-shadow: 0 0 10px 0 var(--ion-background-color-white);
     text-align: center;
     box-shadow: 0 0 15px 0 var(--ion-background-color-white);
     border: 1px solid var(--ion-background-color-white);
@@ -124,7 +122,6 @@
   @media only screen and (max-width: 700px) {
     #speedo {
       font-size: 100px !important;
-      height: 100px !important;
     }
 
     #unit {

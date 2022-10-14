@@ -5,6 +5,7 @@ import { TimerService } from '../timer/timer.service';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { UnitService } from '../unit/unit.service';
 import { Storage } from '@ionic/storage-angular';
+import { GeolocationService } from '../geolocation/geolocation.service';
 
 const VALUE: speedTime[] = [];
 const ADJUST_SPEED = 'speedCorrection';
@@ -13,14 +14,7 @@ const ADJUST_SPEED = 'speedCorrection';
   providedIn: 'root',
 })
 export class CalculateService {
-  // @Output() calculateData = new EventEmitter();
-  @Output() speedoEmit = new EventEmitter();
-  @Output() topSpeedEmit = new EventEmitter();
-  @Output() accuracyEmit = new EventEmitter();
-  @Output() altitudeEmit = new EventEmitter();
-  @Output() tripEmit = new EventEmitter();
-  @Output() odoEmit = new EventEmitter();
-  @Output() averageSpeedEmit = new EventEmitter();
+  @Output() calculateData = new EventEmitter();
 
   public speedo: number;
   public topSpeed: number;
@@ -31,6 +25,10 @@ export class CalculateService {
   public trip: string;
   public speedCorrection: number;
 
+  private rawSpeed: number;
+  private rawAccuracy: number;
+  private rawAltitude: number;
+
   private value = [...VALUE];
 
   constructor(
@@ -38,7 +36,8 @@ export class CalculateService {
     private topSpeedService: TopSpeedService,
     private odoTripService: OdoTripService,
     private timerService: TimerService,
-    private storage: Storage
+    private storage: Storage,
+    private geolocationService: GeolocationService
   ) {}
 
   public async getSpeedCorrection() {
@@ -60,78 +59,99 @@ export class CalculateService {
     await this.storage.set(ADJUST_SPEED, value);
   }
 
-  public getValue(speed: number, time: number) {
-    if (speed == null || time == null) {
-      return;
-    }
+  public getValue() {
+    this.geolocationService.geolocationData.subscribe((data) => {
+      this.rawSpeed = data.speed;
+      this.rawAccuracy = data.rawAccuracy;
+      this.rawAltitude = data.rawAltitude;
 
-    speed = speed + this.speedCorrection / 100;
+      this.convert();
 
-    this.value = [
-      ...this.value,
-      {
-        speed,
-        time,
-      },
-    ];
+      if (this.rawSpeed == null || data.time == null) {
+        return;
+      }
 
-    let trip = 0;
-    for (const val of this.value) {
-      trip = val.speed * val.time;
-    }
+      this.rawSpeed = this.rawSpeed + this.speedCorrection / 100;
 
-    this.odoTripService.saveOdo(trip);
-    this.odoTripService.saveTrip(trip);
-    this.odoTripService.saveAverageSpeedTrip(trip);
+      this.value = [
+        ...this.value,
+        {
+          speed: this.rawSpeed,
+          time: data.time,
+        },
+      ];
+
+      let trip = 0;
+      for (const val of this.value) {
+        trip = val.speed * val.time;
+      }
+
+      this.odoTripService.saveOdo(trip);
+      this.odoTripService.saveTrip(trip);
+      this.odoTripService.saveAverageSpeedTrip(trip);
+    });
   }
 
-  public convert(speed: number, rawAccuracy: number, rawAltitude: number) {
-    if (speed != null && this.speedCorrection != null) {
-      speed = speed + this.speedCorrection / 100;
+  public convert() {
+    if (this.rawSpeed != null && this.speedCorrection != null) {
+      this.rawSpeed = this.rawSpeed + this.speedCorrection / 100;
     }
 
     switch (this.unitService.unit) {
       case 'imperial':
-        {
-          this.imperialUnit(speed, rawAccuracy, rawAltitude);
-        }
+        this.imperialUnit();
+
         break;
-      default: {
-        this.metricUnit(speed, rawAccuracy, rawAltitude);
+
+      case 'metric':
+      default:
+        this.metricUnit();
         break;
-      }
     }
   }
 
-  private metricUnit(speed: number, rawAccuracy: number, rawAltitude: number) {
-    if (speed != null) {
-      this.speedo = Math.round(speed * 3.6);
-      this.speedoEmit.emit(this.speedo);
+  // *subscribe unit change
+  public changeUnit() {
+    this.unitService.unitSystem.subscribe(() => {
+      switch (this.unitService.unit) {
+        case 'imperial':
+          {
+            this.imperialUnit();
+          }
+          break;
+
+        case 'metric':
+        default:
+          this.metricUnit();
+          break;
+      }
+    });
+  }
+
+  // *calculate in metric unit
+  private metricUnit() {
+    if (this.rawSpeed != null) {
+      this.speedo = Math.round(this.rawSpeed * 3.6);
     }
 
     if (!isNaN(this.topSpeedService.topSpeed)) {
       this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
-      this.topSpeedEmit.emit(this.topSpeed);
     }
 
-    if (rawAccuracy != null) {
-      this.accuracy = Math.round(rawAccuracy);
-      this.accuracyEmit.emit(this.accuracy);
+    if (this.rawAccuracy != null) {
+      this.accuracy = Math.round(this.rawAccuracy);
     }
 
-    if (rawAltitude != null) {
-      this.altitude = this.toFixedNoRounding(rawAltitude, 1);
-      this.altitudeEmit.emit(this.altitude);
+    if (this.rawAltitude != null) {
+      this.altitude = this.toFixedNoRounding(this.rawAltitude, 1);
     }
 
     if (!isNaN(this.odoTripService.odo)) {
       this.odo = Math.trunc(this.odoTripService.odo / 1000);
-      this.odoEmit.emit(this.odo);
     }
 
     if (!isNaN(this.odoTripService.trip)) {
       this.trip = this.toFixedNoRounding(this.odoTripService.trip / 1000, 1);
-      this.tripEmit.emit(this.trip);
     }
 
     if (
@@ -144,38 +164,39 @@ export class CalculateService {
           3.6,
         1
       );
-      this.averageSpeedEmit.emit(this.averageSpeed);
     }
+
+    this.calculateData.emit({
+      speedo: this.speedo,
+      topSpeed: this.topSpeed,
+      accuracy: this.accuracy,
+      altitude: this.altitude,
+      odo: this.odo,
+      trip: this.trip,
+      averageSpeed: this.averageSpeed,
+    });
   }
 
-  private imperialUnit(
-    speed: number,
-    rawAccuracy: number,
-    rawAltitude: number
-  ) {
-    if (speed != null) {
-      this.speedo = Math.round(speed * 2.23693629);
-      this.speedoEmit.emit(this.speedo);
+  // *calculate in imperial unit
+  private imperialUnit() {
+    if (this.rawSpeed != null) {
+      this.speedo = Math.round(this.rawSpeed * 2.23693629);
     }
 
     if (!isNaN(this.topSpeedService.topSpeed)) {
       this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
-      this.topSpeedEmit.emit(this.topSpeed);
     }
 
-    if (rawAccuracy != null) {
-      this.accuracy = Math.round(rawAccuracy * 3.2808399);
-      this.accuracyEmit.emit(this.accuracy);
+    if (this.rawAccuracy != null) {
+      this.accuracy = Math.round(this.rawAccuracy * 3.2808399);
     }
 
-    if (rawAltitude != null) {
-      this.altitude = this.toFixedNoRounding(rawAltitude * 3.2808399, 1);
-      this.altitudeEmit.emit(this.altitude);
+    if (this.rawAltitude != null) {
+      this.altitude = this.toFixedNoRounding(this.rawAltitude * 3.2808399, 1);
     }
 
     if (!isNaN(this.odoTripService.odo)) {
       this.odo = Math.trunc(this.odoTripService.odo * 0.000621371192);
-      this.odoEmit.emit(this.odo);
     }
 
     if (!isNaN(this.odoTripService.trip)) {
@@ -183,7 +204,6 @@ export class CalculateService {
         this.odoTripService.trip * 0.000621371192,
         1
       );
-      this.tripEmit.emit(this.trip);
     }
 
     if (
@@ -196,10 +216,20 @@ export class CalculateService {
           2.23693629,
         1
       );
-      this.averageSpeedEmit.emit(this.averageSpeed);
     }
+
+    this.calculateData.emit({
+      speedo: this.speedo,
+      topSpeed: this.topSpeed,
+      accuracy: this.accuracy,
+      altitude: this.altitude,
+      odo: this.odo,
+      trip: this.trip,
+      averageSpeed: this.averageSpeed,
+    });
   }
 
+  // *fixed number without rounding
   private toFixedNoRounding(value: number, n: number) {
     const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + n + '})?', 'g');
     const a = value.toString().match(reg)[0];

@@ -26,8 +26,9 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 /* Swiper styles */
-@import "~swiper/css";
-@import "~swiper/css/pagination";
+@import "swiper/css";
+@import "swiper/css/effect-coverflow";
+@import "swiper/css/pagination";
 
 /* Fonts */
 @font-face {
@@ -37,5 +38,5 @@
 
 @font-face {
   font-family: Number;
-  src: url(./assets/fonts/Number.TTF);
+  src: url(./assets/fonts/SVN-Hemi-Head.TTF);
 }

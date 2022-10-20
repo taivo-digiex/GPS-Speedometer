@@ -1,20 +1,12 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="cus-toolbar">
-    <ion-icon class="timer-icon" size="large" slot="start" [ios]="timerIcon + '-outline'" [md]="timerIcon + '-sharp'">
+    <ion-icon class="timer-icon" size="large" slot="start" name="time-outline">
     </ion-icon>
-    <ion-text slot="start">{{ time != null ? time : '00:00:00'}}</ion-text>
+    <ion-text slot="start">{{ totalTime !== null ? totalTime : '00:00:00' }}</ion-text>
 
     <ion-buttons class="cus-btns">
-      <ion-button (click)="startTimer()" [hidden]="hiddenStartIcon">
-        <ion-icon slot="icon-only" [ios]="startIcon + '-outline'" [md]="startIcon + '-sharp'"></ion-icon>
-      </ion-button>
-
-      <ion-button (click)="stopTimer()" [hidden]="!hiddenStartIcon">
-        <ion-icon slot="icon-only" [ios]="stopIcon + '-outline'" [md]="stopIcon + '-sharp'"></ion-icon>
-      </ion-button>
-
       <ion-button routerLink="/settings" routerDirection="root">
-        <ion-icon slot="icon-only" [ios]="settingsIcon + '-outline'" [md]="settingsIcon + '-sharp'"></ion-icon>
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -23,10 +15,12 @@
 <ion-content [fullscreen]="true">
   <div id="container">
     <div class="speedo-div">
-      <p>
-        <ion-text id="speedo">{{ speedo != null ? speedo : '-'}}</ion-text>
-        <ion-text id="unit" (click)="changeUnit()"> {{ speedUnit }}</ion-text>
-      </p>
+      <div id="speedo">
+        {{ speedo != null ? speedo : '-'}}
+      </div>
+      <div id="unit" (click)="changeUnit()">
+        {{ speedUnit }}
+      </div>
     </div>
 
     <div *ngIf="!isPortrait" class="landscape-info">
@@ -34,91 +28,70 @@
         <div class="details">
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.total_time" | translate }}:
-                </strong>
-              </p>
+              <strong>
+                {{ "common.average_speed" | translate }}:
+              </strong>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
+              {{ averageSpeed != null ? averageSpeed : '-.-'}} {{ speedUnit }}
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row class="ion-justify-content-between border-bottom">
+            <ion-col class="ion-text-left">
+              <strong>
+                {{ "common.top_speed" | translate }}:
+              </strong>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
+              {{ topSpeed != null ? topSpeed : '-'}} {{ speedUnit }}
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.top_speed" | translate }}:
-                </strong>
-              </p>
+              <strong>
+                {{ "common.altitude" | translate }}:
+              </strong>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ topSpeed != null ? topSpeed : '-'}} {{ speedUnit }}</p>
+              {{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-between border-bottom">
             <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.avg_speed" | translate }}:
-                </strong>
-              </p>
+              <strong>
+                {{ "common.accuracy" | translate }}:
+              </strong>
             </ion-col>
 
             <ion-col class="ion-text-right">
-              <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
-            </ion-col>
-          </ion-row>
-
-          <ion-row class="ion-justify-content-between border-bottom">
-            <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.altitude" | translate }}:
-                </strong>
-              </p>
-            </ion-col>
-
-            <ion-col class="ion-text-right">
-              <p>{{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}</p>
-            </ion-col>
-          </ion-row>
-
-          <ion-row class="ion-justify-content-between border-bottom">
-            <ion-col class="ion-text-left">
-              <p>
-                <strong>
-                  {{ "common.accuracy" | translate }}:
-                </strong>
-              </p>
-            </ion-col>
-
-            <ion-col class="ion-text-right">
-              <p>{{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}</p>
+              {{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col class="col-border">
-              <p>
+              <div>
                 <strong>
                   {{ "common.latitude" | translate }}:
                 </strong>
-              </p>
-              <p>{{ lat != null ? lat : '-.-' }}</p>
+              </div>
+              <div>{{ lat != null ? lat : '-.-' }}</div>
             </ion-col>
 
             <ion-col>
-              <p>
+              <div>
                 <strong>
                   {{ "common.longtitude" | translate }}:
                 </strong>
-              </p>
-              <p>{{ lon != null ? lon : '-.-' }}</p>
+              </div>
+              <div>{{ lon != null ? lon : '-.-' }}</div>
             </ion-col>
           </ion-row>
         </div>
@@ -129,48 +102,39 @@
 
 
 <ion-footer class="ion-no-border ion-text-center">
-  <div class="distance">
-    <p>
-      <ion-text class="distance-text" (click)="switchTrip()">
-        {{ !isSwitchTrip ? ('common.total' | translate) : ('common.trip' | translate) }}
-      </ion-text>
-      <ion-text class="distance-number">{{ distance != null ? distance : '-.-' }}</ion-text>
-      <ion-text>{{ distanceUnit }}</ion-text>
-    </p>
-  </div>
+  <span class="distance">
+    <ion-text class="distance-text" (click)="switchTrip()">
+      {{ isSwitchTrip ? ('common.trip' | translate) : ('common.total' | translate) }}
+    </ion-text>
+    <ion-text>
+      {{ isSwitchTrip ? (trip != null ? trip : '-.-') : (odo != null ? odo : '-') }} {{ distanceUnit }}
+    </ion-text>
+  </span>
 
   <div *ngIf="isPortrait" class="portrait-info">
-    <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true">
+    <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true" [effect]="'coverflow'"
+      [coverflowEffect]="{ rotate: 50, stretch: 0, depth: 100, modifier: 1 }" [centeredSlides]="true"
+      [pagination]="true">
       <ng-template swiperSlide>
         <ion-card>
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
-                <p>
+                <div>
                   <strong>
-                    {{ "common.total_time" | translate }}:
+                    {{ "common.average_speed" | translate }}:
                   </strong>
-                </p>
-                <p>{{ totalTime !== null ? totalTime : '00:00:00'}}</p>
+                </div>
+                <div>{{ averageSpeed != null ? averageSpeed : '-.-'}} {{ speedUnit }}</div>
               </ion-col>
 
-              <ion-col class="col-border">
-                <p>
+              <ion-col>
+                <div>
                   <strong>
                     {{ "common.top_speed" | translate }}:
                   </strong>
-                </p>
-                <p>{{ topSpeed != null ? topSpeed : '-' }} {{ speedUnit }}</p>
-              </ion-col>
-
-
-              <ion-col>
-                <p>
-                  <strong>
-                    {{ "common.avg_speed" | translate }}:
-                  </strong>
-                </p>
-                <p>{{ avgSpeed != null ? avgSpeed : '-.-'}} {{ speedUnit }}</p>
+                </div>
+                <div>{{ topSpeed != null ? topSpeed : '-' }} {{ speedUnit }}</div>
               </ion-col>
             </ion-row>
           </div>
@@ -182,21 +146,21 @@
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
-                <p>
+                <div>
                   <strong>
                     {{ "common.altitude" | translate }}:
                   </strong>
-                </p>
-                <p>{{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}</p>
+                </div>
+                <div>{{ altitude != null ? altitude : '-' }} {{ lenghtUnit }}</div>
               </ion-col>
 
               <ion-col>
-                <p>
+                <div>
                   <strong>
                     {{ "common.accuracy" | translate }}:
                   </strong>
-                </p>
-                <p>{{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}</p>
+                </div>
+                <div>{{ accuracy != null ? accuracy : '-'}} {{ lenghtUnit }}</div>
               </ion-col>
             </ion-row>
           </div>
@@ -208,21 +172,21 @@
           <div class="details">
             <ion-row>
               <ion-col class="col-border">
-                <p>
+                <div>
                   <strong>
                     {{ "common.latitude" | translate }}:
                   </strong>
-                </p>
-                <p>{{ lat != null ? lat : '-.-' }}</p>
+                </div>
+                <div>{{ lat != null ? lat : '-.-' }}</div>
               </ion-col>
 
               <ion-col>
-                <p>
+                <div>
                   <strong>
                     {{ "common.longtitude" | translate }}:
                   </strong>
-                </p>
-                <p>{{ lon != null ? lon : '-.-' }}</p>
+                </div>
+                <div>{{ lon != null ? lon : '-.-' }}</div>
               </ion-col>
             </ion-row>
           </div>

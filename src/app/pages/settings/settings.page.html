@@ -1,55 +1,117 @@
-<ion-header [translucent]="true" class="ion-no-border">
+<ion-header collapse="fade" [translucent]="true" class="ion-no-border" mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()" defaultHref="/" text=""></ion-back-button>
+      <ion-back-button mode="md" (click)="back()" defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
     <ion-title> {{ 'page_title.settings' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item lines="none">
-      <ion-icon slot="start" class="cus-icon" [ios]="langIcon + '-outline'" [md]="langIcon + '-sharp'">
-      </ion-icon>
-      <ion-label>{{ 'common.language' | translate }}</ion-label>
-      <ion-select slot="end" (ionChange)="selectLng($event)" [value]="selectedLanguage"
-        okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
-        <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
-          {{'lang.' + lng.value | translate }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+  <ion-row>
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="clickElement('languageSelect')">
+        <ion-card-content class="custom-card-content">
+          <ion-icon size="large" name="language-outline"></ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            <ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
+              class="custom-select" (ionChange)="selectLng($event)" [value]="selectedLanguage"
+              okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
+              <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
+                {{'lang.' + lng.value | translate }}
+              </ion-select-option>
+            </ion-select>
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-    <ion-item lines="none">
-      <ion-icon slot="start" class="cus-icon" [ios]="unitIcon + '-outline'" [md]="unitIcon + '-sharp'">
-      </ion-icon>
-      <ion-label>{{ 'common.unit' | translate }}</ion-label>
-      <ion-select slot="end" (ionChange)="changeUnit($event)" [value]="selectedUnit"
-        okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
-        <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
-          {{ 'unit.' + unit.value | translate }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon size="large" name="speedometer-outline"></ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            <ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
+              class="custom-select" (ionChange)="changeUnit($event)" [value]="selectedUnit"
+              okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
+              <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
+                {{ 'unit.' + unit.value | translate }}
+              </ion-select-option>
+            </ion-select>
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-    <ion-item button lines="none" (click)="confirmClear()" detail="false">
-      <ion-icon slot="start" class="cus-icon" [ios]="trashIcon + '-outline'" [md]="trashIcon + '-sharp'">
-      </ion-icon>
-      <ion-label>{{ 'common.clear_data' | translate }}</ion-label>
-    </ion-item>
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="changeEnableHighAccuracy()"
+        [color]="enableHighAccuracy ? 'primary' : ''">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon size="large" name="locate-outline">
+          </ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            {{ 'common.high_accuracy' | translate }}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-    <ion-item button lines="none" (click)="checkForUpdate()" detail="false" [disabled]="!appVersion">
-      <ion-icon slot="start" class="cus-icon" [ios]="downloadIcon + '-outline'" [md]="downloadIcon + '-sharp'">
-      </ion-icon>
-      <ion-label>{{ 'common.check_for_update' | translate }}</ion-label>
-      <ion-label slot="end">{{ appVersion !== null ? appVersion : '-' }}</ion-label>
-    </ion-item>
-  </ion-list>
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon size="large" class="cus-icon" name="speedometer-outline">
+          </ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            {{ 'common.speed_correction' | translate: {value: speedCorrection} }}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="confirmClear()">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon size="large" name="trash-outline"></ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            {{ 'common.clear_data' | translate }}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="checkForUpdate()"
+        [disabled]="!appVersion || isCheckingForUpdate">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon size="large" name="download-outline">
+          </ion-icon>
+        </ion-card-content>
+        <ion-card-header class="custom-card-header ion-text-center">
+          <ion-card-title class="custom-card-title">
+            {{ 'common.check_for_update' | translate }}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-text-center">
   <ion-toolbar class="cus-toolbar">
+    <ion-label color="medium">
+      {{ 'common.version' | translate: {value: appVersion != null ? appVersion : '-'} }}
+    </ion-label>
+
     <ion-row class="contact-div">
       <ion-text class="ion-text-center">
       </ion-text>
@@ -69,3 +131,24 @@
     </ion-row>
   </ion-toolbar>
 </ion-footer>
+
+<ion-modal trigger="open-correction-speed-modal" mode="ios" [initialBreakpoint]="0.25"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ng-template>
+    <ion-content>
+      <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"
+        [max]="10" mode="name" [value]="speedCorrection">
+        <ion-text slot="start">+0</ion-text>
+        <ion-text slot="end">+10</ion-text>
+      </ion-range>
+      <div style="padding: 0 20px">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <ion-text>
+          This feature is still in work in progress. This feature will correct the error of GPS speed
+          compared to the speedometer on your vehicle.<br>
+          For example: 115 km/h (GPS) + 4% = ~120 km/h (vehicle) or 72 mph (GPS) + 4% = ~75mph (vehicle).
+        </ion-text>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

@@ -8,6 +8,7 @@ const UNIT_KEY = 'unit';
 })
 export class UnitService {
   @Output() unitSystem = new EventEmitter();
+
   public unit: string;
   public lenghtUnit: string;
   public speedUnit: string;
@@ -19,9 +20,8 @@ export class UnitService {
     await this.storage.get(UNIT_KEY).then((val) => {
       if (val) {
         this.unit = val;
-        this.saveUnit(val);
+        this.convertUnit();
       } else {
-        this.unit = 'metric';
         this.saveUnit('metric');
       }
     });
@@ -29,8 +29,7 @@ export class UnitService {
 
   public async saveUnit(unit: string) {
     this.unit = unit;
-    await this.storage.set(UNIT_KEY, unit);
-    this.convertUnit();
+    await this.storage.set(UNIT_KEY, unit).then(() => this.convertUnit());
   }
 
   public convertUnit() {
@@ -47,7 +46,13 @@ export class UnitService {
         this.lenghtUnit = 'm';
         break;
     }
-    this.unitSystem.emit();
+
+    this.unitSystem.emit({
+      unit: this.unit,
+      speedUnit: this.speedUnit,
+      distanceUnit: this.distanceUnit,
+      lenghtUnit: this.lenghtUnit,
+    });
   }
 
   public getUnits() {

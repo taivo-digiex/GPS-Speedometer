@@ -31,6 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot(),
     SwiperModule,
     TranslateModule.forRoot({
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,

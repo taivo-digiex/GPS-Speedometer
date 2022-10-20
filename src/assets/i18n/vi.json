@@ -6,7 +6,7 @@
   "common": {
     "about": "Thông tin",
     "language": "Ngôn ngữ",
-    "version": "Phiên bản: {{value}}",
+    "version": "Phiên bản {{value}}",
     "longtitude": "Kinh độ",
     "latitude": "Vĩ độ",
     "top_speed": "Tốc độ cao nhất",
@@ -15,14 +15,18 @@
     "altitude": "Độ cao",
     "check_for_update": "Kiểm tra cập nhật",
     "time": "Thời gian",
-    "avg_speed": "Tốc độ t.bình",
+    "average_speed": "Tốc độ trung bình",
     "download": "Tải xuống",
     "later": "Để sau",
     "ok": "Ok",
     "unit": "Đơn vị",
-    "trip": "Q.đường",
+    "trip": "Hành trình",
     "total": "Tổng",
-    "total_time": "Tổng thời gian"
+    "total_time": "Tổng thời gian",
+    "trip_meter": "Đồng hồ đo hành trình",
+    "travel_time": "Thời gian di chuyển",
+    "high_accuracy": "Độ chính xác cao",
+    "speed_correction": "Hiệu chỉnh tốc độ +{{value}}%"
   },
 
   "unit": {
@@ -48,8 +52,8 @@
         "location": { "denied": "Không thể truy cập vị trí." }
       },
       "code": {
-        "undefined": "Lỗi: Không xác định",
-        "1": "Lỗi: Người dùng từ chối Vị trí địa lý",
+        "undefined": "Lỗi: Không xác định.",
+        "1": "Lỗi: Người dùng từ chối Vị trí địa lý.",
         "400": "Lỗi: Yêu cầu không hợp lệ.",
         "401": "Lỗi: Không được phép.",
         "402": "Lỗi: Yêu cầu thanh toán.",
@@ -62,14 +66,14 @@
 
   "alert": {
     "header": {
-      "h1": "Bạn có chắc không?",
+      "h1": "Xóa dữ liệu",
       "h2": "Có bản cập nhật mới {{value}}",
       "h3": "Bạn đang ở phiên bản mới nhất {{value}}",
       "h4": "Không có mạng!"
     },
     "msg": {
-      "m1": "Hành động này sẽ chỉ xóa <strong>tốc độ tối đa</strong> và <strong>đồng hồ đo hành trình</strong>.<br>Hãy cẩn thận, hành động không thể hoàn tác.",
-      "m2": "Đừng nôn nóng. Từ từ sẽ có bản mới 😊.",
+      "m1": "Hãy cẩn thận, hành động này <strong>không thể</strong> hoàn tác.",
+      "m2": "Đừng nôn nóng. Từ từ sẽ có bản mới. 😊",
       "m3": "Hãy kiểm tra mạng và thử lại."
     }
   },

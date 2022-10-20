@@ -9,3 +9,61 @@
 .contact-div {
   justify-content: center;
 }
+
+// .custom-col {
+//   .custom-card {
+//     margin: 0;
+//   }
+
+//   .custom-card-header {
+//     color: var(--ion-text-color);
+//     padding: 0 10px 10px;
+//   }
+
+//   .custom-card-content {
+//     padding: 10px;
+//   }
+
+//   .custom-select {
+//     padding: 0;
+
+//     &::part(icon) {
+//       display: none;
+//     }
+//   }
+// }
+
+.custom-col {
+  .custom-card {
+    color: var(--ion-text-color);
+    padding: 10px;
+    margin: unset;
+    height: 100%;
+  }
+
+  .custom-card-header {
+    padding: unset;
+
+    .custom-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  .custom-card-content {
+    padding: 10px 0;
+  }
+
+  .custom-select {
+    padding: unset;
+    margin: auto;
+    width: fit-content;
+
+    &::part(icon) {
+      display: none;
+    }
+  }
+}

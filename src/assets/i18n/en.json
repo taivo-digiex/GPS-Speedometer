@@ -6,7 +6,7 @@
   "common": {
     "about": "About",
     "language": "Languages",
-    "version": "Version: {{value}}",
+    "version": "Version {{value}}",
     "longtitude": "Longitude",
     "latitude": "Latitude",
     "top_speed": "Top speed",
@@ -15,14 +15,18 @@
     "altitude": "Altitude",
     "check_for_update": "Check for update",
     "time": "Time",
-    "avg_speed": "Avg. speed",
+    "average_speed": "Average speed",
     "download": "Download",
     "later": "Later",
     "ok": "Ok",
     "unit": "Unit",
     "trip": "Trip",
     "total": "Total",
-    "total_time": "Total time"
+    "total_time": "Total time",
+    "trip_meter": "Trip meter",
+    "travel_time": "Travel time",
+    "high_accuracy": "High accuracy",
+    "speed_correction": "Speed correction +{{value}}%"
   },
 
   "unit": {
@@ -48,8 +52,8 @@
         "location": { "denied": "Cannot access location." }
       },
       "code": {
-        "undefined": "Error: Undefined",
-        "1": "Error: User denied Geolocation",
+        "undefined": "Error: Undefined.",
+        "1": "Error: User denied Geolocation.",
         "400": "Error: Bad request.",
         "401": "Error: Unauthorized.",
         "402": "Error: Payment required.",
@@ -62,14 +66,14 @@
 
   "alert": {
     "header": {
-      "h1": "Are you sure?",
+      "h1": "Clear data",
       "h2": "New update available {{value}}",
       "h3": "You are on the latest version {{value}}",
       "h4": "No internet!"
     },
     "msg": {
-      "m1": "This action will only clear <strong>top speed</strong> and <strong>trip meter</strong>.<br>Be careful, this action cannot be undone.",
-      "m2": "Don't be impatient. A new version will come soon 😊",
+      "m1": "Be careful, this action <strong>cannot</strong> be undone.",
+      "m2": "Don't be impatient. A new version will come soon. 😊",
       "m3": "Please check the internet and try again."
     }
   },

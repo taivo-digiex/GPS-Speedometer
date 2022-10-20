@@ -2,7 +2,7 @@
   <ion-toolbar class="cus-toolbar">
     <ion-icon class="timer-icon" size="large" slot="start" name="time-outline">
     </ion-icon>
-    <ion-text slot="start">{{ totalTime !== null ? totalTime : '00:00:00'}}</ion-text>
+    <ion-text slot="start">{{ totalTime !== null ? totalTime : '00:00:00' }}</ion-text>
 
     <ion-buttons class="cus-btns">
       <ion-button routerLink="/settings" routerDirection="root">
@@ -112,7 +112,9 @@
   </span>
 
   <div *ngIf="isPortrait" class="portrait-info">
-    <swiper [autoplay]="{delay: 10000, disableOnInteraction: false}" [loop]="true">
+    <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true" [effect]="'coverflow'"
+      [coverflowEffect]="{ rotate: 50, stretch: 0, depth: 100, modifier: 1 }" [centeredSlides]="true"
+      [pagination]="true">
       <ng-template swiperSlide>
         <ion-card>
           <div class="details">

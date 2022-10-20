@@ -260,7 +260,7 @@ body {
  * -------------------------------------------
  */
 
-// custom alert
+// *custom alert
 ion-alert {
   .alert-wrapper {
     border-radius: 20px !important;
@@ -299,7 +299,6 @@ ion-alert {
     padding-bottom: 20px;
     padding-top: 20px;
     font-size: 14px;
-    text-align-last: start;
     border-top: 1px solid var(--ion-color-step-200);
   }
 
@@ -343,39 +342,43 @@ ion-alert {
   }
 }
 
-// custom icon
+// *custom icon
 ion-icon,
 ion-back-button {
   color: var(--ion-text-color);
 }
 
-// custom card
+// *custom card
 ion-card {
   border-radius: 20px;
   font-size: 16px;
   border: 2px solid var(--ion-color-step-150);
 }
 
-// custom toast
+// *custom toast
 .custom-toast {
   --border-radius: 25px;
 }
 
-//custom swiper
+// *custom swiper
 .swiper {
   width: auto;
 
   ion-card {
     border-radius: 25px;
   }
+
+  .swiper-pagination-bullets .swiper-pagination-bullet {
+    background: var(--ion-text-color);
+  }
 }
 
-// custom button
+// *custom button
 button:disabled {
   opacity: 0.5;
 }
 
-//custom range
+// *custom range
 ion-range {
   justify-content: center;
   padding: 20px;
@@ -420,7 +423,7 @@ ion-range::part(bar-active) {
   background: var(--ion-color-step-400);
 }
 
-// custome ios translucent toolbar
+// *custome ios translucent toolbar
 .header-translucent-ios ion-toolbar {
   --opacity: 0.5;
 }

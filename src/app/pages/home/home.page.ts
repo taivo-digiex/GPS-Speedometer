@@ -5,10 +5,10 @@ import { UnitService } from '../../services/unit/unit.service';
 import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { TimerService } from 'src/app/services/timer/timer.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
-import SwiperCore, { Autoplay } from 'swiper';
+import SwiperCore, { Autoplay, Pagination, EffectCoverflow } from 'swiper';
 import { Subject, takeUntil } from 'rxjs';
 
-SwiperCore.use([Autoplay]);
+SwiperCore.use([Autoplay, Pagination, EffectCoverflow]);
 
 @Component({
   selector: 'app-home',

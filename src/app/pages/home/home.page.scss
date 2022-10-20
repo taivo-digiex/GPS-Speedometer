@@ -61,12 +61,13 @@
   }
 
   #speedo {
-    transform: scale(1) rotate(0deg) translate(-1rem, 0px) skew(12deg, 0deg);
+    transform: scale(1) rotate(0deg) translate(-14px, 0px) skew(12deg, 0deg);
   }
 
   @media only screen and (max-width: 380px) {
     #speedo {
       font-size: 100px !important;
+      transform: scale(1) rotate(0deg) translate(-12px, 0px) skew(12deg, 0deg);
     }
 
     #unit {

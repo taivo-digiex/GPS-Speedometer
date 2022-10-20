@@ -137,7 +137,7 @@
   <ng-template>
     <ion-content>
       <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"
-        [max]="10" mode="name" [value]="speedCorrection">
+        [max]="10" mode="ios" [value]="speedCorrection">
         <ion-text slot="start">+0</ion-text>
         <ion-text slot="end">+10</ion-text>
       </ion-range>

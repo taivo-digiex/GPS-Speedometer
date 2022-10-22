@@ -11,12 +11,12 @@ import { Subject, takeUntil } from 'rxjs';
 SwiperCore.use([Autoplay, Pagination, EffectCoverflow]);
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-dashboard',
+  templateUrl: 'dashboard.page.html',
+  styleUrls: ['dashboard.page.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HomePage implements OnInit, OnDestroy {
+export class DashboardPage implements OnInit, OnDestroy {
   public lat: number;
   public lon: number;
   public speedo: number;
@@ -97,6 +97,7 @@ export class HomePage implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.lat = res.lat;
         this.lon = res.lon;
+        this.updateGPSAccuracy(res);
       });
 
     this.calculateService.calculateData
@@ -132,5 +133,18 @@ export class HomePage implements OnInit, OnDestroy {
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
     this.totalTime = this.timerService.convertedTotalTime;
+  }
+
+  private updateGPSAccuracy(res: any) {
+    if (res.accuracy > 25) {
+      // $gpsBars.addClass("one").removeClass("two").removeClass("three");
+      // $gpsMessage.text("GPS Signal Weak");
+    } else if (res.accuracy > 6) {
+      // $gpsBars.addClass("two").removeClass("one").removeClass("three");
+      // $gpsMessage.text("GPS Signal OK");
+    } else {
+      // $gpsBars.addClass("three").removeClass("one").removeClass("two");
+      // $gpsMessage.text("GPS Signal OK");
+    }
   }
 }

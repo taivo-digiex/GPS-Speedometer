@@ -23,6 +23,7 @@ export class GeolocationService {
   public enableHighAccuracy: boolean;
 
   private lastTimestamp: number;
+  private geoLocationDetailArr: any[] = [];
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
@@ -86,7 +87,11 @@ export class GeolocationService {
   }
 
   private prepareTracking(res: any) {
-    this.speed = res.coords.speed;
+    if (!res.coords.speed) {
+      this.speed = this.calculateSpeed(res);
+    } else {
+      this.speed = res.coords.speed;
+    }
     this.rawAccuracy = res.coords.accuracy;
     this.rawAltitude = res.coords.altitude;
     this.lat = res.coords.latitude;
@@ -112,5 +117,42 @@ export class GeolocationService {
       lon: this.lon,
       time: time,
     });
+  }
+
+  // *Calculate speed based on lat and lon
+  private calculateSpeed(geoLocationDetail: any) {
+    this.geoLocationDetailArr.push(geoLocationDetail);
+
+    if (this.geoLocationDetailArr.length == 3) {
+      this.geoLocationDetailArr.shift();
+    }
+
+    if (this.geoLocationDetailArr.length > 1) {
+      var p1 = this.geoLocationDetailArr[this.geoLocationDetailArr.length - 2];
+      var p2 = this.geoLocationDetailArr[this.geoLocationDetailArr.length - 1];
+      var distance = this.distanceBetween(p2.coords, p1.coords); // meters
+      var time = (p2.timestamp - p1.timestamp) / 1000 / 60; // seconds
+
+      if (time > 0) {
+        return distance / time;
+      }
+    }
+  }
+
+  private distanceBetween(point1: any, point2: any) {
+    const earthRadius = 6378000; // meters
+    // Since our points should be close to one another, we use the cheaper
+    // Pythagoras’ theorem on an equirectangular projection.
+    var lat1 = this.toRadians(point1.latitude);
+    var lat2 = this.toRadians(point2.latitude);
+    var lon1 = this.toRadians(point1.longitude);
+    var lon2 = this.toRadians(point2.longitude);
+    var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+    var y = lat2 - lat1;
+    return Math.sqrt(x * x + y * y) * earthRadius;
+  }
+
+  private toRadians(degrees: number) {
+    return (degrees * 3.1415926) / 180;
   }
 }

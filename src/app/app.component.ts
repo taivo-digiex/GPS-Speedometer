@@ -59,7 +59,7 @@ export class AppComponent {
   private hardwareBackBtn() {
     this.platform.backButton.subscribeWithPriority(10, () => {
       const url = this.router.url;
-      if (!this.routerOutlet.canGoBack() && url === '/home') {
+      if (!this.routerOutlet.canGoBack() && url === '/dashboard') {
         // eslint-disable-next-line @typescript-eslint/dot-notation
         navigator['app'].exitApp();
       } else {

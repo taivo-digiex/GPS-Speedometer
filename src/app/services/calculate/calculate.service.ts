@@ -110,7 +110,7 @@ export class CalculateService {
     }
   }
 
-  // *subscribe unit change
+  // * subscribe unit change
   public changeUnit() {
     this.unitService.unitSystem.subscribe(() => {
       switch (this.unitService.unit) {
@@ -128,7 +128,7 @@ export class CalculateService {
     });
   }
 
-  // *calculate in metric unit
+  // * calculate in metric unit
   private metricUnit() {
     if (this.rawSpeed != null) {
       this.speedo = Math.round(this.rawSpeed * 3.6);
@@ -177,7 +177,7 @@ export class CalculateService {
     });
   }
 
-  // *calculate in imperial unit
+  // * calculate in imperial unit
   private imperialUnit() {
     if (this.rawSpeed != null) {
       this.speedo = Math.round(this.rawSpeed * 2.23693629);
@@ -229,7 +229,7 @@ export class CalculateService {
     });
   }
 
-  // *fixed number without rounding
+  // * fixed number without rounding
   private toFixedNoRounding(value: number, n: number) {
     const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + n + '})?', 'g');
     const a = value.toString().match(reg)[0];

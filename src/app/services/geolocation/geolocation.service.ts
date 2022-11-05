@@ -3,7 +3,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
-import { CalculateService } from '../calculate/calculate.service';
 import { Storage } from '@ionic/storage-angular';
 import { TimerService } from '../timer/timer.service';
 
@@ -87,11 +86,7 @@ export class GeolocationService {
   }
 
   private prepareTracking(res: any) {
-    if (!res.coords.speed) {
-      this.speed = this.calculateSpeed(res);
-    } else {
-      this.speed = res.coords.speed;
-    }
+    this.speed = res.coords.speed ? res.coords.speed : this.calculateSpeed(res);
     this.rawAccuracy = res.coords.accuracy;
     this.rawAltitude = res.coords.altitude;
     this.lat = res.coords.latitude;
@@ -119,7 +114,7 @@ export class GeolocationService {
     });
   }
 
-  // *Calculate speed based on lat and lon
+  // * Calculate speed based on lat and lon
   private calculateSpeed(geoLocationDetail: any) {
     this.geoLocationDetailArr.push(geoLocationDetail);
 
@@ -128,31 +123,33 @@ export class GeolocationService {
     }
 
     if (this.geoLocationDetailArr.length > 1) {
-      var p1 = this.geoLocationDetailArr[this.geoLocationDetailArr.length - 2];
-      var p2 = this.geoLocationDetailArr[this.geoLocationDetailArr.length - 1];
-      var distance = this.distanceBetween(p2.coords, p1.coords); // meters
-      var time = (p2.timestamp - p1.timestamp) / 1000 / 60; // seconds
+      const p1 =
+        this.geoLocationDetailArr[this.geoLocationDetailArr.length - 2];
+      const p2 =
+        this.geoLocationDetailArr[this.geoLocationDetailArr.length - 1];
+      const distance = this.distanceBetween(p2.coords, p1.coords); // meters
+      const time = (p2.timestamp - p1.timestamp) / 1000; // seconds
 
       if (time > 0) {
         return distance / time;
       }
     }
+    return null;
   }
 
   private distanceBetween(point1: any, point2: any) {
-    const earthRadius = 6378000; // meters
-    // Since our points should be close to one another, we use the cheaper
-    // Pythagoras’ theorem on an equirectangular projection.
-    var lat1 = this.toRadians(point1.latitude);
-    var lat2 = this.toRadians(point2.latitude);
-    var lon1 = this.toRadians(point1.longitude);
-    var lon2 = this.toRadians(point2.longitude);
-    var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
-    var y = lat2 - lat1;
+    const earthRadius = 6371000; // * Earth radius (meters) refer from NASA
+    // * Since our points should be close to one another, we use the cheaper Pythagoras’ theorem on an equirectangular projection.
+    const lat1 = this.toRadians(point1.latitude);
+    const lat2 = this.toRadians(point2.latitude);
+    const lon1 = this.toRadians(point1.longitude);
+    const lon2 = this.toRadians(point2.longitude);
+    const x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+    const y = lat2 - lat1;
     return Math.sqrt(x * x + y * y) * earthRadius;
   }
 
   private toRadians(degrees: number) {
-    return (degrees * 3.1415926) / 180;
+    return (degrees * 3.14159265359) / 180;
   }
 }

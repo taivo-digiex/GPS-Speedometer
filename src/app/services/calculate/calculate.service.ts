@@ -56,7 +56,7 @@ export class CalculateService {
 
   public async setSpeedCorrection(value: number) {
     this.speedCorrection = value;
-    await this.storage.set(ADJUST_SPEED, value);
+    await this.storage.set(ADJUST_SPEED, value).then(() => this.convert());
   }
 
   public getValue() {
@@ -71,7 +71,8 @@ export class CalculateService {
         return;
       }
 
-      this.rawSpeed = this.rawSpeed + this.speedCorrection / 100;
+      this.rawSpeed =
+        this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
 
       this.value = [
         ...this.value,
@@ -94,7 +95,8 @@ export class CalculateService {
 
   public convert() {
     if (this.rawSpeed != null && this.speedCorrection != null) {
-      this.rawSpeed = this.rawSpeed + this.speedCorrection / 100;
+      this.rawSpeed =
+        this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
     }
 
     switch (this.unitService.unit) {

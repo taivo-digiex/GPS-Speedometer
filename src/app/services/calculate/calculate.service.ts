@@ -16,20 +16,20 @@ const ADJUST_SPEED = 'speedCorrection';
 export class CalculateService {
   @Output() calculateData = new EventEmitter();
 
+  private value = [...VALUE];
+
   public speedo: number;
   public topSpeed: number;
   public accuracy: number;
-  public altitude: string;
-  public averageSpeed: string;
   public odo: number;
-  public trip: string;
   public speedCorrection: number;
-
   private rawSpeed: number;
   private rawAccuracy: number;
   private rawAltitude: number;
 
-  private value = [...VALUE];
+  public trip: string;
+  public altitude: string;
+  public averageSpeed: string;
 
   constructor(
     private unitService: UnitService,
@@ -71,8 +71,10 @@ export class CalculateService {
         return;
       }
 
-      this.rawSpeed =
-        this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
+      if (this.speedCorrection != null) {
+        this.rawSpeed =
+          this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
+      }
 
       this.value = [
         ...this.value,

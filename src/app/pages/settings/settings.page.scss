@@ -1,4 +1,4 @@
-.cus-toolbar {
+.custom-toolbar {
   --background: var(--ion-background-color) !important;
 }
 
@@ -36,8 +36,10 @@
 .custom-col {
   .custom-card {
     color: var(--ion-text-color);
-    padding: 10px;
+    // padding: 10px;
     margin: unset;
+    display: flex;
+    min-height: 12vmax;
     height: 100%;
   }
 
@@ -45,7 +47,7 @@
     padding: unset;
 
     .custom-card-title {
-      font-size: 16px;
+      font-size: 1.5vmax;
       font-weight: bold;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -54,7 +56,9 @@
   }
 
   .custom-card-content {
-    padding: 10px 0;
+    // padding: 2vmax 0;
+
+    font-size: 1.5vmax;
   }
 
   .custom-select {
@@ -67,3 +71,7 @@
     }
   }
 }
+
+// .version-text {
+//   font-size: 1.5vmax;
+// }

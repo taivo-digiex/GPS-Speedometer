@@ -20,14 +20,17 @@ import { GeolocationService } from 'src/app/services/geolocation/geolocation.ser
 export class SettingsPage implements OnInit {
   public languages: any[] = [];
   public units: any[] = [];
+
+  public isCheckingForUpdate: boolean;
+  public enableHighAccuracy: boolean =
+    this.geolocationService.enableHighAccuracy;
+
   public selectedLanguage: string;
   public selectedUnit: string;
   public appVersion: string = this.updateService.versionNumber;
-  public isCheckingForUpdate: boolean;
+
   public speedCorrection: RangeValue =
     this.calculateService.speedCorrection | 0;
-  public enableHighAccuracy: boolean =
-    this.geolocationService.enableHighAccuracy;
 
   constructor(
     private location: Location,

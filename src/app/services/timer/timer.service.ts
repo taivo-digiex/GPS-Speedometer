@@ -12,6 +12,7 @@ export class TimerService {
 
   public totalTime: number;
   public averageSpeedTotalTime: number;
+
   public convertedTotalTime: string;
 
   constructor(private storage: Storage) {}

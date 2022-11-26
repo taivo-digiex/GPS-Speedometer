@@ -7,31 +7,104 @@
   margin-right: auto;
   left: 0;
   right: 0;
+  display: flex;
+
+  .left {
+    margin-right: -2vmax;
+  }
+
+  // .center{
+
+  // }
+
+  .right {
+    margin-left: -15vmax;
+    z-index: -1;
+
+    .circle-info-div {
+      width: 50vmax;
+      height: 7.5vmax;
+      padding: 1vmax 2vmax 1vmax 16vmax;
+      border-radius: unset;
+      border: 0.3vmax solid var(--ion-color-step-150);
+
+      &:first-child {
+        padding: 1vmax 2vmax 1vmax 12vmax;
+        border-radius: 0 5vmax 0 0;
+        border-bottom: 0.3vmax solid var(--ion-color-step-150);
+      }
+
+      &:nth-child(2) {
+        border-top: unset;
+        border-bottom: 0.3vmax solid var(--ion-color-step-150);
+      }
+
+      &:nth-child(3) {
+        border-top: unset;
+        border-bottom: 0.3vmax solid var(--ion-color-step-150);
+      }
+
+      &:last-child {
+        padding: 1vmax 2vmax 1vmax 12vmax;
+        border-radius: 0 0 5vmax 0;
+        border-top: unset;
+      }
+
+      .details {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+.speedo-div {
+  width: 30vmax;
+  height: 30vmax;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-info-div {
+  width: 12vmax;
+  height: 12vmax;
+  text-align: center;
+  font-size: 2vmax;
+  background: linear-gradient(
+    to top,
+    var(--ion-color-step-50),
+    var(--ion-color-step-100)
+  );
+  border: 0.3vmax solid var(--ion-color-step-150);
+
+  @extend .speedo-div;
 }
 
 #speedo {
-  font-family: "Number";
-  font-size: 120px;
+  // font-family: "Number";
+  font-family: "Orbitron", sans-serif;
+
+  // transform: scale(1) rotate(0deg) translate(-1vmax, 0) skew(12deg, 0deg);
+  font-size: 8vmax;
 }
 
 #unit {
-  font-size: 25px;
+  font-size: 3vmax;
 }
 
 .distance {
-  font-size: 25px;
+  font-size: 3vmax;
   width: fit-content;
   margin: auto;
   color: var(--ion-text-color);
 
   .distance-text {
-    font-size: 16px;
+    font-size: 2vmax;
     margin-right: 10px;
   }
-}
-
-.cus-btns {
-  justify-content: flex-end;
 }
 
 .details {
@@ -47,12 +120,105 @@
   margin-right: 5px;
 }
 
-.cus-toolbar {
-  --background: var(--ion-background-color) !important;
+.blink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink-twice {
+  animation: blink-twice 5s linear infinite;
+}
+
+@keyframes blink-twice {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.25;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.25;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.rotate {
+  animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  // 10% {
+  //   transform: rotate(36deg);
+  // }
+  // 20% {
+  //   transform: rotate(72deg);
+  // }
+  // 30% {
+  //   transform: rotate(108deg);
+  // }
+  // 40% {
+  //   transform: rotate(144deg);
+  // }
+  50% {
+    transform: rotate(180deg);
+  }
+  // 60% {
+  //   transform: rotate(216deg);
+  // }
+  // 70% {
+  //   transform: rotate(252deg);
+  // }
+  // 80% {
+  //   transform: rotate(288deg);
+  // }
+  // 90% {
+  //   transform: rotate(324deg);
+  // }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (orientation: portrait) {
-  .landscape-info {
+  .landscape-info,
+  .right {
     display: none;
   }
 
@@ -60,28 +226,28 @@
     text-align: center;
   }
 
-  #speedo {
-    transform: scale(1) rotate(0deg) translate(-14px, 0px) skew(12deg, 0deg);
-  }
+  // #speedo {
+  //   transform: scale(1) rotate(0deg) translate(-14px, 0px) skew(12deg, 0deg);
+  // }
 
   @media only screen and (max-width: 380px) {
-    #speedo {
-      font-size: 100px !important;
-      transform: scale(1) rotate(0deg) translate(-12px, 0px) skew(12deg, 0deg);
-    }
+    // #speedo {
+    //   font-size: 100px !important;
+    //   transform: scale(1) rotate(0deg) translate(-12px, 0px) skew(12deg, 0deg);
+    // }
 
-    #unit {
-      font-size: 20px !important;
-    }
+    // #unit {
+    //   font-size: 20px !important;
+    // }
 
-    .details,
-    .times {
-      font-size: 12px;
-    }
+    // .details,
+    // .times {
+    //   font-size: 12px;
+    // }
 
-    .distance {
-      font-size: 20px;
-    }
+    // .distance {
+    //   font-size: 20px;
+    // }
   }
 }
 
@@ -90,20 +256,36 @@
     display: none;
   }
 
-  #container {
-    display: flex;
-    gap: 25px;
-    text-align: end;
+  .speedo-div {
+    background: linear-gradient(
+      to top,
+      var(--ion-color-step-50),
+      var(--ion-color-step-100)
+    );
+    border: 0.3vmax solid var(--ion-color-step-150);
   }
 
-  #speedo {
-    transform: scale(1) rotate(0deg) translate(-0.5rem, 0px) skew(12deg, 0deg);
+  .right {
+    .circle-info-div {
+      animation: show 0.5s;
+    }
   }
+
+  #container {
+    // display: flex;
+    // gap: 25px;
+    text-align: center;
+  }
+
+  // #speedo {
+  //   transform: scale(1) rotate(0deg) translate(-0.5rem, 0px) skew(12deg, 0deg);
+  // }
 
   .speedo-div,
   .landscape-info {
-    margin: auto;
-    min-width: 325px;
+    // margin: auto;
+    // width: 300px;
+    // height: 300px;
   }
 
   .landscape-info ion-card {
@@ -112,35 +294,51 @@
     border: 1px solid var(--ion-background-color-white);
   }
 
-  .details {
-    padding: 5px;
+  // .details {
+  //   padding: 5px;
 
-    .border-bottom {
-      border-bottom: 1px solid var(--ion-color-step-200);
-    }
-  }
+  //   .border-bottom {
+  //     border-bottom: 1px solid var(--ion-color-step-200);
+  //   }
+  // }
 
   @media only screen and (max-width: 700px) {
-    #speedo {
-      font-size: 100px !important;
-    }
+    // #speedo {
+    //   font-size: 100px !important;
+    // }
 
-    #unit {
-      font-size: 20px !important;
-    }
+    // #unit {
+    //   font-size: 20px !important;
+    // }
 
-    .distance {
-      font-size: 20px;
-    }
+    // .distance {
+    //   font-size: 20px;
+    // }
 
-    .details,
-    .timer {
-      font-size: 12px;
-    }
+    // .details,
+    // .timer {
+    //   font-size: 12px;
+    // }
 
-    .speedo-div,
-    .landscape-info {
-      min-width: 310px;
-    }
+    // .speedo-div,
+    // .landscape-info {
+    // width: 250px;
+    // }
+  }
+}
+
+@keyframes show {
+  0% {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 12vmax;
+    padding: 0;
+  }
+  50% {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  100% {
+    width: 50vmax;
   }
 }

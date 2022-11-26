@@ -36,7 +36,6 @@ export class AppComponent {
   ) {
     this.platform.ready().then(async () => {
       await this.createStorage();
-      // this.geolocationService.startGeolocation();
       this.hardwareBackBtn();
       this.updateService.checkForUpdate(false);
     });

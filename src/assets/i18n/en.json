@@ -7,7 +7,7 @@
     "about": "About",
     "language": "Languages",
     "version": "Version {{value}}",
-    "longtitude": "Longitude",
+    "longitude": "Longitude",
     "latitude": "Latitude",
     "top_speed": "Top speed",
     "clear_data": "Clear data",

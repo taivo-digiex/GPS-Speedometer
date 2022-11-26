@@ -1,5 +1,5 @@
 <ion-header collapse="fade" [translucent]="true" class="ion-no-border" mode="ios">
-  <ion-toolbar>
+  <ion-toolbar class="custom-toolbar">
     <ion-buttons slot="start">
       <ion-back-button mode="md" (click)="back()" defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
@@ -13,9 +13,8 @@
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('languageSelect')">
         <ion-card-content class="custom-card-content">
           <ion-icon size="large" name="language-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             <ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
               class="custom-select" (ionChange)="selectLng($event)" [value]="selectedLanguage"
               okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
@@ -23,8 +22,8 @@
                 {{'lang.' + lng.value | translate }}
               </ion-select-option>
             </ion-select>
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -32,9 +31,8 @@
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
         <ion-card-content class="custom-card-content ion-text-center">
           <ion-icon size="large" name="speedometer-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             <ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
               class="custom-select" (ionChange)="changeUnit($event)" [value]="selectedUnit"
               okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
@@ -42,8 +40,8 @@
                 {{ 'unit.' + unit.value | translate }}
               </ion-select-option>
             </ion-select>
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -53,26 +51,24 @@
         <ion-card-content class="custom-card-content ion-text-center">
           <ion-icon size="large" name="locate-outline">
           </ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.high_accuracy' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" class="cus-icon" name="speedometer-outline">
+          <ion-icon size="large" class="custom-icon" name="speedometer-outline">
           </ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.speed_correction' | translate: {value: speedCorrection} }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -80,12 +76,11 @@
       <ion-card button class="custom-card ion-text-center" (click)="confirmClear()">
         <ion-card-content class="custom-card-content ion-text-center">
           <ion-icon size="large" name="trash-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.clear_data' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -95,20 +90,19 @@
         <ion-card-content class="custom-card-content ion-text-center">
           <ion-icon size="large" name="download-outline">
           </ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.check_for_update' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-text-center">
-  <ion-toolbar class="cus-toolbar">
-    <ion-label color="medium">
+  <ion-toolbar class="custom-toolbar">
+    <ion-label class="version-text" color="medium">
       {{ 'common.version' | translate: {value: appVersion != null ? appVersion : '-'} }}
     </ion-label>
 

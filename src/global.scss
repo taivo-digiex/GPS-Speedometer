@@ -30,6 +30,8 @@
 @import "swiper/css/effect-coverflow";
 @import "swiper/css/pagination";
 
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+
 /* Fonts */
 @font-face {
   font-family: Main;
@@ -39,4 +41,5 @@
 @font-face {
   font-family: Number;
   src: url(./assets/fonts/SVN-Hemi-Head.TTF);
+  // src: url(./assets/fonts/Digital.ttf);
 }

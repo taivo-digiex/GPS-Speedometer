@@ -10,7 +10,7 @@ export class UnitService {
   @Output() unitSystem = new EventEmitter();
 
   public unit: string;
-  public lenghtUnit: string;
+  public lengthUnit: string;
   public speedUnit: string;
   public distanceUnit: string;
 
@@ -37,13 +37,13 @@ export class UnitService {
       case 'imperial':
         this.speedUnit = 'mph';
         this.distanceUnit = 'mi';
-        this.lenghtUnit = 'ft';
+        this.lengthUnit = 'ft';
         break;
 
       default:
         this.speedUnit = 'km/h';
         this.distanceUnit = 'km';
-        this.lenghtUnit = 'm';
+        this.lengthUnit = 'm';
         break;
     }
 
@@ -51,7 +51,7 @@ export class UnitService {
       unit: this.unit,
       speedUnit: this.speedUnit,
       distanceUnit: this.distanceUnit,
-      lenghtUnit: this.lenghtUnit,
+      lengthUnit: this.lengthUnit,
     });
   }
 

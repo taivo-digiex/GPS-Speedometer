@@ -1,11 +1,11 @@
 {
-  "name": "GPS Speedometer",
-  "version": "0.0.1",
+  "name": "gps-speedometer",
+  "version": "0.3.1",
   "author": "VDT",
   "homepage": "https://fb.com/vdt.2210",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

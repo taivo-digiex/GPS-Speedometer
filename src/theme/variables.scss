@@ -260,6 +260,7 @@ body {
  * -------------------------------------------
  */
 
+//* custom toolbar //
 .custom-toolbar {
   --background: var(--ion-background-color) !important;
   font-size: 2vmax;
@@ -272,7 +273,7 @@ body {
 // * custom alert
 ion-alert {
   .alert-wrapper {
-    border-radius: 20px !important;
+    border-radius: 1.5vmax !important;
   }
 
   .alert-wrapper.sc-ion-alert-md,
@@ -365,20 +366,27 @@ ion-alert {
 
 // * custom icon
 ion-icon,
-ion-back-button {
+ion-back-button,
+.sc-ion-buttons-ios-s ion-icon[slot="icon-only"] {
   color: var(--ion-text-color);
+  font-size: 3vmax;
+  --icon-font-size: 3vmax;
+}
+
+.sc-ion-buttons-ios-s ion-button {
+  height: unset;
 }
 
 // * custom card
 ion-card {
-  border-radius: 20px;
+  border-radius: 1.5vmax;
   font-size: 1.75vmax;
   border: 0.3vmax solid var(--ion-color-step-150);
 }
 
 // * custom toast
 .custom-toast {
-  --border-radius: 25px;
+  --border-radius: 1.8vmax;
 }
 
 // * custom swiper
@@ -386,7 +394,7 @@ ion-card {
   width: auto;
 
   ion-card {
-    border-radius: 25px;
+    border-radius: 3vmax;
   }
 
   .swiper-pagination-bullets .swiper-pagination-bullet {
@@ -449,6 +457,89 @@ ion-range::part(bar-active) {
   --opacity: 1;
 }
 
+// * animation
+
+.error-blink {
+  animation: error-blink 3s linear infinite;
+}
+
+@keyframes error-blink {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.standby-blink {
+  animation: standby-blink 5s linear infinite;
+}
+
+@keyframes standby-blink {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.25;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+// * font style
 .text-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;

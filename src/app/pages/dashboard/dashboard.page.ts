@@ -143,22 +143,32 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   private updateGPSAccuracy(rawAccuracy: number) {
     if (!rawAccuracy) {
-      document.getElementById('gpsStrengthSignal').classList.remove('blink');
-      document.getElementById('gpsStrengthSignal').classList.add('blink-twice');
+      document
+        .getElementById('gpsStrengthSignal')
+        .classList.remove('error-blink');
+      document
+        .getElementById('gpsStrengthSignal')
+        .classList.add('standby-blink');
       this.gpsStrengthSignalColor = '';
     } else if (rawAccuracy) {
       document
         .getElementById('gpsStrengthSignal')
-        .classList.remove('blink-twice');
+        .classList.remove('standby-blink');
 
       if (rawAccuracy <= 6) {
-        document.getElementById('gpsStrengthSignal').classList.remove('blink');
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.remove('error-blink');
         this.gpsStrengthSignalColor = 'success';
       } else if (rawAccuracy <= 25) {
-        document.getElementById('gpsStrengthSignal').classList.remove('blink');
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.remove('error-blink');
         this.gpsStrengthSignalColor = 'warning';
       } else {
-        document.getElementById('gpsStrengthSignal').classList.add('blink');
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.add('error-blink');
         this.gpsStrengthSignalColor = 'danger';
       }
     }

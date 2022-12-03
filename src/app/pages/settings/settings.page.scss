@@ -2,6 +2,10 @@
   --background: var(--ion-background-color) !important;
 }
 
+.version-text {
+  font-size: 2vmax;
+}
+
 .contact-btns {
   justify-content: center;
 }
@@ -10,55 +14,33 @@
   justify-content: center;
 }
 
-// .custom-col {
-//   .custom-card {
-//     margin: 0;
-//   }
-
-//   .custom-card-header {
-//     color: var(--ion-text-color);
-//     padding: 0 10px 10px;
-//   }
-
-//   .custom-card-content {
-//     padding: 10px;
-//   }
-
-//   .custom-select {
-//     padding: 0;
-
-//     &::part(icon) {
-//       display: none;
-//     }
-//   }
-// }
-
 .custom-col {
   .custom-card {
     color: var(--ion-text-color);
-    // padding: 10px;
     margin: unset;
     display: flex;
     min-height: 12vmax;
     height: 100%;
   }
 
-  .custom-card-header {
-    padding: unset;
+  // .custom-card-header {
+  //   padding: unset;
 
-    .custom-card-title {
-      font-size: 1.5vmax;
-      font-weight: bold;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-  }
+  //   .custom-card-title {
+  //     font-size: 1.5vmax;
+  //     font-weight: bold;
+  //     text-overflow: ellipsis;
+  //     overflow: hidden;
+  //     white-space: nowrap;
+  //   }
+  // }
 
   .custom-card-content {
-    // padding: 2vmax 0;
+    font-size: 2vmax;
 
-    font-size: 1.5vmax;
+    ion-icon {
+      font-size: 4vmax;
+    }
   }
 
   .custom-select {
@@ -71,7 +53,3 @@
     }
   }
 }
-
-// .version-text {
-//   font-size: 1.5vmax;
-// }

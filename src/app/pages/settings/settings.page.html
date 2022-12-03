@@ -12,7 +12,7 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('languageSelect')">
         <ion-card-content class="custom-card-content">
-          <ion-icon size="large" name="language-outline"></ion-icon>
+          <ion-icon name="language-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
             <ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
@@ -30,7 +30,7 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="speedometer-outline"></ion-icon>
+          <ion-icon name="speedometer-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
             <ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
@@ -49,7 +49,7 @@
       <ion-card button class="custom-card ion-text-center" (click)="changeEnableHighAccuracy()"
         [color]="enableHighAccuracy ? 'primary' : ''">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="locate-outline">
+          <ion-icon name="locate-outline">
           </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
@@ -62,7 +62,7 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" class="custom-icon" name="speedometer-outline">
+          <ion-icon class="custom-icon" name="speedometer-outline">
           </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
@@ -75,7 +75,7 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="confirmClear()">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="trash-outline"></ion-icon>
+          <ion-icon name="trash-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
             {{ 'common.clear_data' | translate }}
@@ -88,7 +88,7 @@
       <ion-card button class="custom-card ion-text-center" (click)="checkForUpdate()"
         [disabled]="!appVersion || isCheckingForUpdate">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="download-outline">
+          <ion-icon name="download-outline">
           </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">

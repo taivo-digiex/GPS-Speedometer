@@ -13,10 +13,6 @@
     margin-right: -2vmax;
   }
 
-  // .center{
-
-  // }
-
   .right {
     margin-left: -15vmax;
     z-index: -1;
@@ -53,7 +49,7 @@
       .details {
         width: 100%;
         display: flex;
-        gap: 10px;
+        gap: 0.75vmax;
       }
     }
   }
@@ -85,9 +81,8 @@
 
 #speedo {
   // font-family: "Number";
-  font-family: "Orbitron", sans-serif;
-
   // transform: scale(1) rotate(0deg) translate(-1vmax, 0) skew(12deg, 0deg);
+  font-family: "Orbitron", sans-serif;
   font-size: 8vmax;
 }
 
@@ -103,7 +98,7 @@
 
   .distance-text {
     font-size: 2vmax;
-    margin-right: 10px;
+    margin-right: 1vmax;
   }
 }
 
@@ -111,109 +106,13 @@
   color: var(--ion-text-color);
 
   .col-border {
-    border-right: 2px solid var(--ion-color-step-150);
+    border-right: 0.3vmax solid var(--ion-color-step-150);
   }
 }
 
 .timer-icon {
-  margin-left: 10px;
-  margin-right: 5px;
-}
-
-.blink {
-  animation: blink 1s linear infinite;
-}
-
-@keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.25;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.blink-twice {
-  animation: blink-twice 5s linear infinite;
-}
-
-@keyframes blink-twice {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.25;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  30% {
-    opacity: 1;
-  }
-  40% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 1;
-  }
-  60% {
-    opacity: 0.25;
-  }
-  70% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.25;
-  }
-}
-
-.rotate {
-  animation: rotate 2s infinite;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  // 10% {
-  //   transform: rotate(36deg);
-  // }
-  // 20% {
-  //   transform: rotate(72deg);
-  // }
-  // 30% {
-  //   transform: rotate(108deg);
-  // }
-  // 40% {
-  //   transform: rotate(144deg);
-  // }
-  50% {
-    transform: rotate(180deg);
-  }
-  // 60% {
-  //   transform: rotate(216deg);
-  // }
-  // 70% {
-  //   transform: rotate(252deg);
-  // }
-  // 80% {
-  //   transform: rotate(288deg);
-  // }
-  // 90% {
-  //   transform: rotate(324deg);
-  // }
-  100% {
-    transform: rotate(360deg);
-  }
+  margin-left: 0.25vmax;
+  margin-right: 0.5vmax;
 }
 
 @media (orientation: portrait) {
@@ -224,30 +123,6 @@
 
   #container {
     text-align: center;
-  }
-
-  // #speedo {
-  //   transform: scale(1) rotate(0deg) translate(-14px, 0px) skew(12deg, 0deg);
-  // }
-
-  @media only screen and (max-width: 380px) {
-    // #speedo {
-    //   font-size: 100px !important;
-    //   transform: scale(1) rotate(0deg) translate(-12px, 0px) skew(12deg, 0deg);
-    // }
-
-    // #unit {
-    //   font-size: 20px !important;
-    // }
-
-    // .details,
-    // .times {
-    //   font-size: 12px;
-    // }
-
-    // .distance {
-    //   font-size: 20px;
-    // }
   }
 }
 
@@ -272,58 +147,7 @@
   }
 
   #container {
-    // display: flex;
-    // gap: 25px;
     text-align: center;
-  }
-
-  // #speedo {
-  //   transform: scale(1) rotate(0deg) translate(-0.5rem, 0px) skew(12deg, 0deg);
-  // }
-
-  .speedo-div,
-  .landscape-info {
-    // margin: auto;
-    // width: 300px;
-    // height: 300px;
-  }
-
-  .landscape-info ion-card {
-    text-align: center;
-    box-shadow: 0 0 15px 0 var(--ion-background-color-white);
-    border: 1px solid var(--ion-background-color-white);
-  }
-
-  // .details {
-  //   padding: 5px;
-
-  //   .border-bottom {
-  //     border-bottom: 1px solid var(--ion-color-step-200);
-  //   }
-  // }
-
-  @media only screen and (max-width: 700px) {
-    // #speedo {
-    //   font-size: 100px !important;
-    // }
-
-    // #unit {
-    //   font-size: 20px !important;
-    // }
-
-    // .distance {
-    //   font-size: 20px;
-    // }
-
-    // .details,
-    // .timer {
-    //   font-size: 12px;
-    // }
-
-    // .speedo-div,
-    // .landscape-info {
-    // width: 250px;
-    // }
   }
 }
 

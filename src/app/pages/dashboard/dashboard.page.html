@@ -21,7 +21,7 @@
       <div class="speedo-div">
         <div>
           <div id="speedo">
-            {{ speedo != null ? speedo : '-'}}
+            {{ speedo !== undefined ? speedo : '-'}}
           </div>
           <div id="unit" (click)="changeUnit()">
             {{ speedUnit }}
@@ -90,7 +90,7 @@
 </ion-content>
 
 
-<ion-footer class="ion-no-border ion-text-center">
+<ion-footer class="ion-no-border ion-text-center" mode="ios">
   <span class="distance">
     <ion-text class="distance-text" (click)="switchTrip()">
       {{ isSwitchTrip ? ('common.trip' | translate) : ('common.total' | translate) }}
@@ -99,6 +99,27 @@
       {{ isSwitchTrip ? (trip != null ? trip : '-.-') : (odo != null ? odo : '-') }} {{ distanceUnit }}
     </ion-text>
   </span>
+
+
+  <span *ngIf="!isPortrait" class="landscape-coordinates">
+    <span class="ion-text-left">
+      <div>
+        {{ "common.latitude" | translate }}:
+      </div>
+      <div>
+        {{ "common.longitude" | translate }}:
+      </div>
+    </span>
+    <span class="ion-text-left">
+      <div>
+        {{ lat ? lat : '-.-' }}
+      </div>
+      <div>
+        {{ lon ? lon : '-.-' }}
+      </div>
+    </span>
+  </span>
+
 
   <div *ngIf="isPortrait" class="portrait-info">
     <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true" [effect]="'coverflow'"
@@ -166,7 +187,7 @@
                     {{ "common.latitude" | translate }}:
                   </strong>
                 </div>
-                <div>{{ lat != null ? lat : '-.-' }}</div>
+                <div>{{ lat ? lat : '-.-' }}</div>
               </ion-col>
 
               <ion-col>
@@ -175,7 +196,7 @@
                     {{ "common.longitude" | translate }}:
                   </strong>
                 </div>
-                <div>{{ lon != null ? lon : '-.-' }}</div>
+                <div>{{ lon ? lon : '-.-' }}</div>
               </ion-col>
             </ion-row>
           </div>

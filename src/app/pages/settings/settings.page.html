@@ -62,11 +62,17 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon class="custom-icon" name="speedometer-outline">
-          </ion-icon>
+          <span class="speed-correction">
+            <ion-icon class="custom-icon" name="speedometer-outline">
+            </ion-icon>
+            <ion-text class="ion-text-center speed-correction-text">
+              +{{speedCorrection}}%
+            </ion-text>
+          </span>
+
 
           <div class="text-ellipsis font-weight-bold">
-            {{ 'common.speed_correction' | translate: {value: speedCorrection} }}
+            {{ 'common.speed_correction' | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -100,26 +106,26 @@
   </ion-row>
 </ion-content>
 
-<ion-footer class="ion-no-border ion-text-center">
+<ion-footer class="ion-no-border ion-text-center" mode="ios">
   <ion-toolbar class="custom-toolbar">
-    <ion-label class="version-text" color="medium">
-      {{ 'common.version' | translate: {value: appVersion != null ? appVersion : '-'} }}
-    </ion-label>
+    <div class="version-text">
+      <ion-text color="medium">
+        {{ 'common.version' | translate: {value: appVersion ? appVersion : '-'} }}
+      </ion-text>
+    </div>
 
     <ion-row class="contact-div">
-      <ion-text class="ion-text-center">
-      </ion-text>
-      <ion-buttons class="contact-btns">
+      <ion-buttons class="contact-buttons">
         <ion-button href="https://www.facebook.com/vdt.2210">
-          <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="logo-facebook"></ion-icon>
         </ion-button>
 
         <ion-button href="https://github.com/vdt2210/GPS-Speedometer/">
-          <ion-icon slot="icon-only" name="logo-github"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="logo-github"></ion-icon>
         </ion-button>
 
         <ion-button href="mailto:vdt1999@outlook.com">
-          <ion-icon slot="icon-only" name="mail"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="mail"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-row>
@@ -132,15 +138,12 @@
     <ion-content>
       <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"
         [max]="10" mode="ios" [value]="speedCorrection">
-        <ion-text slot="start">+0</ion-text>
-        <ion-text slot="end">+10</ion-text>
+        <ion-text slot="start">+0%</ion-text>
+        <ion-text slot="end">+10%</ion-text>
       </ion-range>
-      <div style="padding: 0 20px">
-        <ion-icon name="information-circle-outline"></ion-icon>
+      <div style="padding: 0 2vmax" class="ion-text-center">
         <ion-text>
-          This feature is still in work in progress. This feature will correct the error of GPS speed
-          compared to the speedometer on your vehicle.<br>
-          For example: 115 km/h (GPS) + 4% = ~120 km/h (vehicle) or 72 mph (GPS) + 4% = ~75mph (vehicle).
+          Ex: 115km/h or 72mph (GPS) + 4% = ~120km/h or ~75mph (vehicle).
         </ion-text>
       </div>
     </ion-content>

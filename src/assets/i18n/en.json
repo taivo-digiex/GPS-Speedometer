@@ -26,7 +26,7 @@
     "trip_meter": "Trip meter",
     "travel_time": "Travel time",
     "high_accuracy": "High accuracy",
-    "speed_correction": "Speed correction +{{value}}%"
+    "speed_correction": "Speed correction"
   },
 
   "unit": {

@@ -67,7 +67,7 @@ export class CalculateService {
 
       this.convert();
 
-      if (this.rawSpeed == null || data.time == null) {
+      if (this.rawSpeed === undefined || data.time == null) {
         return;
       }
 

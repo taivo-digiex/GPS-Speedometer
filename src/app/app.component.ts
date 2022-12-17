@@ -44,7 +44,6 @@ export class AppComponent {
   private async createStorage() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
-    this.geolocationService.getEnableHighAccuracy();
     this.unitService.getUnit();
     this.timerService.getTotalTime();
     this.odoTripService.getOdoTrip();
@@ -53,6 +52,9 @@ export class AppComponent {
     this.calculateService.getSpeedCorrection();
     this.calculateService.getValue();
     this.calculateService.changeUnit();
+    setTimeout(() => {
+      this.geolocationService.getEnableHighAccuracy();
+    }, 5000);
   }
 
   private hardwareBackBtn() {

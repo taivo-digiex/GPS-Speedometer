@@ -237,8 +237,6 @@ body {
 
   --ion-item-background: #000000;
 
-  --ion-toolbar-background: #1f1f1f;
-
   --ion-tab-bar-background: #1f1f1f;
 
   --ion-card-background: linear-gradient(
@@ -382,6 +380,7 @@ ion-card {
   border-radius: 1.5vmax;
   font-size: 1.75vmax;
   border: 0.3vmax solid var(--ion-color-step-150);
+  margin: 1vmax;
 }
 
 // * custom toast
@@ -458,7 +457,6 @@ ion-range::part(bar-active) {
 }
 
 // * animation
-
 .error-blink {
   animation: error-blink 3s linear infinite;
 }

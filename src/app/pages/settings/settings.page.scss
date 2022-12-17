@@ -2,12 +2,22 @@
   --background: var(--ion-background-color) !important;
 }
 
-.version-text {
-  font-size: 2vmax;
+ion-footer {
+  padding: 0 1vmax 1vmax;
 }
 
-.contact-btns {
+.version-text {
+  font-size: 2vmax;
+  margin-bottom: 1.5vmax;
+}
+
+.contact-buttons {
+  gap: 2vmax;
   justify-content: center;
+
+  .contact-icon-button[slot="icon-only"] {
+    font-size: 2.5vmax;
+  }
 }
 
 .contact-div {
@@ -22,18 +32,6 @@
     min-height: 12vmax;
     height: 100%;
   }
-
-  // .custom-card-header {
-  //   padding: unset;
-
-  //   .custom-card-title {
-  //     font-size: 1.5vmax;
-  //     font-weight: bold;
-  //     text-overflow: ellipsis;
-  //     overflow: hidden;
-  //     white-space: nowrap;
-  //   }
-  // }
 
   .custom-card-content {
     font-size: 2vmax;
@@ -51,5 +49,15 @@
     &::part(icon) {
       display: none;
     }
+  }
+}
+
+.speed-correction {
+  align-items: center;
+  display: inline-flex;
+  gap: 1vmax;
+
+  .speed-correction-text {
+    font-size: 3vmax;
   }
 }

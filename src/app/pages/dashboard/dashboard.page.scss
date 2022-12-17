@@ -25,24 +25,20 @@
       border: 0.3vmax solid var(--ion-color-step-150);
 
       &:first-child {
-        padding: 1vmax 2vmax 1vmax 12vmax;
-        border-radius: 0 5vmax 0 0;
+        padding-left: 12vmax;
+        border-top-right-radius: 3vmax;
         border-bottom: 0.3vmax solid var(--ion-color-step-150);
       }
 
-      &:nth-child(2) {
-        border-top: unset;
-        border-bottom: 0.3vmax solid var(--ion-color-step-150);
-      }
-
+      &:nth-child(2),
       &:nth-child(3) {
         border-top: unset;
         border-bottom: 0.3vmax solid var(--ion-color-step-150);
       }
 
       &:last-child {
-        padding: 1vmax 2vmax 1vmax 12vmax;
-        border-radius: 0 0 5vmax 0;
+        padding-left: 12vmax;
+        border-bottom-right-radius: 3vmax;
         border-top: unset;
       }
 
@@ -117,7 +113,8 @@
 
 @media (orientation: portrait) {
   .landscape-info,
-  .right {
+  .right,
+  .landscape-coordinates {
     display: none;
   }
 
@@ -129,6 +126,16 @@
 @media (orientation: landscape) {
   .portrait-info {
     display: none;
+  }
+
+  .landscape-coordinates {
+    font-size: 1.2vmax;
+    color: var(--ion-color-step-600);
+    position: absolute;
+    right: 1vmax;
+    bottom: 0.5vmax;
+    display: inline-flex;
+    gap: 0.4vmax;
   }
 
   .speedo-div {

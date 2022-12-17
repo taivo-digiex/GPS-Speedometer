@@ -40,8 +40,6 @@ export class GeolocationService {
       .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((res) => {
-        console.log(res);
-
         if ('coords' in res) {
           this.prepareTracking(res);
         } else if ('code' in res) {
@@ -129,8 +127,9 @@ export class GeolocationService {
   // * Calculate speed based on lat and lon
   private calculateSpeed(geolocationDetail: any) {
     if (geolocationDetail.coords.accuracy > 100) {
-      return null;
+      return;
     }
+
     this.geoLocationDetailArr.push(geolocationDetail);
 
     if (this.geoLocationDetailArr.length === 3) {

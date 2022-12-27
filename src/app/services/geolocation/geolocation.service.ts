@@ -5,6 +5,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { Storage } from '@ionic/storage-angular';
 import { TimerService } from '../timer/timer.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 const ENABLE_HIGH_ACCURACY = 'enableHighAccuracy';
 
@@ -36,30 +37,32 @@ export class GeolocationService {
   ) {}
 
   public startGeolocation() {
-    this.geolocation
-      .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((res) => {
-        if ('coords' in res) {
-          this.prepareTracking(res);
-        } else if ('code' in res) {
-          this.geolocationData.emit({
-            speed: null,
-            rawAccuracy: null,
-            rawAltitude: null,
-            lat: null,
-            lon: null,
-            time: null,
-          });
+    SplashScreen.hide().then(() => {
+      this.geolocation
+        .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((res) => {
+          if ('coords' in res) {
+            this.prepareTracking(res);
+          } else if ('code' in res) {
+            this.geolocationData.emit({
+              speed: null,
+              rawAccuracy: null,
+              rawAltitude: null,
+              lat: null,
+              lon: null,
+              time: null,
+            });
 
-          this.toastComponent.presentToast(
-            'toast.error.code.' + res.code,
-            null,
-            1000,
-            'danger'
-          );
-        }
-      });
+            this.toastComponent.presentToast(
+              'toast.error.code.' + res.code,
+              null,
+              1000,
+              'danger'
+            );
+          }
+        });
+    });
   }
 
   public getSpeedAndTime(time: number) {

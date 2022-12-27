@@ -35,13 +35,13 @@ export class AppComponent {
     private calculateService: CalculateService
   ) {
     this.platform.ready().then(async () => {
-      await this.createStorage();
+      await this.getStorageValue();
       this.hardwareBackBtn();
       this.updateService.checkForUpdate(false);
     });
   }
 
-  private async createStorage() {
+  private async getStorageValue() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
     this.unitService.getUnit();
@@ -52,9 +52,7 @@ export class AppComponent {
     this.calculateService.getSpeedCorrection();
     this.calculateService.getValue();
     this.calculateService.changeUnit();
-    setTimeout(() => {
-      this.geolocationService.getEnableHighAccuracy();
-    }, 5000);
+    this.geolocationService.getEnableHighAccuracy();
   }
 
   private hardwareBackBtn() {

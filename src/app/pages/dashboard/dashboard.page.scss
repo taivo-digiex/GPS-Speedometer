@@ -7,81 +7,119 @@
   margin-right: auto;
   left: 0;
   right: 0;
+  display: flex;
+
+  .left {
+    margin-right: -2vmax;
+  }
+
+  .right {
+    margin-left: -15vmax;
+    z-index: -1;
+
+    .circle-info-div {
+      width: 50vmax;
+      height: 7.5vmax;
+      padding: 1vmax 2vmax 1vmax 16vmax;
+      border-radius: unset;
+      border: 0.3vmax solid var(--ion-color-step-150);
+
+      &:first-child {
+        padding-left: 12vmax;
+        border-top-right-radius: 3vmax;
+        border-bottom: 0.3vmax solid var(--ion-color-step-150);
+      }
+
+      &:nth-child(2),
+      &:nth-child(3) {
+        border-top: unset;
+        border-bottom: 0.3vmax solid var(--ion-color-step-150);
+      }
+
+      &:last-child {
+        padding-left: 12vmax;
+        border-bottom-right-radius: 3vmax;
+        border-top: unset;
+      }
+
+      .details {
+        width: 100%;
+        display: flex;
+        gap: 0.75vmax;
+      }
+    }
+  }
+}
+
+.speedo-div {
+  width: 30vmax;
+  height: 30vmax;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-info-div {
+  width: 12vmax;
+  height: 12vmax;
+  text-align: center;
+  font-size: 2vmax;
+  background: linear-gradient(
+    to top,
+    var(--ion-color-step-50),
+    var(--ion-color-step-100)
+  );
+  border: 0.3vmax solid var(--ion-color-step-150);
+
+  @extend .speedo-div;
 }
 
 #speedo {
-  font-family: "Number";
-  font-size: 120px;
+  // font-family: "Number";
+  // transform: scale(1) rotate(0deg) translate(-1vmax, 0) skew(12deg, 0deg);
+  font-family: "Orbitron", sans-serif;
+  font-size: 8vmax;
 }
 
 #unit {
-  font-size: 25px;
+  font-size: 3vmax;
 }
 
 .distance {
-  font-size: 25px;
+  font-size: 3vmax;
   width: fit-content;
   margin: auto;
   color: var(--ion-text-color);
 
   .distance-text {
-    font-size: 16px;
-    margin-right: 10px;
+    font-size: 2vmax;
+    margin-right: 1vmax;
   }
-}
-
-.cus-btns {
-  justify-content: flex-end;
 }
 
 .details {
   color: var(--ion-text-color);
 
   .col-border {
-    border-right: 2px solid var(--ion-color-step-150);
+    border-right: 0.3vmax solid var(--ion-color-step-150);
   }
 }
 
 .timer-icon {
-  margin-left: 10px;
-  margin-right: 5px;
-}
-
-.cus-toolbar {
-  --background: var(--ion-background-color) !important;
+  margin-left: 0.25vmax;
+  margin-right: 0.5vmax;
 }
 
 @media (orientation: portrait) {
-  .landscape-info {
+  .landscape-info,
+  .right,
+  .landscape-coordinates {
     display: none;
   }
 
   #container {
     text-align: center;
-  }
-
-  #speedo {
-    transform: scale(1) rotate(0deg) translate(-14px, 0px) skew(12deg, 0deg);
-  }
-
-  @media only screen and (max-width: 380px) {
-    #speedo {
-      font-size: 100px !important;
-      transform: scale(1) rotate(0deg) translate(-12px, 0px) skew(12deg, 0deg);
-    }
-
-    #unit {
-      font-size: 20px !important;
-    }
-
-    .details,
-    .times {
-      font-size: 12px;
-    }
-
-    .distance {
-      font-size: 20px;
-    }
   }
 }
 
@@ -90,57 +128,48 @@
     display: none;
   }
 
+  .landscape-coordinates {
+    font-size: 1.2vmax;
+    color: var(--ion-color-step-600);
+    position: absolute;
+    right: 1vmax;
+    bottom: 0.5vmax;
+    display: inline-flex;
+    gap: 0.4vmax;
+  }
+
+  .speedo-div {
+    background: linear-gradient(
+      to top,
+      var(--ion-color-step-50),
+      var(--ion-color-step-100)
+    );
+    border: 0.3vmax solid var(--ion-color-step-150);
+  }
+
+  .right {
+    .circle-info-div {
+      animation: show 0.5s;
+    }
+  }
+
   #container {
-    display: flex;
-    gap: 25px;
-    text-align: end;
-  }
-
-  #speedo {
-    transform: scale(1) rotate(0deg) translate(-0.5rem, 0px) skew(12deg, 0deg);
-  }
-
-  .speedo-div,
-  .landscape-info {
-    margin: auto;
-    min-width: 325px;
-  }
-
-  .landscape-info ion-card {
     text-align: center;
-    box-shadow: 0 0 15px 0 var(--ion-background-color-white);
-    border: 1px solid var(--ion-background-color-white);
   }
+}
 
-  .details {
-    padding: 5px;
-
-    .border-bottom {
-      border-bottom: 1px solid var(--ion-color-step-200);
-    }
+@keyframes show {
+  0% {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 12vmax;
+    padding: 0;
   }
-
-  @media only screen and (max-width: 700px) {
-    #speedo {
-      font-size: 100px !important;
-    }
-
-    #unit {
-      font-size: 20px !important;
-    }
-
-    .distance {
-      font-size: 20px;
-    }
-
-    .details,
-    .timer {
-      font-size: 12px;
-    }
-
-    .speedo-div,
-    .landscape-info {
-      min-width: 310px;
-    }
+  50% {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  100% {
+    width: 50vmax;
   }
 }

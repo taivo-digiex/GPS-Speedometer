@@ -1,5 +1,5 @@
 <ion-header collapse="fade" [translucent]="true" class="ion-no-border" mode="ios">
-  <ion-toolbar>
+  <ion-toolbar class="custom-toolbar">
     <ion-buttons slot="start">
       <ion-back-button mode="md" (click)="back()" defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
@@ -12,10 +12,9 @@
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('languageSelect')">
         <ion-card-content class="custom-card-content">
-          <ion-icon size="large" name="language-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+          <ion-icon name="language-outline"></ion-icon>
+
+          <div class="text-ellipsis font-weight-bold">
             <ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
               class="custom-select" (ionChange)="selectLng($event)" [value]="selectedLanguage"
               okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
@@ -23,18 +22,17 @@
                 {{'lang.' + lng.value | translate }}
               </ion-select-option>
             </ion-select>
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="speedometer-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+          <ion-icon name="speedometer-outline"></ion-icon>
+
+          <div class="text-ellipsis font-weight-bold">
             <ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
               class="custom-select" (ionChange)="changeUnit($event)" [value]="selectedUnit"
               okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
@@ -42,8 +40,8 @@
                 {{ 'unit.' + unit.value | translate }}
               </ion-select-option>
             </ion-select>
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -51,41 +49,44 @@
       <ion-card button class="custom-card ion-text-center" (click)="changeEnableHighAccuracy()"
         [color]="enableHighAccuracy ? 'primary' : ''">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="locate-outline">
+          <ion-icon name="locate-outline">
           </ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.high_accuracy' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" id="open-correction-speed-modal">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" class="cus-icon" name="speedometer-outline">
-          </ion-icon>
+          <span class="speed-correction">
+            <ion-icon class="custom-icon" name="speedometer-outline">
+            </ion-icon>
+            <ion-text class="ion-text-center speed-correction-text">
+              +{{speedCorrection}}%
+            </ion-text>
+          </span>
+
+
+          <div class="text-ellipsis font-weight-bold">
+            {{ 'common.speed_correction' | translate }}
+          </div>
         </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
-            {{ 'common.speed_correction' | translate: {value: speedCorrection} }}
-          </ion-card-title>
-        </ion-card-header>
       </ion-card>
     </ion-col>
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="confirmClear()">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="trash-outline"></ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+          <ion-icon name="trash-outline"></ion-icon>
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.clear_data' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
 
@@ -93,39 +94,38 @@
       <ion-card button class="custom-card ion-text-center" (click)="checkForUpdate()"
         [disabled]="!appVersion || isCheckingForUpdate">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon size="large" name="download-outline">
+          <ion-icon name="download-outline">
           </ion-icon>
-        </ion-card-content>
-        <ion-card-header class="custom-card-header ion-text-center">
-          <ion-card-title class="custom-card-title">
+
+          <div class="text-ellipsis font-weight-bold">
             {{ 'common.check_for_update' | translate }}
-          </ion-card-title>
-        </ion-card-header>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 </ion-content>
 
-<ion-footer class="ion-no-border ion-text-center">
-  <ion-toolbar class="cus-toolbar">
-    <ion-label color="medium">
-      {{ 'common.version' | translate: {value: appVersion != null ? appVersion : '-'} }}
-    </ion-label>
+<ion-footer class="ion-no-border ion-text-center" mode="ios">
+  <ion-toolbar class="custom-toolbar">
+    <div class="version-text">
+      <ion-text color="medium">
+        {{ 'common.version' | translate: {value: appVersion ? appVersion : '-'} }}
+      </ion-text>
+    </div>
 
     <ion-row class="contact-div">
-      <ion-text class="ion-text-center">
-      </ion-text>
-      <ion-buttons class="contact-btns">
+      <ion-buttons class="contact-buttons">
         <ion-button href="https://www.facebook.com/vdt.2210">
-          <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="logo-facebook"></ion-icon>
         </ion-button>
 
         <ion-button href="https://github.com/vdt2210/GPS-Speedometer/">
-          <ion-icon slot="icon-only" name="logo-github"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="logo-github"></ion-icon>
         </ion-button>
 
         <ion-button href="mailto:vdt1999@outlook.com">
-          <ion-icon slot="icon-only" name="mail"></ion-icon>
+          <ion-icon class="contact-icon-button" slot="icon-only" name="mail"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-row>
@@ -138,15 +138,12 @@
     <ion-content>
       <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"
         [max]="10" mode="ios" [value]="speedCorrection">
-        <ion-text slot="start">+0</ion-text>
-        <ion-text slot="end">+10</ion-text>
+        <ion-text slot="start">+0%</ion-text>
+        <ion-text slot="end">+10%</ion-text>
       </ion-range>
-      <div style="padding: 0 20px">
-        <ion-icon name="information-circle-outline"></ion-icon>
+      <div style="padding: 0 2vmax" class="ion-text-center">
         <ion-text>
-          This feature is still in work in progress. This feature will correct the error of GPS speed
-          compared to the speedometer on your vehicle.<br>
-          For example: 115 km/h (GPS) + 4% = ~120 km/h (vehicle) or 72 mph (GPS) + 4% = ~75mph (vehicle).
+          Ex: 115km/h or 72mph (GPS) + 4% = ~120km/h or ~75mph (vehicle).
         </ion-text>
       </div>
     </ion-content>

@@ -35,17 +35,15 @@ export class AppComponent {
     private calculateService: CalculateService
   ) {
     this.platform.ready().then(async () => {
-      await this.createStorage();
-      // this.geolocationService.startGeolocation();
+      await this.getStorageValue();
       this.hardwareBackBtn();
       this.updateService.checkForUpdate(false);
     });
   }
 
-  private async createStorage() {
+  private async getStorageValue() {
     await this.storage.create();
     this.languageService.setInitialAppLanguage();
-    this.geolocationService.getEnableHighAccuracy();
     this.unitService.getUnit();
     this.timerService.getTotalTime();
     this.odoTripService.getOdoTrip();
@@ -54,6 +52,7 @@ export class AppComponent {
     this.calculateService.getSpeedCorrection();
     this.calculateService.getValue();
     this.calculateService.changeUnit();
+    this.geolocationService.getEnableHighAccuracy();
   }
 
   private hardwareBackBtn() {

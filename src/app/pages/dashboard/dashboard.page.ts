@@ -17,24 +17,28 @@ SwiperCore.use([Autoplay, Pagination, EffectCoverflow]);
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardPage implements OnInit, OnDestroy {
+  public isSwitchTrip: boolean = true;
+  public isPortrait: boolean = this.platform.isPortrait();
+
+  private onDestroy$: Subject<void> = new Subject<void>();
+
+  public checkIsPortraitInterval: any;
+
   public lat: number;
   public lon: number;
   public speedo: number;
-  public topSpeed: number;
-  public speedUnit: string;
-  public lenghtUnit: string;
-  public distanceUnit: string;
   public accuracy: number;
+  public odo: number;
+  public topSpeed: number;
+
+  public speedUnit: string;
+  public lengthUnit: string;
+  public distanceUnit: string;
   public altitude: string;
   public averageSpeed: string;
   public trip: string;
-  public odo: number;
   public totalTime: string;
-  public isSwitchTrip = true;
-  public isPortrait = this.platform.isPortrait();
-  public checkIsPortraitInterval: any;
-
-  private onDestroy$: Subject<void> = new Subject<void>();
+  public gpsStrengthSignalColor: string;
 
   constructor(
     private insomnia: Insomnia,
@@ -89,7 +93,7 @@ export class DashboardPage implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.speedUnit = res.speedUnit;
         this.distanceUnit = res.distanceUnit;
-        this.lenghtUnit = res.lenghtUnit;
+        this.lengthUnit = res.lengthUnit;
       });
 
     this.geolocationService.geolocationData
@@ -97,7 +101,7 @@ export class DashboardPage implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.lat = res.lat;
         this.lon = res.lon;
-        this.updateGPSAccuracy(res);
+        this.updateGPSAccuracy(res.rawAccuracy);
       });
 
     this.calculateService.calculateData
@@ -120,7 +124,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   private getValue() {
-    this.lenghtUnit = this.unitService.lenghtUnit;
+    this.lengthUnit = this.unitService.lengthUnit;
     this.speedUnit = this.unitService.speedUnit;
     this.distanceUnit = this.unitService.distanceUnit;
     this.speedo = this.calculateService.speedo;
@@ -133,18 +137,40 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.lat = this.geolocationService.lat;
     this.lon = this.geolocationService.lon;
     this.totalTime = this.timerService.convertedTotalTime;
+
+    this.updateGPSAccuracy(this.geolocationService.rawAccuracy);
   }
 
-  private updateGPSAccuracy(res: any) {
-    if (res.accuracy > 25) {
-      // $gpsBars.addClass("one").removeClass("two").removeClass("three");
-      // $gpsMessage.text("GPS Signal Weak");
-    } else if (res.accuracy > 6) {
-      // $gpsBars.addClass("two").removeClass("one").removeClass("three");
-      // $gpsMessage.text("GPS Signal OK");
-    } else {
-      // $gpsBars.addClass("three").removeClass("one").removeClass("two");
-      // $gpsMessage.text("GPS Signal OK");
+  private updateGPSAccuracy(rawAccuracy: number) {
+    if (!rawAccuracy) {
+      document
+        .getElementById('gpsStrengthSignal')
+        .classList.remove('error-blink');
+      document
+        .getElementById('gpsStrengthSignal')
+        .classList.add('standby-blink');
+      this.gpsStrengthSignalColor = '';
+    } else if (rawAccuracy) {
+      document
+        .getElementById('gpsStrengthSignal')
+        .classList.remove('standby-blink');
+
+      if (rawAccuracy <= 6) {
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.remove('error-blink');
+        this.gpsStrengthSignalColor = 'success';
+      } else if (rawAccuracy <= 25) {
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.remove('error-blink');
+        this.gpsStrengthSignalColor = 'warning';
+      } else {
+        document
+          .getElementById('gpsStrengthSignal')
+          .classList.add('error-blink');
+        this.gpsStrengthSignalColor = 'danger';
+      }
     }
   }
 }

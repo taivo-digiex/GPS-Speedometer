@@ -237,8 +237,6 @@ body {
 
   --ion-item-background: #000000;
 
-  --ion-toolbar-background: #1f1f1f;
-
   --ion-tab-bar-background: #1f1f1f;
 
   --ion-card-background: linear-gradient(
@@ -260,14 +258,26 @@ body {
  * -------------------------------------------
  */
 
+//* custom toolbar //
+.custom-toolbar {
+  --background: var(--ion-background-color) !important;
+  font-size: 2vmax;
+
+  ion-title {
+    font-size: 2vmax;
+  }
+}
+
 // * custom alert
 ion-alert {
   .alert-wrapper {
-    border-radius: 20px !important;
+    border-radius: 1.5vmax !important;
   }
 
   .alert-wrapper.sc-ion-alert-md,
   .alert-wrapper.sc-ion-alert-ios {
+    width: 30vmax;
+    max-width: 30vmax;
     background: linear-gradient(
       to top,
       var(--ion-color-step-100),
@@ -290,40 +300,49 @@ ion-alert {
   }
 
   .alert-button.sc-ion-alert-ios {
-    border-top: 1px solid var(--ion-color-step-200);
-    border-right: 1px solid var(--ion-color-step-200);
+    border-top: 0.1vmax solid var(--ion-color-step-200);
+    border-right: 0.1vmax solid var(--ion-color-step-200);
   }
 
   .alert-head.sc-ion-alert-md + .alert-message.sc-ion-alert-md,
   .alert-head.sc-ion-alert-ios + .alert-message.sc-ion-alert-ios {
-    padding-bottom: 20px;
-    padding-top: 20px;
-    font-size: 14px;
-    border-top: 1px solid var(--ion-color-step-200);
+    padding-bottom: 2vmax;
+    padding-top: 2vmax;
+    font-size: 1.5vmax;
+    border-top: 0.1vmax solid var(--ion-color-step-200);
   }
 
   .alert-head.sc-ion-alert-md + .alert-message.sc-ion-alert-md {
     color: var(--ion-text-color);
-    border-bottom: 1px solid var(--ion-color-step-200);
+    border-bottom: 0.1vmax solid var(--ion-color-step-200);
+  }
+
+  .alert-tappable.sc-ion-alert-ios,
+  .alert-tappable.sc-ion-alert-md {
+    height: 5vmax;
   }
 
   .alert-radio-group.sc-ion-alert-md,
   .alert-checkbox-group.sc-ion-alert-md {
     text-align-last: left;
-    border-top: 1px solid var(--ion-color-step-200);
-    border-bottom: 1px solid var(--ion-color-step-200);
+    border-top: 0.1vmax solid var(--ion-color-step-200);
+    border-bottom: 0.1vmax solid var(--ion-color-step-200);
   }
 
   .alert-radio-label.sc-ion-alert-md,
-  .alert-radio-label.sc-ion-alert-ios {
+  .alert-radio-label.sc-ion-alert-ios,
+  .alert-checkbox-label.sc-ion-alert-md,
+  .alert-checkbox-label.sc-ion-alert-ios {
     color: var(--ion-text-color) !important;
-    font-size: 16px;
+    font-size: 1.75vmax;
   }
 
   .alert-radio-group.sc-ion-alert-ios,
   .alert-checkbox-group.sc-ion-alert-ios {
-    border-top: 1px solid var(--ion-color-step-200);
+    border-top: 0.1vmax solid var(--ion-color-step-200);
     text-align-last: left;
+    max-height: 100%;
+    // padding: 0.5vmax 0;
   }
 
   .alert-message.sc-ion-alert-md:empty,
@@ -333,31 +352,40 @@ ion-alert {
 
   .alert-title.sc-ion-alert-md,
   .alert-title.sc-ion-alert-ios {
-    font-size: 20px;
+    font-size: 2vmax;
   }
 
   .alert-button.sc-ion-alert-md,
   .alert-button.sc-ion-alert-ios {
-    font-size: 16px;
+    font-size: 1.75vmax;
+    height: 5vmax;
   }
 }
 
 // * custom icon
 ion-icon,
-ion-back-button {
+ion-back-button,
+.sc-ion-buttons-ios-s ion-icon[slot="icon-only"] {
   color: var(--ion-text-color);
+  font-size: 3vmax;
+  --icon-font-size: 3vmax;
+}
+
+.sc-ion-buttons-ios-s ion-button {
+  height: unset;
 }
 
 // * custom card
 ion-card {
-  border-radius: 20px;
-  font-size: 16px;
-  border: 2px solid var(--ion-color-step-150);
+  border-radius: 1.5vmax;
+  font-size: 1.75vmax;
+  border: 0.3vmax solid var(--ion-color-step-150);
+  margin: 1vmax;
 }
 
 // * custom toast
 .custom-toast {
-  --border-radius: 25px;
+  --border-radius: 1.8vmax;
 }
 
 // * custom swiper
@@ -365,7 +393,7 @@ ion-card {
   width: auto;
 
   ion-card {
-    border-radius: 25px;
+    border-radius: 3vmax;
   }
 
   .swiper-pagination-bullets .swiper-pagination-bullet {
@@ -381,7 +409,7 @@ button:disabled {
 // * custom range
 ion-range {
   justify-content: center;
-  padding: 20px;
+  padding: 2vmax;
 }
 
 ion-range::part(tick) {
@@ -423,7 +451,107 @@ ion-range::part(bar-active) {
   background: var(--ion-color-step-400);
 }
 
-// * custome ios translucent toolbar
+// * custom ios translucent toolbar
 .header-translucent-ios ion-toolbar {
-  --opacity: 0.5;
+  --opacity: 1;
+}
+
+// * animation
+.error-blink {
+  animation: error-blink 3s linear infinite;
+}
+
+@keyframes error-blink {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.standby-blink {
+  animation: standby-blink 5s linear infinite;
+}
+
+@keyframes standby-blink {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.25;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+// * font style
+.text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.font-weight-normal {
+  font-weight: normal;
+}
+
+.font-weight-medium {
+  font-weight: medium;
+}
+
+.font-weight-bold {
+  font-weight: bold;
 }

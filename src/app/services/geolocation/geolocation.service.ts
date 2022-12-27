@@ -5,6 +5,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { Storage } from '@ionic/storage-angular';
 import { TimerService } from '../timer/timer.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 const ENABLE_HIGH_ACCURACY = 'enableHighAccuracy';
 
@@ -14,17 +15,18 @@ const ENABLE_HIGH_ACCURACY = 'enableHighAccuracy';
 export class GeolocationService {
   @Output() geolocationData = new EventEmitter();
 
+  private onDestroy$: Subject<void> = new Subject<void>();
+
+  private geoLocationDetailArr: any[] = [];
+
+  public enableHighAccuracy: boolean;
+
   public speed: number;
   public rawAccuracy: number;
   public rawAltitude: number;
   public lat: number;
   public lon: number;
-  public enableHighAccuracy: boolean;
-
   private lastTimestamp: number;
-  private geoLocationDetailArr: any[] = [];
-
-  private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private geolocation: Geolocation,
@@ -35,21 +37,32 @@ export class GeolocationService {
   ) {}
 
   public startGeolocation() {
-    this.geolocation
-      .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((res) => {
-        if ('coords' in res) {
-          this.prepareTracking(res);
-        } else if ('code' in res) {
-          this.toastComponent.presentToast(
-            'toast.error.code.' + res.code,
-            null,
-            1000,
-            'danger'
-          );
-        }
-      });
+    SplashScreen.hide().then(() => {
+      this.geolocation
+        .watchPosition({ enableHighAccuracy: this.enableHighAccuracy })
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((res) => {
+          if ('coords' in res) {
+            this.prepareTracking(res);
+          } else if ('code' in res) {
+            this.geolocationData.emit({
+              speed: null,
+              rawAccuracy: null,
+              rawAltitude: null,
+              lat: null,
+              lon: null,
+              time: null,
+            });
+
+            this.toastComponent.presentToast(
+              'toast.error.code.' + res.code,
+              null,
+              1000,
+              'danger'
+            );
+          }
+        });
+    });
   }
 
   public getSpeedAndTime(time: number) {
@@ -115,10 +128,14 @@ export class GeolocationService {
   }
 
   // * Calculate speed based on lat and lon
-  private calculateSpeed(geoLocationDetail: any) {
-    this.geoLocationDetailArr.push(geoLocationDetail);
+  private calculateSpeed(geolocationDetail: any) {
+    if (geolocationDetail.coords.accuracy > 100) {
+      return;
+    }
 
-    if (this.geoLocationDetailArr.length == 3) {
+    this.geoLocationDetailArr.push(geolocationDetail);
+
+    if (this.geoLocationDetailArr.length === 3) {
       this.geoLocationDetailArr.shift();
     }
 
@@ -134,7 +151,6 @@ export class GeolocationService {
         return distance / time;
       }
     }
-    return null;
   }
 
   private distanceBetween(point1: any, point2: any) {

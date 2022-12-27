@@ -7,7 +7,7 @@
     "about": "Thông tin",
     "language": "Ngôn ngữ",
     "version": "Phiên bản {{value}}",
-    "longtitude": "Kinh độ",
+    "longitude": "Kinh độ",
     "latitude": "Vĩ độ",
     "top_speed": "Tốc độ cao nhất",
     "clear_data": "Xóa dữ liệu",
@@ -26,7 +26,7 @@
     "trip_meter": "Đồng hồ đo hành trình",
     "travel_time": "Thời gian di chuyển",
     "high_accuracy": "Độ chính xác cao",
-    "speed_correction": "Hiệu chỉnh tốc độ +{{value}}%"
+    "speed_correction": "Hiệu chỉnh tốc độ"
   },
 
   "unit": {

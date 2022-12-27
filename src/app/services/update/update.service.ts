@@ -10,8 +10,9 @@ import { ToastComponent } from 'src/app/common/components/toast/toast.component'
   providedIn: 'root',
 })
 export class UpdateService {
-  public versionNumber: string;
   public isCheckingForUpdate: boolean = false;
+
+  public versionNumber: string;
   private downloadLatest: string;
 
   constructor(

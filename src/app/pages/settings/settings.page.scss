@@ -1,60 +1,44 @@
-.cus-toolbar {
+.custom-toolbar {
   --background: var(--ion-background-color) !important;
 }
 
-.contact-btns {
+ion-footer {
+  padding: 0 1vmax 1vmax;
+}
+
+.version-text {
+  font-size: 2vmax;
+  margin-bottom: 1.5vmax;
+}
+
+.contact-buttons {
+  gap: 2vmax;
   justify-content: center;
+
+  .contact-icon-button[slot="icon-only"] {
+    font-size: 2.5vmax;
+  }
 }
 
 .contact-div {
   justify-content: center;
 }
 
-// .custom-col {
-//   .custom-card {
-//     margin: 0;
-//   }
-
-//   .custom-card-header {
-//     color: var(--ion-text-color);
-//     padding: 0 10px 10px;
-//   }
-
-//   .custom-card-content {
-//     padding: 10px;
-//   }
-
-//   .custom-select {
-//     padding: 0;
-
-//     &::part(icon) {
-//       display: none;
-//     }
-//   }
-// }
-
 .custom-col {
   .custom-card {
     color: var(--ion-text-color);
-    padding: 10px;
     margin: unset;
+    display: flex;
+    min-height: 12vmax;
     height: 100%;
   }
 
-  .custom-card-header {
-    padding: unset;
-
-    .custom-card-title {
-      font-size: 16px;
-      font-weight: bold;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-  }
-
   .custom-card-content {
-    padding: 10px 0;
+    font-size: 2vmax;
+
+    ion-icon {
+      font-size: 4vmax;
+    }
   }
 
   .custom-select {
@@ -65,5 +49,15 @@
     &::part(icon) {
       display: none;
     }
+  }
+}
+
+.speed-correction {
+  align-items: center;
+  display: inline-flex;
+  gap: 1vmax;
+
+  .speed-correction-text {
+    font-size: 3vmax;
   }
 }

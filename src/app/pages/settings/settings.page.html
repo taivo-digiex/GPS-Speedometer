@@ -1,8 +1,15 @@
 <ion-header collapse="fade" [translucent]="true" class="ion-no-border" mode="ios">
   <ion-toolbar class="custom-toolbar">
+    <!-- <ion-buttons slot="start">
+      <ion-back-button mode="ios" (click)="back()" defaultHref="/" [text]="'common.back' | translate"></ion-back-button>
+    </ion-buttons> -->
+
     <ion-buttons slot="start">
-      <ion-back-button mode="md" (click)="back()" defaultHref="/" text=""></ion-back-button>
+      <ion-button routerLink="/" routerDirection="root">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
+
     <ion-title> {{ 'page_title.settings' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>

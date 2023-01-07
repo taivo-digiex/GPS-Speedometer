@@ -1,3 +1,12 @@
+.custom-toolbar {
+  .left-toolbar,
+  .right-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5vmax;
+  }
+}
+
 #container {
   position: fixed;
   top: 50%;
@@ -104,11 +113,6 @@
   .col-border {
     border-right: 0.3vmax solid var(--ion-color-step-150);
   }
-}
-
-.timer-icon {
-  margin-left: 0.25vmax;
-  margin-right: 0.5vmax;
 }
 
 @media (orientation: portrait) {

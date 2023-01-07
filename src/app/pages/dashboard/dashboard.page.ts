@@ -26,7 +26,7 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   public lat: number;
   public lon: number;
-  public speedo: number;
+  public speed: number;
   public accuracy: number;
   public odo: number;
   public topSpeed: number;
@@ -38,7 +38,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   public averageSpeed: string;
   public trip: string;
   public totalTime: string;
-  public gpsStrengthSignalColor: string;
+  public gpsStatusColor: string;
 
   constructor(
     private insomnia: Insomnia,
@@ -107,7 +107,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.calculateService.calculateData
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((res) => {
-        this.speedo = res.speedo;
+        this.speed = res.speed;
         this.topSpeed = res.topSpeed;
         this.accuracy = res.accuracy;
         this.altitude = res.altitude;
@@ -127,7 +127,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.lengthUnit = this.unitService.lengthUnit;
     this.speedUnit = this.unitService.speedUnit;
     this.distanceUnit = this.unitService.distanceUnit;
-    this.speedo = this.calculateService.speedo;
+    this.speed = this.calculateService.speed;
     this.topSpeed = this.calculateService.topSpeed;
     this.accuracy = this.calculateService.accuracy;
     this.altitude = this.calculateService.altitude;
@@ -143,33 +143,21 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   private updateGPSAccuracy(rawAccuracy: number) {
     if (!rawAccuracy) {
-      document
-        .getElementById('gpsStrengthSignal')
-        .classList.remove('error-blink');
-      document
-        .getElementById('gpsStrengthSignal')
-        .classList.add('standby-blink');
-      this.gpsStrengthSignalColor = '';
+      document.getElementById('gpsStatus').classList.remove('error-blink');
+      document.getElementById('gpsStatus').classList.add('standby-blink');
+      this.gpsStatusColor = '';
     } else if (rawAccuracy) {
-      document
-        .getElementById('gpsStrengthSignal')
-        .classList.remove('standby-blink');
+      document.getElementById('gpsStatus').classList.remove('standby-blink');
 
       if (rawAccuracy <= 6) {
-        document
-          .getElementById('gpsStrengthSignal')
-          .classList.remove('error-blink');
-        this.gpsStrengthSignalColor = 'success';
+        document.getElementById('gpsStatus').classList.remove('error-blink');
+        this.gpsStatusColor = 'success';
       } else if (rawAccuracy <= 25) {
-        document
-          .getElementById('gpsStrengthSignal')
-          .classList.remove('error-blink');
-        this.gpsStrengthSignalColor = 'warning';
+        document.getElementById('gpsStatus').classList.remove('error-blink');
+        this.gpsStatusColor = 'warning';
       } else {
-        document
-          .getElementById('gpsStrengthSignal')
-          .classList.add('error-blink');
-        this.gpsStrengthSignalColor = 'danger';
+        document.getElementById('gpsStatus').classList.add('error-blink');
+        this.gpsStatusColor = 'danger';
       }
     }
   }

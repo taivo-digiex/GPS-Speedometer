@@ -286,17 +286,14 @@ ion-alert {
     text-align-last: center;
   }
 
-  .alert-head.sc-ion-alert-md {
-    text-align: center;
-    padding: 13px;
-  }
-
+  .alert-head.sc-ion-alert-md,
   .alert-head.sc-ion-alert-ios {
-    padding: 7px;
+    padding: 1vmax;
   }
 
-  .alert-button-group.sc-ion-alert-md {
-    padding: 5px;
+  .alert-button-inner.sc-ion-alert-ios,
+  .alert-button-inner.sc-ion-alert-md {
+    gap: 1vmax;
   }
 
   .alert-button.sc-ion-alert-ios {
@@ -308,8 +305,9 @@ ion-alert {
   .alert-head.sc-ion-alert-ios + .alert-message.sc-ion-alert-ios {
     padding-bottom: 2vmax;
     padding-top: 2vmax;
-    font-size: 1.5vmax;
+    font-size: 2vmax;
     border-top: 0.1vmax solid var(--ion-color-step-200);
+    max-height: unset;
   }
 
   .alert-head.sc-ion-alert-md + .alert-message.sc-ion-alert-md {
@@ -334,7 +332,42 @@ ion-alert {
   .alert-checkbox-label.sc-ion-alert-md,
   .alert-checkbox-label.sc-ion-alert-ios {
     color: var(--ion-text-color) !important;
-    font-size: 1.75vmax;
+    font-size: 2vmax;
+    // padding-inline: 1vmax 0;
+    padding-inline: 0;
+    padding-block: 0;
+  }
+
+  .alert-checkbox-icon.sc-ion-alert-ios,
+  .alert-checkbox-icon.sc-ion-alert-md {
+    width: 2vmax;
+    height: 2vmax;
+    margin-inline: 0;
+    margin: 0;
+  }
+
+  [aria-checked="true"].sc-ion-alert-ios .alert-checkbox-inner.sc-ion-alert-ios,
+  [aria-checked="true"].sc-ion-alert-md .alert-checkbox-inner.sc-ion-alert-md {
+    left: 0.5vmax;
+    top: 0.1vmax;
+    width: 0.7vmax;
+    height: 1.2vmax;
+    border-width: 0 0.2vmax 0.2vmax 0;
+    border-color: var(--ion-background-color-white);
+  }
+
+  .alert-radio-icon.sc-ion-alert-ios,
+  .alert-radio-icon.sc-ion-alert-md {
+    min-width: 2.3vmax;
+  }
+
+  [aria-checked="true"].sc-ion-alert-ios .alert-radio-inner.sc-ion-alert-ios,
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-inner.sc-ion-alert-md {
+    left: 0.5vmax;
+    top: -1.25vmax;
+    width: 1vmax;
+    height: 2vmax;
+    border-width: 0 0.2vmax 0.2vmax 0;
   }
 
   .alert-radio-group.sc-ion-alert-ios,
@@ -342,7 +375,7 @@ ion-alert {
     border-top: 0.1vmax solid var(--ion-color-step-200);
     text-align-last: left;
     max-height: 100%;
-    // padding: 0.5vmax 0;
+    padding: 1vmax;
   }
 
   .alert-message.sc-ion-alert-md:empty,
@@ -353,11 +386,12 @@ ion-alert {
   .alert-title.sc-ion-alert-md,
   .alert-title.sc-ion-alert-ios {
     font-size: 2vmax;
+    margin: 0;
   }
 
   .alert-button.sc-ion-alert-md,
   .alert-button.sc-ion-alert-ios {
-    font-size: 1.75vmax;
+    font-size: 2vmax;
     height: 5vmax;
   }
 }
@@ -373,19 +407,35 @@ ion-back-button,
 
 .sc-ion-buttons-ios-s ion-button {
   height: unset;
+  margin-inline: unset;
+  --padding-start: 0;
+  --padding-end: 0;
 }
 
 // * custom card
 ion-card {
   border-radius: 1.5vmax;
-  font-size: 1.75vmax;
-  border: 0.3vmax solid var(--ion-color-step-150);
+  font-size: 2vmax;
+  outline: 0.3vmax solid var(--ion-color-step-150);
   margin: 1vmax;
 }
 
 // * custom toast
 .custom-toast {
-  --border-radius: 1.8vmax;
+  --border-radius: 5vmax;
+  --min-width: fit-content;
+  --max-width: 100%;
+  font-size: 2vmax;
+
+  &::part(button) {
+    padding-inline: 1vmax;
+    font-size: 2vmax;
+    height: unset;
+  }
+
+  &::part(message) {
+    padding-inline: 1vmax;
+  }
 }
 
 // * custom swiper
@@ -454,6 +504,10 @@ ion-range::part(bar-active) {
 // * custom ios translucent toolbar
 .header-translucent-ios ion-toolbar {
   --opacity: 1;
+  --padding-top: 0;
+  --padding-end: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
 }
 
 // * animation

@@ -18,12 +18,15 @@ export class CalculateService {
 
   private value = [...VALUE];
 
-  public speedo: number;
+  public speed: number;
   public topSpeed: number;
   public accuracy: number;
   public odo: number;
   public speedCorrection: number;
   private rawSpeed: number;
+  private correctedSpeed: number;
+  private rawTopSpeed: number;
+  private correctedTopSpeed: number;
   private rawAccuracy: number;
   private rawAltitude: number;
 
@@ -62,24 +65,25 @@ export class CalculateService {
   public getValue() {
     this.geolocationService.geolocationData.subscribe((data) => {
       this.rawSpeed = data.speed;
+      this.rawTopSpeed = this.topSpeedService.topSpeed;
       this.rawAccuracy = data.rawAccuracy;
       this.rawAltitude = data.rawAltitude;
 
       this.convert();
 
-      if (this.rawSpeed === undefined || data.time == null) {
+      if (data.time == null) {
         return;
       }
 
-      if (this.speedCorrection != null) {
-        this.rawSpeed =
-          this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
-      }
+      // if (this.speedCorrection != null) {
+      //   this.correctedSpeed =
+      //     this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
+      // }
 
       this.value = [
         ...this.value,
         {
-          speed: this.rawSpeed,
+          speed: this.correctedSpeed,
           time: data.time,
         },
       ];
@@ -96,15 +100,21 @@ export class CalculateService {
   }
 
   public convert() {
-    if (this.rawSpeed != null && this.speedCorrection != null) {
-      this.rawSpeed =
-        this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
+    if (this.speedCorrection != null) {
+      if (this.rawSpeed != null) {
+        this.correctedSpeed =
+          this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
+      }
+
+      if (this.rawTopSpeed != null) {
+        this.correctedTopSpeed =
+          this.rawTopSpeed + (this.rawTopSpeed / 100) * this.speedCorrection;
+      }
     }
 
     switch (this.unitService.unit) {
       case 'imperial':
         this.imperialUnit();
-
         break;
 
       case 'metric':
@@ -134,12 +144,12 @@ export class CalculateService {
 
   // * calculate in metric unit
   private metricUnit() {
-    if (this.rawSpeed != null) {
-      this.speedo = Math.round(this.rawSpeed * 3.6);
+    if (this.correctedSpeed !== undefined) {
+      this.speed = Math.round(this.correctedSpeed * 3.6);
     }
 
-    if (!isNaN(this.topSpeedService.topSpeed)) {
-      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 3.6);
+    if (this.correctedTopSpeed !== undefined) {
+      this.topSpeed = Math.round(this.correctedTopSpeed * 3.6);
     }
 
     if (this.rawAccuracy != null) {
@@ -168,10 +178,12 @@ export class CalculateService {
           3.6,
         1
       );
+    } else {
+      delete this.averageSpeed;
     }
 
     this.calculateData.emit({
-      speedo: this.speedo,
+      speed: this.speed,
       topSpeed: this.topSpeed,
       accuracy: this.accuracy,
       altitude: this.altitude,
@@ -183,12 +195,12 @@ export class CalculateService {
 
   // * calculate in imperial unit
   private imperialUnit() {
-    if (this.rawSpeed != null) {
-      this.speedo = Math.round(this.rawSpeed * 2.23693629);
+    if (this.correctedSpeed !== undefined) {
+      this.speed = Math.round(this.correctedSpeed * 2.23693629);
     }
 
-    if (!isNaN(this.topSpeedService.topSpeed)) {
-      this.topSpeed = Math.round(this.topSpeedService.topSpeed * 2.23693629);
+    if (this.correctedTopSpeed !== undefined) {
+      this.topSpeed = Math.round(this.correctedTopSpeed * 2.23693629);
     }
 
     if (this.rawAccuracy != null) {
@@ -220,10 +232,12 @@ export class CalculateService {
           2.23693629,
         1
       );
+    } else {
+      delete this.averageSpeed;
     }
 
     this.calculateData.emit({
-      speedo: this.speedo,
+      speed: this.speed,
       topSpeed: this.topSpeed,
       accuracy: this.accuracy,
       altitude: this.altitude,

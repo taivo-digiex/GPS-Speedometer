@@ -72,6 +72,7 @@
       "h4": "Không có mạng!"
     },
     "msg": {
+      "changelog": "<a href='{{value}}' target='_blank'>Nhật ký thay đổi</a>",
       "m1": "Hãy cẩn thận, hành động này <strong>không thể</strong> hoàn tác.",
       "m2": "Đừng nôn nóng. Từ từ sẽ có bản mới. 😊",
       "m3": "Hãy kiểm tra mạng và thử lại."

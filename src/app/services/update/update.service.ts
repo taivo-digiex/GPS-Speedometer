@@ -13,7 +13,6 @@ export class UpdateService {
   public isCheckingForUpdate: boolean = false;
 
   public versionNumber: string;
-  private downloadLatest: string;
 
   constructor(
     private http: HttpClient,
@@ -52,18 +51,32 @@ export class UpdateService {
                 serverVersion[2] > splittedVersion[2]) &&
               info
             ) {
-              this.downloadLatest = info.assets[0].browser_download_url;
-              await this.alertComponent.alertWithButtons(
-                'alert.header.h2',
-                info.tag_name,
-                info.body,
-                null,
-                'common.later',
-                'common.download',
-                (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
-                this,
-                this.downloadNewAppVersion
-              );
+              if (info.assets.length > 1) {
+                await this.alertComponent.alertWithButtons(
+                  'alert.header.h2',
+                  info.tag_name,
+                  'alert.msg.changelog',
+                  info.html_url,
+                  'common.later',
+                  'common.download',
+                  null,
+                  this,
+                  () => window.open(info.html_url, '_blank')
+                );
+              } else {
+                await this.alertComponent.alertWithButtons(
+                  'alert.header.h2',
+                  info.tag_name,
+                  'alert.msg.changelog',
+                  info.html_url,
+                  'common.later',
+                  'common.download',
+                  (info.assets[0].size * 9.5367431640625e-7).toFixed(2),
+                  this,
+                  () =>
+                    window.open(info.assets[0].browser_download_url, '_blank')
+                );
+              }
             } else if (isManual) {
               await this.alertComponent.alertWithButton(
                 'alert.header.h3',
@@ -102,9 +115,5 @@ export class UpdateService {
         );
       }
     }
-  }
-
-  private async downloadNewAppVersion() {
-    window.open(this.downloadLatest, '_blank');
   }
 }

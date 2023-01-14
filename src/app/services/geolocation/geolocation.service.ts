@@ -129,7 +129,7 @@ export class GeolocationService {
 
   // * Calculate speed based on lat and lon
   private calculateSpeed(geolocationDetail: any) {
-    if (geolocationDetail.coords.accuracy > 100) {
+    if (geolocationDetail.coords.accuracy > 500) {
       return;
     }
 

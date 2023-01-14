@@ -72,6 +72,7 @@
       "h4": "No internet!"
     },
     "msg": {
+      "changelog": "<a href='{{value}}' target='_blank'>Changelog</a>",
       "m1": "Be careful, this action <strong>cannot</strong> be undone.",
       "m2": "Don't be impatient. A new version will come soon. 😊",
       "m3": "Please check the internet and try again."

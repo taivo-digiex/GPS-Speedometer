@@ -153,6 +153,7 @@
 
   .right {
     .circle-info-div {
+      white-space: nowrap;
       animation: show 0.5s;
     }
   }
@@ -164,13 +165,11 @@
 
 @keyframes show {
   0% {
-    white-space: nowrap;
     overflow: hidden;
     width: 12vmax;
     padding: 0;
   }
   50% {
-    white-space: nowrap;
     overflow: hidden;
   }
   100% {

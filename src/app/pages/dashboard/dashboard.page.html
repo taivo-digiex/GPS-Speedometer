@@ -128,8 +128,7 @@
 
   <div *ngIf="isPortrait" class="portrait-info">
     <swiper [autoplay]="{ delay: 10000, disableOnInteraction: false }" [loop]="true" [effect]="'coverflow'"
-      [coverflowEffect]="{ rotate: 50, stretch: 0, depth: 100, modifier: 1 }" [centeredSlides]="true"
-      [pagination]="true">
+      [coverflowEffect]="{ rotate: 50, stretch: 0, depth: 100, modifier: 1 }" [centeredSlides]="true">
       <ng-template swiperSlide>
         <ion-card>
           <div class="details">

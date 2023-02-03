@@ -54,6 +54,7 @@ export class GeolocationService {
               time: null,
             });
 
+            // TODO change to alert popup
             this.toastComponent.presentToast(
               'toast.error.code.' + res.code,
               null,

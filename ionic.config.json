@@ -1,7 +1,13 @@
 {
   "name": "GPS Speedometer",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {
+      "plugins": {
+        "LocalNotifications": {
+          "iconColor": "#FFFFFF"
+        }
+      }
+    }
   },
   "type": "angular"
 }

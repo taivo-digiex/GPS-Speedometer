@@ -6,6 +6,7 @@ import { TopSpeedService } from '../top-speed/top-speed.service';
 import { UnitService } from '../unit/unit.service';
 import { Storage } from '@ionic/storage-angular';
 import { GeolocationService } from '../geolocation/geolocation.service';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 const VALUE: speedTime[] = [];
 const ADJUST_SPEED = 'speedCorrection';
@@ -182,6 +183,16 @@ export class CalculateService {
       delete this.averageSpeed;
     }
 
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          id: 1,
+          title: new Date().toTimeString(),
+          body: `Speed: ${this.speed || 0} ${this.unitService.speedUnit}`,
+        },
+      ],
+    });
+
     this.calculateData.emit({
       speed: this.speed,
       topSpeed: this.topSpeed,
@@ -235,6 +246,16 @@ export class CalculateService {
     } else {
       delete this.averageSpeed;
     }
+
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          id: 1,
+          title: new Date().toTimeString(),
+          body: `Speed: ${this.speed || 0} ${this.unitService.speedUnit}`,
+        },
+      ],
+    });
 
     this.calculateData.emit({
       speed: this.speed,

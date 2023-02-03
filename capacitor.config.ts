@@ -12,6 +12,12 @@ const config: CapacitorConfig = {
       backgroundColor: '#000000',
       androidScaleType: 'CENTER',
     },
+
+    LocalNotifications: {
+      // smallIcon: 'ic_stat_icon_config_sample',
+      iconColor: '#FFFFFF',
+      // sound: 'beep.wav',
+    },
   },
 };
 

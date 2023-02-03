@@ -9,6 +9,9 @@
 			"launchAutoHide": false,
 			"backgroundColor": "#000000",
 			"androidScaleType": "CENTER"
+		},
+		"LocalNotifications": {
+			"iconColor": "#FFFFFF"
 		}
 	}
 }

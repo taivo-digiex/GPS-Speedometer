@@ -11,6 +11,7 @@ import { UpdateService } from './services/update/update.service';
 import { OdoTripService } from './services/odo-trip/odo-trip.service';
 import { TimerService } from './services/timer/timer.service';
 import { CalculateService } from './services/calculate/calculate.service';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent {
   ) {
     this.platform.ready().then(async () => {
       await this.getStorageValue();
+      await LocalNotifications.requestPermissions();
       this.hardwareBackBtn();
       this.updateService.checkForUpdate(false);
     });

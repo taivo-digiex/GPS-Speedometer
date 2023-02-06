@@ -26,7 +26,9 @@
     "trip_meter": "Trip meter",
     "travel_time": "Travel time",
     "high_accuracy": "High accuracy",
-    "speed_correction": "Speed correction"
+    "speed_correction": "Speed correction",
+    "error": "Error",
+    "setting": "Setting"
   },
 
   "unit": {
@@ -66,6 +68,7 @@
 
   "alert": {
     "header": {
+      "warning": "⚠️ Warning ⚠️",
       "h1": "Clear data",
       "h2": "New update available {{value}}",
       "h3": "You are on the latest version {{value}}",
@@ -81,6 +84,7 @@
 
   "button": {
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "dismiss": "Dismiss"
   }
 }

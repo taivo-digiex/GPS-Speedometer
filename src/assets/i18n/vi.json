@@ -26,7 +26,9 @@
     "trip_meter": "Đồng hồ đo hành trình",
     "travel_time": "Thời gian di chuyển",
     "high_accuracy": "Độ chính xác cao",
-    "speed_correction": "Hiệu chỉnh tốc độ"
+    "speed_correction": "Hiệu chỉnh tốc độ",
+    "error": "Lỗi",
+    "setting": "Cài đặt"
   },
 
   "unit": {
@@ -66,6 +68,7 @@
 
   "alert": {
     "header": {
+      "warning": "⚠️ Cảnh báo ⚠️",
       "h1": "Xóa dữ liệu",
       "h2": "Có bản cập nhật mới {{value}}",
       "h3": "Bạn đang ở phiên bản mới nhất {{value}}",
@@ -81,6 +84,7 @@
 
   "button": {
     "confirm": "Xác nhận",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "dismiss": "Bỏ qua"
   }
 }

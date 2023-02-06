@@ -1,11 +1,17 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
-import { ToastComponent } from 'src/app/common/components/toast/toast.component';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { TopSpeedService } from '../top-speed/top-speed.service';
 import { Storage } from '@ionic/storage-angular';
 import { TimerService } from '../timer/timer.service';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { AlertComponent } from './../../common/components/alert/alert.component';
+import {
+  AndroidSettings,
+  IOSSettings,
+  NativeSettings,
+} from 'capacitor-native-settings';
 
 const ENABLE_HIGH_ACCURACY = 'enableHighAccuracy';
 
@@ -30,10 +36,11 @@ export class GeolocationService {
 
   constructor(
     private geolocation: Geolocation,
-    private toastComponent: ToastComponent,
+    private alertComponent: AlertComponent,
     private topSpeedService: TopSpeedService,
     private timerService: TimerService,
-    private storage: Storage
+    private storage: Storage,
+    private platform: Platform
   ) {}
 
   public startGeolocation() {
@@ -54,12 +61,16 @@ export class GeolocationService {
               time: null,
             });
 
-            // TODO change to alert popup
-            this.toastComponent.presentToast(
-              'toast.error.code.' + res.code,
+            this.alertComponent.alertWithButtons(
+              'alert.header.warning',
               null,
-              1000,
-              'danger'
+              `toast.error.code.${res.code}`,
+              null,
+              'button.dismiss',
+              'common.setting',
+              null,
+              this,
+              () => this.openSetting()
             );
           }
         });
@@ -168,5 +179,17 @@ export class GeolocationService {
 
   private toRadians(degrees: number) {
     return (degrees * 3.14159265359) / 180;
+  }
+
+  private async openSetting() {
+    if (this.platform.is('ios')) {
+      await NativeSettings.openIOS({
+        option: IOSSettings.LocationServices,
+      });
+    } else {
+      await NativeSettings.openAndroid({
+        option: AndroidSettings.Location,
+      });
+    }
   }
 }

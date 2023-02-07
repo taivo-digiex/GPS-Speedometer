@@ -1,5 +1,5 @@
 {
-  "page_title": {
+  "pageTitle": {
     "settings": "Cài đặt"
   },
 
@@ -9,24 +9,24 @@
     "version": "Phiên bản {{value}}",
     "longitude": "Kinh độ",
     "latitude": "Vĩ độ",
-    "top_speed": "Tốc độ cao nhất",
-    "clear_data": "Xóa dữ liệu",
+    "topSpeed": "Tốc độ cao nhất",
+    "clearData": "Xóa dữ liệu",
     "accuracy": "Độ chính xác",
     "altitude": "Độ cao",
-    "check_for_update": "Kiểm tra cập nhật",
+    "checkForUpdate": "Kiểm tra cập nhật",
     "time": "Thời gian",
-    "average_speed": "Tốc độ trung bình",
+    "averageSpeed": "Tốc độ trung bình",
     "download": "Tải xuống",
     "later": "Để sau",
     "ok": "Ok",
     "unit": "Đơn vị",
     "trip": "Hành trình",
     "total": "Tổng",
-    "total_time": "Tổng thời gian",
-    "trip_meter": "Đồng hồ đo hành trình",
-    "travel_time": "Thời gian di chuyển",
-    "high_accuracy": "Độ chính xác cao",
-    "speed_correction": "Hiệu chỉnh tốc độ",
+    "totalTime": "Tổng thời gian",
+    "tripMeter": "Đồng hồ đo hành trình",
+    "travelTime": "Thời gian di chuyển",
+    "highAccuracy": "Độ chính xác cao",
+    "speedCorrection": "Hiệu chỉnh tốc độ",
     "error": "Lỗi",
     "setting": "Cài đặt"
   },
@@ -42,8 +42,8 @@
   },
 
   "toast": {
-    "clear_success": "Xóa thành công.",
-    "unit_change": {
+    "clearSuccess": "Xóa thành công.",
+    "unitChange": {
       "metric": "Chuyển sang hệ mét.",
       "imperial": "Chuyển sang hệ đo lường Anh."
     },

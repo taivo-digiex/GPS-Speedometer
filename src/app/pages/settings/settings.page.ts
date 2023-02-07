@@ -73,7 +73,7 @@ export class SettingsPage implements OnInit {
         [
           {
             type: 'checkbox',
-            label: 'common.top_speed',
+            label: 'common.topSpeed',
             value: 'topSpeed',
             handler: (value) => {
               this.isCheckBoxChecked(value.checked);
@@ -81,7 +81,7 @@ export class SettingsPage implements OnInit {
           },
           {
             type: 'checkbox',
-            label: 'common.trip_meter',
+            label: 'common.tripMeter',
             value: 'tripMeter',
             handler: (value) => {
               this.isCheckBoxChecked(value.checked);
@@ -89,7 +89,7 @@ export class SettingsPage implements OnInit {
           },
           {
             type: 'checkbox',
-            label: 'common.travel_time',
+            label: 'common.travelTime',
             value: 'travelTime',
             handler: (value) => {
               this.isCheckBoxChecked(value.checked);
@@ -97,7 +97,7 @@ export class SettingsPage implements OnInit {
           },
           {
             type: 'checkbox',
-            label: 'common.average_speed',
+            label: 'common.averageSpeed',
             value: 'avgSpeed',
             handler: (value) => {
               this.isCheckBoxChecked(value.checked);
@@ -201,7 +201,7 @@ export class SettingsPage implements OnInit {
     } finally {
       this.geolocationService.startGeolocation();
       this.toastComponent.presentToast(
-        'toast.clear_success',
+        'toast.clearSuccess',
         null,
         1000,
         'success'

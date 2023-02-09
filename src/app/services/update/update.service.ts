@@ -5,6 +5,7 @@ import { AppUpdateModel } from 'src/app/common/models/update.model';
 import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { ToastComponent } from 'src/app/common/components/toast/toast.component';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +27,7 @@ export class UpdateService {
 
     if ((await Network.getStatus()).connected) {
       this.http
-        .get(
-          'https://api.github.com/repos/vdt2210/GPS-Speedometer/releases/latest'
-        )
+        .get(AppConstant.defaultUrl.gitHubApiUrl)
         .subscribe(async (info: AppUpdateModel) => {
           try {
             const splittedVersion = this.versionNumber

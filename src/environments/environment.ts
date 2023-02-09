@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  gitHubApiUrl:
+    'https://api.github.com/repos/vdt2210/GPS-Speedometer/releases/latest',
 };
 
 /*

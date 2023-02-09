@@ -11,6 +11,8 @@ import { TimerService } from 'src/app/services/timer/timer.service';
 import { RangeValue } from '@ionic/core';
 import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
+import AppConstant from 'src/app/utilities/app-constant';
+import AppUtil from 'src/app/utilities/app-util';
 
 @Component({
   selector: 'app-settings',
@@ -18,8 +20,8 @@ import { GeolocationService } from 'src/app/services/geolocation/geolocation.ser
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  public languages: any[] = [];
-  public units: any[] = [];
+  public languages: any[] = AppUtil.getLanguages(AppConstant);
+  public units: any[] = AppUtil.getUnitSystem(AppConstant);
 
   public isCheckingForUpdate: boolean;
   public enableHighAccuracy: boolean =
@@ -126,6 +128,7 @@ export class SettingsPage implements OnInit {
 
   public selectLng(ev: any) {
     this.languageService.setLanguage(ev.target.value);
+    this.getLangSelected();
   }
 
   public back() {
@@ -141,6 +144,7 @@ export class SettingsPage implements OnInit {
 
   public changeUnit(ev: any) {
     this.unitService.saveUnit(ev.target.value);
+    this.getUnitSelected();
   }
 
   public onSpeedCorrectionChange(ev: any) {
@@ -161,12 +165,12 @@ export class SettingsPage implements OnInit {
   }
 
   private getLangSelected() {
-    this.languages = this.languageService.getLanguages();
+    // this.languages = this.languageService.getLanguages();
     this.selectedLanguage = this.languageService.selected;
   }
 
   private getUnitSelected() {
-    this.units = this.unitService.getUnits();
+    // this.units = this.unitService.getUnits();
     this.selectedUnit = this.unitService.unit;
   }
 

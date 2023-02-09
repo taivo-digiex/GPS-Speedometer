@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import AppConstant from 'src/app/utilities/app-constant';
 
 const UNIT_KEY = 'unit';
 
@@ -22,7 +23,7 @@ export class UnitService {
         this.unit = val;
         this.convertUnit();
       } else {
-        this.saveUnit('metric');
+        this.saveUnit(AppConstant.unitSystem.metric.unit);
       }
     });
   }
@@ -34,16 +35,16 @@ export class UnitService {
 
   public convertUnit() {
     switch (this.unit) {
-      case 'imperial':
-        this.speedUnit = 'mph';
-        this.distanceUnit = 'mi';
-        this.lengthUnit = 'ft';
+      case AppConstant.unitSystem.imperial.unit:
+        this.speedUnit = AppConstant.unitSystem.imperial.speedUnit;
+        this.distanceUnit = AppConstant.unitSystem.imperial.mileUnit;
+        this.lengthUnit = AppConstant.unitSystem.imperial.feetUnit;
         break;
 
       default:
-        this.speedUnit = 'km/h';
-        this.distanceUnit = 'km';
-        this.lengthUnit = 'm';
+        this.speedUnit = AppConstant.unitSystem.metric.speedUnit;
+        this.distanceUnit = AppConstant.unitSystem.metric.kilometerUnit;
+        this.lengthUnit = AppConstant.unitSystem.metric.meterUnit;
         break;
     }
 

@@ -10,7 +10,7 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title> {{ 'page_title.settings' | translate }} </ion-title>
+    <ion-title> {{ 'pageTitle.settings' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,17 +22,12 @@
           <ion-icon name="language-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
-            <ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
-              class="custom-select" (ionChange)="selectLng($event)" [value]="selectedLanguage"
-              okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
-              <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
-                {{'lang.' + lng.value | translate }}
-              </ion-select-option>
-            </ion-select>
+            {{'lang.' + selectedLanguage | translate }}
           </div>
         </ion-card-content>
       </ion-card>
     </ion-col>
+
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
@@ -40,13 +35,7 @@
           <ion-icon name="speedometer-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
-            <ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
-              class="custom-select" (ionChange)="changeUnit($event)" [value]="selectedUnit"
-              okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
-              <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
-                {{ 'unit.' + unit.value | translate }}
-              </ion-select-option>
-            </ion-select>
+            {{ 'unit.' + selectedUnit | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -60,7 +49,7 @@
           </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
-            {{ 'common.high_accuracy' | translate }}
+            {{ 'common.highAccuracy' | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -77,9 +66,8 @@
             </ion-text>
           </span>
 
-
           <div class="text-ellipsis font-weight-bold">
-            {{ 'common.speed_correction' | translate }}
+            {{ 'common.speedCorrection' | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -91,7 +79,7 @@
           <ion-icon name="trash-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
-            {{ 'common.clear_data' | translate }}
+            {{ 'common.clearData' | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -105,7 +93,7 @@
           </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
-            {{ 'common.check_for_update' | translate }}
+            {{ 'common.checkForUpdate' | translate }}
           </div>
         </ion-card-content>
       </ion-card>
@@ -139,12 +127,28 @@
   </ion-toolbar>
 </ion-footer>
 
+<ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
+  class="custom-select ion-hide" (ionChange)="selectLng($event)" [value]="selectedLanguage" aria-label="language"
+  okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
+  <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
+    {{'lang.' + lng.value | translate }}
+  </ion-select-option>
+</ion-select>
+
+<ion-select id="unitSelect" mode="ios" [interfaceOptions]="{ header: 'common.unit' | translate }"
+  class="custom-select ion-hide" (ionChange)="changeUnit($event)" [value]="selectedUnit" aria-label="unit"
+  okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
+  <ion-select-option *ngFor="let unit of units" value="{{ unit.value }}">
+    {{ 'unit.' + unit.value | translate }}
+  </ion-select-option>
+</ion-select>
+
 <ion-modal trigger="open-correction-speed-modal" mode="ios" [initialBreakpoint]="0.25"
   [breakpoints]="[0, 0.25, 0.5, 0.75]">
   <ng-template>
     <ion-content>
       <ion-range (ionKnobMoveEnd)="onSpeedCorrectionChange($event)" [pin]="true" [ticks]="true" [snaps]="true" [min]="0"
-        [max]="10" mode="ios" [value]="speedCorrection">
+        [max]="10" mode="ios" [value]="speedCorrection" aria-label="speedCorrection">
         <ion-text slot="start">+0%</ion-text>
         <ion-text slot="end">+10%</ion-text>
       </ion-range>

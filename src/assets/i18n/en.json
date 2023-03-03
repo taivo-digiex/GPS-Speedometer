@@ -1,5 +1,5 @@
 {
-  "page_title": {
+  "pageTitle": {
     "settings": "Settings"
   },
 
@@ -9,24 +9,26 @@
     "version": "Version {{value}}",
     "longitude": "Longitude",
     "latitude": "Latitude",
-    "top_speed": "Top speed",
-    "clear_data": "Clear data",
+    "topSpeed": "Top speed",
+    "clearData": "Clear data",
     "accuracy": "Accuracy",
     "altitude": "Altitude",
-    "check_for_update": "Check for update",
+    "checkForUpdate": "Check for update",
     "time": "Time",
-    "average_speed": "Average speed",
+    "averageSpeed": "Average speed",
     "download": "Download",
     "later": "Later",
     "ok": "Ok",
     "unit": "Unit",
     "trip": "Trip",
     "total": "Total",
-    "total_time": "Total time",
-    "trip_meter": "Trip meter",
-    "travel_time": "Travel time",
-    "high_accuracy": "High accuracy",
-    "speed_correction": "Speed correction"
+    "totalTime": "Total time",
+    "tripMeter": "Trip meter",
+    "travelTime": "Travel time",
+    "highAccuracy": "High accuracy",
+    "speedCorrection": "Speed correction",
+    "error": "Error",
+    "setting": "Setting"
   },
 
   "unit": {
@@ -40,8 +42,8 @@
   },
 
   "toast": {
-    "clear_success": "Clear success.",
-    "unit_change": {
+    "clearSuccess": "Clear success.",
+    "unitChange": {
       "metric": "Switch to metric.",
       "imperial": "Switch to imperial."
     },
@@ -66,6 +68,7 @@
 
   "alert": {
     "header": {
+      "warning": "⚠️ Warning ⚠️",
       "h1": "Clear data",
       "h2": "New update available {{value}}",
       "h3": "You are on the latest version {{value}}",
@@ -81,6 +84,7 @@
 
   "button": {
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "dismiss": "Dismiss"
   }
 }

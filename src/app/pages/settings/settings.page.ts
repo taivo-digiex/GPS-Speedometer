@@ -13,6 +13,15 @@ import { CalculateService } from 'src/app/services/calculate/calculate.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 import AppConstant from 'src/app/utilities/app-constant';
 import AppUtil from 'src/app/utilities/app-util';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Storage } from '@ionic/storage-angular';
+import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 
 @Component({
   selector: 'app-settings',
@@ -34,6 +43,21 @@ export class SettingsPage implements OnInit {
   public speedCorrection: RangeValue =
     this.calculateService.speedCorrection | 0;
 
+  public isOpenAccountModal: boolean = false;
+  public isLogUp: boolean = false;
+  // public authUser: any;
+
+  public logUpForm: FormGroup = new FormGroup({
+    email: new FormControl(),
+    password: new FormControl(),
+    confirmPassword: new FormControl(),
+  });
+
+  public logInForm: FormGroup = new FormGroup({
+    email: new FormControl(),
+    password: new FormControl(),
+  });
+
   constructor(
     private location: Location,
     private languageService: LanguageService,
@@ -45,12 +69,21 @@ export class SettingsPage implements OnInit {
     private odoTripService: OdoTripService,
     private timerService: TimerService,
     private calculateService: CalculateService,
-    private geolocationService: GeolocationService
+    private geolocationService: GeolocationService,
+    public authenticationService: AuthenticationService,
+    private fb: FormBuilder,
+    private firebaseService: FirebaseService,
+    private storage: Storage
   ) {}
 
   public ngOnInit() {
     this.getLangSelected();
     this.getUnitSelected();
+    this.initForm();
+  }
+
+  public getAuthUser() {
+    return this.authenticationService.userData;
   }
 
   public async confirmClear() {
@@ -174,6 +207,19 @@ export class SettingsPage implements OnInit {
     this.selectedUnit = this.unitService.unit;
   }
 
+  private initForm() {
+    this.logInForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+
+    this.logUpForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    });
+  }
+
   public async clearData(value: string[]) {
     try {
       this.geolocationService.stop();
@@ -215,5 +261,109 @@ export class SettingsPage implements OnInit {
 
   public clickElement(elementId: string) {
     document.getElementById(elementId).click();
+  }
+
+  public openModal() {
+    this.isOpenAccountModal = true;
+  }
+
+  public closeModal() {
+    if (this.isLogUp) {
+      this.logUpForm.reset();
+    } else {
+      this.logInForm.reset();
+    }
+    this.isLogUp = false;
+    this.isOpenAccountModal = false;
+  }
+
+  public onLogIn() {
+    if (this.logInForm.invalid || this.logInForm.disabled) {
+      return;
+    }
+
+    this.logInForm.disable();
+
+    this.authenticationService
+      .LogIn(this.logInForm.value.email, this.logInForm.value.password)
+      .then((res) => {
+        this.logInForm.enable();
+      });
+  }
+
+  public onLogUp() {
+    if (
+      this.logUpForm.invalid ||
+      this.logUpForm.disabled ||
+      this.logUpForm.value.password !== this.logUpForm.value.confirmPassword
+    ) {
+      return;
+    }
+
+    this.logUpForm.disable();
+
+    this.authenticationService
+      .LogUp(this.logUpForm.value.email, this.logUpForm.value.password)
+      .then((res) => {
+        this.logUpForm.enable();
+        if (res) {
+          this.isLogUp = false;
+        }
+      });
+  }
+
+  public logOut() {
+    this.authenticationService.LogOut();
+  }
+
+  public async backUpData() {
+    this.toastComponent.presentToast('backing up...', null, 60000);
+    let params = {};
+    for (const [value] of Object.entries(AppConstant.backUpKeys)) {
+      await this.storage.get(value).then(async (data) => {
+        params = { ...params, [value]: data };
+      });
+    }
+
+    this.firebaseService
+      .setData(
+        '/dashboard_information',
+        this.authenticationService.userData.uid,
+        params
+      )
+      .then((res: any) => {
+        if (res) {
+          this.toastComponent.presentToast(
+            'successfully',
+            null,
+            null,
+            'success'
+          );
+        } else {
+          console.log('failed');
+        }
+      });
+  }
+
+  public async restoreData() {
+    this.geolocationService.stop();
+    this.toastComponent.presentToast('restoring', null, 60000);
+
+    this.firebaseService
+      .getData(
+        '/dashboard_information',
+        this.authenticationService.userData.uid
+      )
+      .subscribe(async (data) => {
+        for (const [value] of Object.entries(AppConstant.backUpKeys)) {
+          await this.storage.set(value, data[value]);
+        }
+        this.timerService.getTotalTime();
+        this.odoTripService.getOdoTrip();
+        this.topSpeedService.getTopSpeed();
+        this.timerService.getAverageSpeedTotalTime();
+        this.geolocationService.startGeolocation();
+        this.toastComponent.presentToast('successfully', null, null, 'success');
+      });
   }
 }

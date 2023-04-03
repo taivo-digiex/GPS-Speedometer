@@ -16,8 +16,6 @@ const ADJUST_SPEED = 'speedCorrection';
 export class CalculateService {
   @Output() calculateData = new EventEmitter();
 
-  private value = [...VALUE];
-
   public speed: number;
   public topSpeed: number;
   public accuracy: number;
@@ -29,10 +27,15 @@ export class CalculateService {
   private correctedTopSpeed: number;
   private rawAccuracy: number;
   private rawAltitude: number;
+  private averageSpeedTotalTime: number;
 
   public trip: string;
   public altitude: string;
   public averageSpeed: string;
+
+  private value = [...VALUE];
+
+  private distanceObj: any = { odo: null, trip: null, averageTrip: null };
 
   constructor(
     private unitService: UnitService,
@@ -65,20 +68,18 @@ export class CalculateService {
   public getValue() {
     this.geolocationService.geolocationData.subscribe((data) => {
       this.rawSpeed = data.speed;
-      this.rawTopSpeed = this.topSpeedService.topSpeed;
       this.rawAccuracy = data.rawAccuracy;
       this.rawAltitude = data.rawAltitude;
 
-      this.convert();
-
+      //TODO improve this function
       if (data.time == null) {
         return;
       }
 
-      // if (this.speedCorrection != null) {
-      //   this.correctedSpeed =
-      //     this.rawSpeed + (this.rawSpeed / 100) * this.speedCorrection;
-      // }
+      if (this.speedCorrection != null && data.speed != null) {
+        this.correctedSpeed =
+          data.speed + (data.speed / 100) * this.speedCorrection;
+      }
 
       this.value = [
         ...this.value,
@@ -96,7 +97,28 @@ export class CalculateService {
       this.odoTripService.saveOdo(trip);
       this.odoTripService.saveTrip(trip);
       this.odoTripService.saveAverageSpeedTrip(trip);
+
+      this.convert();
     });
+
+    this.topSpeedService.storageObservable.subscribe((res: number) => {
+      this.rawTopSpeed = res;
+      this.convert();
+    });
+
+    this.odoTripService.storageObservable.subscribe(
+      (res: { odo: number; trip: number; averageSpeedTrip: number }) => {
+        this.distanceObj = res;
+        this.convert();
+      }
+    );
+
+    this.timerService.storageObservable.subscribe(
+      (res: { averageSpeedTotalTime: number }) => {
+        this.averageSpeedTotalTime = res.averageSpeedTotalTime;
+        this.convert();
+      }
+    );
   }
 
   public convert() {
@@ -148,8 +170,10 @@ export class CalculateService {
       this.speed = Math.round(this.correctedSpeed * 3.6);
     }
 
-    if (this.correctedTopSpeed !== undefined) {
+    if (this.correctedTopSpeed !== undefined && this.rawTopSpeed !== null) {
       this.topSpeed = Math.round(this.correctedTopSpeed * 3.6);
+    } else {
+      delete this.topSpeed;
     }
 
     if (this.rawAccuracy != null) {
@@ -160,22 +184,24 @@ export class CalculateService {
       this.altitude = this.toFixedNoRounding(this.rawAltitude, 1);
     }
 
-    if (!isNaN(this.odoTripService.odo)) {
-      this.odo = Math.trunc(this.odoTripService.odo / 1000);
+    if (this.distanceObj.odo >= 0) {
+      this.odo = Math.trunc(this.distanceObj.odo / 1000);
+    } else {
+      delete this.odo;
     }
 
-    if (!isNaN(this.odoTripService.trip)) {
-      this.trip = this.toFixedNoRounding(this.odoTripService.trip / 1000, 1);
+    if (this.distanceObj.trip >= 0) {
+      this.trip = this.toFixedNoRounding(this.distanceObj.trip / 1000, 1);
+    } else {
+      delete this.trip;
     }
 
     if (
-      !isNaN(this.odoTripService.averageSpeedTrip) &&
-      this.timerService.averageSpeedTotalTime > 0
+      this.distanceObj.averageSpeedTrip >= 0 &&
+      this.averageSpeedTotalTime > 0
     ) {
       this.averageSpeed = this.toFixedNoRounding(
-        (this.odoTripService.averageSpeedTrip /
-          this.timerService.averageSpeedTotalTime) *
-          3.6,
+        (this.distanceObj.averageSpeedTrip / this.averageSpeedTotalTime) * 3.6,
         1
       );
     } else {
@@ -199,8 +225,10 @@ export class CalculateService {
       this.speed = Math.round(this.correctedSpeed * 2.23693629);
     }
 
-    if (this.correctedTopSpeed !== undefined) {
+    if (this.correctedTopSpeed !== undefined && this.rawTopSpeed !== null) {
       this.topSpeed = Math.round(this.correctedTopSpeed * 2.23693629);
+    } else {
+      delete this.topSpeed;
     }
 
     if (this.rawAccuracy != null) {
@@ -211,24 +239,27 @@ export class CalculateService {
       this.altitude = this.toFixedNoRounding(this.rawAltitude * 3.2808399, 1);
     }
 
-    if (!isNaN(this.odoTripService.odo)) {
-      this.odo = Math.trunc(this.odoTripService.odo * 0.000621371192);
+    if (this.distanceObj.odo >= 0) {
+      this.odo = Math.trunc(this.distanceObj.odo * 0.000621371192);
+    } else {
+      delete this.odo;
     }
 
-    if (!isNaN(this.odoTripService.trip)) {
+    if (this.distanceObj.trip >= 0) {
       this.trip = this.toFixedNoRounding(
-        this.odoTripService.trip * 0.000621371192,
+        this.distanceObj.trip * 0.000621371192,
         1
       );
+    } else {
+      delete this.trip;
     }
 
     if (
-      !isNaN(this.odoTripService.averageSpeedTrip) &&
-      this.timerService.averageSpeedTotalTime > 0
+      this.distanceObj.averageSpeedTrip >= 0 &&
+      this.averageSpeedTotalTime > 0
     ) {
       this.averageSpeed = this.toFixedNoRounding(
-        (this.odoTripService.averageSpeedTrip /
-          this.timerService.averageSpeedTotalTime) *
+        (this.distanceObj.averageSpeedTrip / this.averageSpeedTotalTime) *
           2.23693629,
         1
       );

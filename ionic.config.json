@@ -1,5 +1,5 @@
 {
-  "name": "GPS Speedometer",
+  "name": "GPS Dashboard",
   "integrations": {
     "capacitor": {}
   },

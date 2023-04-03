@@ -1,3 +1,7 @@
+@import "./fontStyles.scss";
+@import "./mixin.scss";
+@import "./animations.scss";
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;
@@ -209,10 +213,33 @@ body {
 //* custom toolbar //
 .custom-toolbar {
   --background: var(--ion-background-color) !important;
-  font-size: 2vmax;
+
+  font-size: max(2vmax, 20px);
+  // @include mobile {
+  //   font-size: var(--font-size-px-18);
+  // }
+
+  // @include tablet {
+  //   font-size: var(--font-size-px-22);
+  // }
+
+  // @include desktop {
+  //   font-size: var(--font-size-px-30);
+  // }
 
   ion-title {
-    font-size: 2vmax;
+    font-size: max(2vmax, 20px);
+    // @include mobile {
+    //   font-size: var(--font-size-px-18);
+    // }
+
+    // @include tablet {
+    //   font-size: var(--font-size-px-22);
+    // }
+
+    // @include desktop {
+    //   font-size: var(--font-size-px-30);
+    // }
   }
 }
 
@@ -253,9 +280,20 @@ ion-alert {
   .alert-head.sc-ion-alert-ios + .alert-message.sc-ion-alert-ios {
     padding-bottom: 2vmax;
     padding-top: 2vmax;
-    font-size: 2vmax;
     border-top: 0.1vmax solid var(--ion-color-step-200);
     max-height: unset;
+
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
   }
 
   .alert-head.sc-ion-alert-md + .alert-message.sc-ion-alert-md {
@@ -280,10 +318,21 @@ ion-alert {
   .alert-checkbox-label.sc-ion-alert-md,
   .alert-checkbox-label.sc-ion-alert-ios {
     color: var(--ion-text-color) !important;
-    font-size: 2vmax;
     // padding-inline: 1vmax 0;
     padding-inline: 0;
     padding-block: 0;
+
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
   }
 
   .alert-checkbox-icon.sc-ion-alert-ios,
@@ -333,14 +382,36 @@ ion-alert {
 
   .alert-title.sc-ion-alert-md,
   .alert-title.sc-ion-alert-ios {
-    font-size: 2vmax;
     margin: 0;
+
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
   }
 
   .alert-button.sc-ion-alert-md,
   .alert-button.sc-ion-alert-ios {
-    font-size: 2vmax;
     height: 5vmax;
+
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
   }
 }
 
@@ -349,8 +420,21 @@ ion-icon,
 ion-back-button,
 .sc-ion-buttons-ios-s ion-icon[slot="icon-only"] {
   color: var(--ion-text-color);
-  font-size: 3vmax;
-  --icon-font-size: 3vmax;
+
+  @include mobile {
+    font-size: var(--font-size-px-26);
+    --icon-font-size: var(--font-size-px-26);
+  }
+
+  @include tablet {
+    font-size: var(--font-size-px-30);
+    --icon-font-size: var(--font-size-px-30);
+  }
+
+  @include desktop {
+    font-size: var(--font-size-px-38);
+    --icon-font-size: var(--font-size-px-38);
+  }
 }
 
 .sc-ion-buttons-ios-s ion-button {
@@ -363,9 +447,20 @@ ion-back-button,
 // * custom card
 ion-card {
   border-radius: 1.5vmax;
-  font-size: 2vmax;
   border: 0.3vmax solid var(--ion-color-step-150);
   margin: 1vmax;
+
+  @include mobile {
+    font-size: var(--font-size-px-18);
+  }
+
+  @include tablet {
+    font-size: var(--font-size-px-22);
+  }
+
+  @include desktop {
+    font-size: var(--font-size-px-30);
+  }
 }
 
 // * custom toast
@@ -373,12 +468,34 @@ ion-card {
   --border-radius: 5vmax;
   --min-width: fit-content;
   --max-width: 100%;
-  font-size: 2vmax;
+
+  @include mobile {
+    font-size: var(--font-size-px-18);
+  }
+
+  @include tablet {
+    font-size: var(--font-size-px-22);
+  }
+
+  @include desktop {
+    font-size: var(--font-size-px-30);
+  }
 
   &::part(button) {
     padding-inline: 1vmax;
-    font-size: 2vmax;
     height: unset;
+
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
   }
 
   &::part(message) {
@@ -456,104 +573,4 @@ ion-range::part(bar-active) {
   --padding-end: 0;
   --padding-bottom: 0;
   --padding-start: 0;
-}
-
-// * animation
-.error-blink {
-  animation: error-blink 3s linear infinite;
-}
-
-@keyframes error-blink {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.5;
-  }
-  20% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  60% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 0;
-  }
-  80% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.25;
-  }
-}
-
-.standby-blink {
-  animation: standby-blink 5s linear infinite;
-}
-
-@keyframes standby-blink {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.25;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  30% {
-    opacity: 1;
-  }
-  40% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  60% {
-    opacity: 0;
-  }
-  70% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.75;
-  }
-  90% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.25;
-  }
-}
-
-// * font style
-.text-ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.font-weight-normal {
-  font-weight: normal;
-}
-
-.font-weight-medium {
-  font-weight: medium;
-}
-
-.font-weight-bold {
-  font-weight: bold;
 }

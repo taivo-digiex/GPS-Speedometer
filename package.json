@@ -1,5 +1,5 @@
 {
-  "name": "gps-speedometer",
+  "name": "gps-dashboard",
   "version": "0.3.3",
   "author": "VDT",
   "homepage": "https://fb.com/vdt.2210",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@angular/common": "~15.0.4",
     "@angular/core": "~15.0.4",
+    "@angular/fire": "^7.5.0",
     "@angular/forms": "~15.0.4",
     "@angular/platform-browser": "~15.0.4",
     "@angular/platform-browser-dynamic": "~15.0.4",
@@ -27,7 +28,7 @@
     "@capacitor/core": "^4.6.1",
     "@capacitor/device": "^4.1.0",
     "@capacitor/haptics": "^4.1.0",
-    "@capacitor/keyboard": "^4.1.0",
+    "@capacitor/keyboard": "^4.1.1",
     "@capacitor/network": "^4.1.0",
     "@capacitor/splash-screen": "^4.1.2",
     "@capacitor/status-bar": "^4.1.1",
@@ -57,6 +58,7 @@
     "@capacitor/cli": "^4.6.1",
     "@ionic/angular-toolkit": "^7.0.0",
     "@ionic/cli": "6.20.5",
+    "@ionic/prettier-config": "^2.0.0",
     "@types/jasmine": "~4.3.1",
     "@types/jasminewd2": "~2.0.10",
     "@types/node": "^18.11.16",
@@ -78,5 +80,5 @@
     "ts-node": "~10.9.1",
     "typescript": "<4.9.4"
   },
-  "description": "A GPS speedometer application build on Ionic and Angular."
+  "description": "A GPS Dashboard application build on Ionic and Angular."
 }

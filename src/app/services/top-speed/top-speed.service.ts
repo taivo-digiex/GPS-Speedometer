@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-const TOP_SPEED = 'topSpeed';
+import { Observable, Observer } from 'rxjs';
+import AppConstant from 'src/app/utilities/app-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -9,18 +9,21 @@ const TOP_SPEED = 'topSpeed';
 export class TopSpeedService {
   public topSpeed: number;
 
-  constructor(private storage: Storage) {}
+  private storageObserver: any;
+  public storageObservable: any;
+
+  constructor(private storage: Storage) {
+    this.storageObservable = new Observable((observer: Observer<number>) => {
+      this.storageObserver = observer;
+    });
+  }
 
   public async getTopSpeed() {
     await this.storage
-      .get(TOP_SPEED)
+      .get(AppConstant.storageKeys.topSpeed)
       .then((val) => {
-        if (val) {
-          this.topSpeed = val;
-        } else {
-          this.topSpeed = 0;
-          this.saveTopSpeed(0);
-        }
+        this.topSpeed = val;
+        this.storageObserver.next(this.topSpeed);
       })
       .catch(() => {});
   }
@@ -31,10 +34,14 @@ export class TopSpeedService {
     }
 
     this.topSpeed = Math.max(this.topSpeed, ...[speed]);
-    await this.storage.set(TOP_SPEED, this.topSpeed);
+    await this.storage.set(AppConstant.storageKeys.topSpeed, this.topSpeed);
+    this.storageObserver.next(this.topSpeed);
   }
 
   public async clearTopSpeed() {
-    await this.storage.remove(TOP_SPEED).then(() => this.getTopSpeed());
+    delete this.topSpeed;
+    await this.storage
+      .remove(AppConstant.storageKeys.topSpeed)
+      .then(() => this.getTopSpeed());
   }
 }

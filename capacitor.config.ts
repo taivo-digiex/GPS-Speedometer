@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.vdt.gpsspeedometer',
-  appName: 'GPS Speedometer',
+  appId: 'com.vdt.gpsdashboard',
+  appName: 'GPS Dashboard',
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {

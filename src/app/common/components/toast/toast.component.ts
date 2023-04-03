@@ -12,7 +12,12 @@ export class ToastComponent {
     private translateService: TranslateService
   ) {}
 
-  public async presentToast(msg: any, value: any, time: number, color: string) {
+  public async presentToast(
+    msg: any,
+    value?: any,
+    time?: number,
+    color?: string
+  ) {
     this.toastController
       .dismiss()
       .then(() => {})
@@ -22,7 +27,7 @@ export class ToastComponent {
     await this.toastController
       .create({
         message: this.translateService.instant(msg, { value }),
-        duration: time,
+        duration: time || 2000,
         position: 'top',
         cssClass: 'custom-toast',
         mode: 'ios',

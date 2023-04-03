@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
 
-  namespace 'com.vdt.gpsspeedometer'
+  namespace 'com.vdt.gpsdashboard'
   compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.vdt.gpsspeedometer"
+        applicationId "com.vdt.gpsdashboard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

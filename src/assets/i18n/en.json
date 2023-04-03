@@ -28,7 +28,20 @@
     "highAccuracy": "High accuracy",
     "speedCorrection": "Speed correction",
     "error": "Error",
-    "setting": "Setting"
+    "setting": "Setting",
+    "account": "Account",
+    "logIn": "Log in",
+    "logUp": "Log up",
+    "email": "Email",
+    "password": "Password",
+    "enterEmail": "Enter email",
+    "enterPassword": "Enter password",
+    "enterConfirmPassword": "Enter confirm password"
+  },
+
+  "accountDetail": {
+    "email": "Email: {{value}}",
+    "displayName": "Display name: {{value}}"
   },
 
   "unit": {
@@ -49,6 +62,8 @@
     },
     "checkingForUpdate": "Checking for update...",
     "checkForUpdateFailed": "Fail to check for update. {{value}}",
+    "loggedIn": "Logged in",
+    "loggedOut": "Logged out",
     "error": {
       "permission": {
         "location": { "denied": "Cannot access location." }

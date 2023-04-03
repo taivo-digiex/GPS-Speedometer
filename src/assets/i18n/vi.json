@@ -28,7 +28,21 @@
     "highAccuracy": "Độ chính xác cao",
     "speedCorrection": "Hiệu chỉnh tốc độ",
     "error": "Lỗi",
-    "setting": "Cài đặt"
+    "setting": "Cài đặt",
+    "account": "Tài khoản",
+    "logIn": "Đăng nhập",
+    "logUp": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "enterEmail": "Nhập email",
+    "enterPassword": "Nhập mật khẩu",
+    "enterConfirmPassword": "Nhập xác nhận mật khẩu"
+  },
+
+  "accountDetail": {
+    "email": "Email: {{value}}",
+    "displayName": "Tên hỉển thị: {{value}}"
   },
 
   "unit": {
@@ -49,6 +63,8 @@
     },
     "checkingForUpdate": "Đang kiểm tra cập nhật...",
     "checkForUpdateFailed": "Kiểm tra cập nhật thất bại. {{value}}",
+    "loggedIn": "Đã đăng nhập",
+    "loggedOut": "Đã đăng xuất",
     "error": {
       "permission": {
         "location": { "denied": "Không thể truy cập vị trí." }

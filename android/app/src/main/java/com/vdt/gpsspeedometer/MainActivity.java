@@ -1,4 +1,4 @@
-package com.vdt.gpsspeedometer;
+package com.vdt.gpsdashboard;
 
 import com.getcapacitor.BridgeActivity;
 

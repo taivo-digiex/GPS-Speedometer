@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.vdt.gpsspeedometer",
+  "applicationId": "com.vdt.gpsdashboard",
   "variantName": "release",
   "elements": [
     {

@@ -100,8 +100,8 @@
     <ion-text class="distance-text" (click)="switchTrip()">
       {{ isSwitchTrip ? ('common.trip' | translate) : ('common.total' | translate) }}
     </ion-text>
-    <ion-text>
-      {{ isSwitchTrip ? (trip != null ? trip : '-.-') : (odo != null ? odo : '-') }} {{ distanceUnit }}
+    <ion-text class="distance-value">
+      {{ isSwitchTrip ? (trip !== null ? trip : '-.-') : (odo !== null ? odo : '-') }} {{ distanceUnit }}
     </ion-text>
   </span>
 

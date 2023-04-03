@@ -1,3 +1,5 @@
+@import "./src/theme/mixin.scss";
+
 .custom-toolbar {
   .left-toolbar,
   .right-toolbar {
@@ -73,7 +75,7 @@
   width: 12vmax;
   height: 12vmax;
   text-align: center;
-  font-size: 2vmax;
+  font-size: max(2vmax, 16px);
   background: linear-gradient(
     to top,
     var(--ion-color-step-50),
@@ -82,28 +84,89 @@
   border: 0.3vmax solid var(--ion-color-step-150);
 
   @extend .speedo-div;
+
+  // @include mobile {
+  //   font-size: var(--font-size-px-16);
+  // }
+
+  // @include tablet {
+  //   font-size: var(--font-size-px-20);
+  // }
+
+  // @include desktop {
+  //   font-size: var(--font-size-px-28);
+  // }
 }
 
 #speedo {
-  // font-family: "Number";
-  // transform: scale(1) rotate(0deg) translate(-1vmax, 0) skew(12deg, 0deg);
   font-family: "Orbitron", sans-serif;
-  font-size: 8vmax;
+  // font-size: min(8vmax, 100px);
+  font-size: max(8vmax, 50px);
+  // @include mobile {
+  //   font-size: var(--font-size-px-70);
+  // }
+
+  // @include tablet {
+  //   font-size: var(--font-size-px-64);
+  // }
+
+  // @include desktop {
+  //   font-size: var(--font-size-px-100);
+  // }
 }
 
 #unit {
-  font-size: 3vmax;
+  font-size: max(3vmax, 20px);
+
+  // @include mobile {
+  //   font-size: var(--font-size-px-30);
+  // }
+
+  // @include tablet {
+  //   font-size: var(--font-size-px-34);
+  // }
+
+  // @include desktop {
+  //   font-size: var(--font-size-px-42);
+  // }
 }
 
 .distance {
-  font-size: 3vmax;
-  width: fit-content;
+  font-size: max(3vmax, 30px);
   margin: auto;
   color: var(--ion-text-color);
 
+  // @include mobile {
+  //   font-size: var(--font-size-px-30);
+  // }
+
+  // @include tablet {
+  //   font-size: var(--font-size-px-34);
+  // }
+
+  // @include desktop {
+  //   font-size: var(--font-size-px-42);
+  // }
+
   .distance-text {
-    font-size: 2vmax;
     margin-right: 1vmax;
+    font-size: max(1vmax, 20px);
+
+    // @include mobile {
+    //   font-size: var(--font-size-px-18);
+    // }
+
+    // @include tablet {
+    //   font-size: var(--font-size-px-22);
+    // }
+
+    // @include desktop {
+    //   font-size: var(--font-size-px-30);
+    // }
+  }
+
+  .distance-value {
+    font-size: max(2vmax, 30px);
   }
 }
 
@@ -133,13 +196,25 @@
   }
 
   .landscape-coordinates {
-    font-size: 1.2vmax;
+    font-size: max(1vmax, 14px);
     color: var(--ion-color-step-600);
     position: absolute;
     right: 1vmax;
     bottom: 0.5vmax;
     display: inline-flex;
     gap: 0.4vmax;
+
+    // @include mobile {
+    //   font-size: var(--font-size-px-10);
+    // }
+
+    // @include tablet {
+    //   font-size: var(--font-size-px-14);
+    // }
+
+    // @include desktop {
+    //   font-size: var(--font-size-px-18);
+    // }
   }
 
   .speedo-div {
@@ -163,6 +238,7 @@
   }
 }
 
+// TODO move to animations.scss
 @keyframes show {
   0% {
     overflow: hidden;

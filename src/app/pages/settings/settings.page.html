@@ -1,9 +1,5 @@
 <ion-header collapse="fade" [translucent]="true" class="ion-no-border" mode="ios">
   <ion-toolbar class="custom-toolbar">
-    <!-- <ion-buttons slot="start">
-      <ion-back-button mode="ios" (click)="back()" defaultHref="/" [text]="'common.back' | translate"></ion-back-button>
-    </ion-buttons> -->
-
     <ion-buttons slot="start">
       <ion-button routerLink="/" routerDirection="root">
         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
@@ -17,6 +13,18 @@
 <ion-content [fullscreen]="true">
   <ion-row>
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
+      <ion-card button class="custom-card ion-text-center" (click)="openModal()">
+        <ion-card-content class="custom-card-content ion-text-center">
+          <ion-icon name="person-outline"></ion-icon>
+
+          <div class="text-ellipsis font-weight-bold">
+            {{ 'common.account' | translate }}
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('languageSelect')">
         <ion-card-content class="custom-card-content">
           <ion-icon name="language-outline"></ion-icon>
@@ -27,7 +35,6 @@
         </ion-card-content>
       </ion-card>
     </ion-col>
-
 
     <ion-col class="custom-col" sizeXs="6" sizeSm="4" sizeMd="4" sizeLg="4" sizeXl="4">
       <ion-card button class="custom-card ion-text-center" (click)="clickElement('unitSelect')">
@@ -45,8 +52,7 @@
       <ion-card button class="custom-card ion-text-center" (click)="changeEnableHighAccuracy()"
         [color]="enableHighAccuracy ? 'primary' : ''">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon name="locate-outline">
-          </ion-icon>
+          <ion-icon name="locate-outline"> </ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
             {{ 'common.highAccuracy' | translate }}
@@ -89,8 +95,7 @@
       <ion-card button class="custom-card ion-text-center" (click)="checkForUpdate()"
         [disabled]="!appVersion || isCheckingForUpdate">
         <ion-card-content class="custom-card-content ion-text-center">
-          <ion-icon name="download-outline">
-          </ion-icon>
+          <ion-icon name="download-outline"></ion-icon>
 
           <div class="text-ellipsis font-weight-bold">
             {{ 'common.checkForUpdate' | translate }}
@@ -105,7 +110,8 @@
   <ion-toolbar class="custom-toolbar">
     <div class="version-text">
       <ion-text color="medium">
-        {{ 'common.version' | translate: {value: appVersion ? appVersion : '-'} }}
+        {{ 'common.version' | translate: {value: appVersion ? appVersion : '-'}
+        }}
       </ion-text>
     </div>
 
@@ -127,7 +133,7 @@
   </ion-toolbar>
 </ion-footer>
 
-<ion-select id='languageSelect' mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
+<ion-select id="languageSelect" mode="ios" [interfaceOptions]="{ header: 'common.language' | translate }"
   class="custom-select ion-hide" (ionChange)="selectLng($event)" [value]="selectedLanguage" aria-label="language"
   okText='{{ "button.confirm" | translate }}' cancelText='{{ "button.cancel" | translate }}'>
   <ion-select-option *ngFor="let lng of languages" value="{{ lng.value }}">
@@ -157,6 +163,96 @@
           Ex: 115km/h or 72mph (GPS) + 4% = ~120km/h or ~75mph (vehicle).
         </ion-text>
       </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="isOpenAccountModal" (didDismiss)="closeModal()" mode="ios" class="log-in-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar class="custom-toolbar">
+        <ion-buttons slot="start">
+          <ion-button (click)="closeModal()">
+            <ion-icon slot="icon-only" color="medium" name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+        <ion-title>{{ 'common.account' | translate }}</ion-title>
+
+        <ion-buttons *ngIf="getAuthUser()" slot="end">
+          <ion-button class="ion-no-margin" (click)="logOut()">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <div *ngIf="getAuthUser()">
+        <h1 class="ion-text-center">
+          {{ getAuthUser().displayName && getAuthUser().displayName || getAuthUser().email && getAuthUser().email }}
+        </h1>
+
+        <p class="ion-text-center">
+          {{ getAuthUser().displayName && 'accountDetail.email' | translate: {value: getAuthUser().email} }}
+        </p>
+
+        <ion-button (click)="backUpData()">Back up</ion-button>
+        <ion-button (click)="restoreData()">Restore</ion-button>
+      </div>
+
+      <form *ngIf="!getAuthUser() && !isLogUp" [formGroup]="logInForm" (keydown.enter)="onLogIn()" (submit)="onLogIn()">
+        <div class="form-input-wrapper ion-margin-bottom">
+          <ion-item>
+            <ion-input [label]="'common.email' | translate" labelPlacement="floating"
+              [placeholder]="'common.enterEmail' | translate" formControlName="email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input type="password" [label]="'common.password' | translate" labelPlacement="floating"
+              [placeholder]="'common.enterPassword' | translate" formControlName="password"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="form-button-wrapper">
+          <ion-button class="submit-button ion-no-margin" type="submit" [strong]="true" shape="round"
+            [disabled]="logInForm.invalid || logInForm.disabled">
+            {{ 'common.logIn' | translate }}
+          </ion-button>
+          <ion-button class="ion-no-margin" type="button" fill="clear" (click)="isLogUp = !isLogUp">
+            {{ 'common.logUp' | translate }}
+          </ion-button>
+        </div>
+      </form>
+
+      <form *ngIf="!getAuthUser() && isLogUp" [formGroup]="logUpForm" (keydown.enter)="onLogUp()" (submit)="onLogUp()">
+        <div class="form-input-wrapper ion-margin-bottom">
+          <ion-item>
+            <ion-input [label]="'common.email' | translate" labelPlacement="floating"
+              [placeholder]="'common.enterEmail' | translate" formControlName="email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input type="password" [label]="'common.password' | translate" labelPlacement="floating"
+              [placeholder]="'common.enterPassword' | translate" formControlName="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input type="password" [label]="'common.confirmPassword' | translate" labelPlacement="floating"
+              [placeholder]="'common.enterConfirmPassword' | translate" formControlName="confirmPassword"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="form-button-wrapper">
+          <ion-button class="submit-button ion-no-margin" type="submit" [strong]="true" shape="round"
+            [disabled]="(logUpForm.invalid || logUpForm.disabled || logUpForm.value.password !== logUpForm.value.confirmPassword)">
+            {{ 'common.logUp' | translate }}
+          </ion-button>
+          <ion-button class="ion-no-margin" type="button" fill="clear" (click)="isLogUp = !isLogUp">
+            {{ 'common.logIn' | translate }}
+          </ion-button>
+        </div>
+      </form>
     </ion-content>
   </ng-template>
 </ion-modal>

@@ -11,6 +11,7 @@ import { UpdateService } from './services/update/update.service';
 import { OdoTripService } from './services/odo-trip/odo-trip.service';
 import { TimerService } from './services/timer/timer.service';
 import { CalculateService } from './services/calculate/calculate.service';
+import { AuthenticationService } from './services/authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -32,17 +33,20 @@ export class AppComponent {
     private updateService: UpdateService,
     private odoTripService: OdoTripService,
     private timerService: TimerService,
-    private calculateService: CalculateService
+    private calculateService: CalculateService,
+    private authenticatedService: AuthenticationService
   ) {
     this.platform.ready().then(async () => {
       await this.getStorageValue();
       this.hardwareBackBtn();
+      this.authenticatedService.getOnlineUserData();
       this.updateService.checkForUpdate(false);
     });
   }
 
   private async getStorageValue() {
     await this.storage.create();
+    this.authenticatedService.getLocalUserData();
     this.languageService.setInitialAppLanguage();
     this.unitService.getUnit();
     this.timerService.getTotalTime();

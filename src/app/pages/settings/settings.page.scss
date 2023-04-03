@@ -1,3 +1,5 @@
+@import "./src/theme/mixin.scss";
+
 .custom-toolbar {
   --background: var(--ion-background-color) !important;
 }
@@ -7,8 +9,19 @@ ion-footer {
 }
 
 .version-text {
-  font-size: 2vmax;
   margin-bottom: 1.5vmax;
+
+  @include mobile {
+    font-size: var(--font-size-px-18);
+  }
+
+  @include tablet {
+    font-size: var(--font-size-px-22);
+  }
+
+  @include desktop {
+    font-size: var(--font-size-px-30);
+  }
 }
 
 .contact-buttons {
@@ -34,7 +47,17 @@ ion-footer {
   }
 
   .custom-card-content {
-    font-size: 2vmax;
+    @include mobile {
+      font-size: var(--font-size-px-18);
+    }
+
+    @include tablet {
+      font-size: var(--font-size-px-22);
+    }
+
+    @include desktop {
+      font-size: var(--font-size-px-30);
+    }
 
     ion-icon {
       font-size: 4vmax;
@@ -59,5 +82,27 @@ ion-footer {
 
   .speed-correction-text {
     font-size: 3vmax;
+  }
+}
+
+.log-in-modal {
+  .form-input-wrapper {
+    ion-item:first-child {
+      border-top-left-radius: 1vmax;
+      border-top-right-radius: 1vmax;
+    }
+
+    ion-item:last-child {
+      border-bottom-left-radius: 1vmax;
+      border-bottom-right-radius: 1vmax;
+    }
+  }
+
+  .form-button-wrapper {
+    text-align: center;
+
+    .submit-button {
+      width: 100%;
+    }
   }
 }

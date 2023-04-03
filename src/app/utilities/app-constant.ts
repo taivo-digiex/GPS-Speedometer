@@ -7,13 +7,22 @@ const AppConstant = Object.freeze({
     unit: 'unit',
     odo: 'odo',
     trip: 'trip',
-    avgSpeedTrip: 'avg-speed-trip',
+    averageSpeedTrip: 'averageSpeedTrip',
     language: 'language',
-    totalTime: 'total-time',
-    avgSpeedTotalTime: 'avg-speed-total-time',
-    topSpeed: 'top-speed',
-    adjustSpeed: 'adjust-speed',
-    enableHighAccuracy: 'enable-high-accuracy',
+    totalTime: 'totalTime',
+    averageSpeedTotalTime: 'averageSpeedTotalTime',
+    topSpeed: 'topSpeed',
+    speedCorrection: 'speedCorrection',
+    enableHighAccuracy: 'enableHighAccuracy',
+  },
+
+  backUpKeys: {
+    odo: 'odo',
+    trip: 'trip',
+    averageSpeedTrip: 'averageSpeedTrip',
+    totalTime: 'totalTime',
+    averageSpeedTotalTime: 'averageSpeedTotalTime',
+    topSpeed: 'topSpeed',
   },
 
   unitSystem: {
